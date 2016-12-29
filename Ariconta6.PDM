@@ -1,0 +1,245 @@
+[Root]
+Most Recent Package=Paquete de instalación estándar 1
+
+
+[Package|Paquete de instalación estándar 1|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Instalas\PruebaAriconta6
+
+[Package|Paquete de instalación estándar 1|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Paquete de instalación estándar 1|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Paquete de instalación estándar 1|Files Found]
+
+[Package|Paquete de instalación estándar 1|Files Released]
+u2dapp.dll=
+u2fxml.dll=
+u2fsepv.dll=
+crxf_xls.dll=
+crtowords_en.dll=
+Unicows.dll=
+
+[Package|Paquete de instalación estándar 1|Missing Dependency Information]
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ReportControl.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Controls.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ShortcutBar.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Calendar.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.DockingPane.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.CommandBars.v17.2.0.ocx=
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.SkinFramework.v17.2.0.ocx=
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\craxdrt9.dll=
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\crviewer9.dll=
+C:\Program Files (x86)\Chilkat Software Inc\Chilkat Mail\ChilkatMail.dll=
+C:\Windows\winsxs\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.7601.18837_none_ec86b8d6858ec0bc\comctl32.dll=
+C:\Windows\System32\wtsapi32.dll=
+
+[Package|Paquete de instalación estándar 1|Out-of-Date Dependency Information]
+C:\Windows\SysWOW64\MSCOMCTL.OCX=
+C:\Windows\SysWOW64\scrrun.dll=
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\craxddrt9.dll=
+C:\Windows\SysWOW64\MSSTDFMT.DLL=
+
+[Package|Paquete de instalación estándar 1|Files Added]
+
+[Package|Paquete de instalación estándar 1|Files Removed]
+
+[Package|Paquete de instalación estándar 1|Files In Project]
+C:\Programas\Ariconta6\Ariconta6.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\System32\VB6ES.DLL=Yes
+C:\Windows\System32\wtsapi32.dll=Yes
+C:\Windows\winsxs\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.7601.18837_none_ec86b8d6858ec0bc\comctl32.dll=Yes
+C:\Windows\SysWOW64\MSBIND.DLL=Yes
+C:\Windows\SysWOW64\MSSTDFMT.DLL=Yes
+C:\Windows\SysWOW64\STDFTES.DLL=Yes
+C:\Program Files (x86)\Chilkat Software Inc\Chilkat Mail\ChilkatMail.dll=Yes
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\crviewer9.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\craxddrt9.dll=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT.DLL=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\ufmanager.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2l2000.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lcom.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ldts.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lexch.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lfinra.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u252000.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u25dts.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u25samp1.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\Implode.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crqe.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_ado.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_dao.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_odbc.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\querybuilder.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\exlate32.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscsdk80.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscrc.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscdlg.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\CRAnalyzer.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\p2ixbse.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_dictionary.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\filedialog.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sacommoncontrols.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_pdf.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\ExportModeller.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crtslv.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_rtf.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_wordw.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2fcr.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ftext.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ddisk.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2dpost.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\keycode.dll=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\CR9Deploy.reg=Yes
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\craxdrt9.dll=Yes
+C:\Windows\SysWOW64\scrrun.dll=Yes
+C:\Windows\SysWOW64\SCRRNES.DLL=Yes
+C:\Windows\SysWOW64\MSCOMCTL.OCX=Yes
+C:\Windows\SysWOW64\MSCMCES.DLL=Yes
+C:\Windows\SysWOW64\TABCTL32.OCX=Yes
+C:\Windows\SysWOW64\TABCTES.DLL=Yes
+C:\Windows\SysWOW64\MSDATGRD.OCX=Yes
+C:\Windows\SysWOW64\DATGDES.DLL=Yes
+C:\Windows\SysWOW64\MSADODC.OCX=Yes
+C:\Windows\SysWOW64\ADODCES.DLL=Yes
+C:\Windows\SysWOW64\COMDLG32.OCX=Yes
+C:\Windows\SysWOW64\CMDLGES.DLL=Yes
+C:\Program Files (x86)\Microsoft Office\Office12\MSCAL.OCX=Yes
+C:\Windows\SysWOW64\COMCT232.OCX=Yes
+C:\Windows\SysWOW64\CMCT2ES.DLL=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.SkinFramework.v17.2.0.ocx=Yes
+C:\Windows\SysWOW64\RICHTX32.OCX=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\RICHED32.DLL=Yes
+C:\Windows\SysWOW64\RCHTXES.DLL=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.CommandBars.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.DockingPane.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Calendar.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ShortcutBar.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Controls.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ReportControl.v17.2.0.ocx=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|Paquete de instalación estándar 1|Configure Registry Files]
+Applicable=Yes
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\CR9Deploy.reg=Register
+
+[Package|Paquete de instalación estándar 1|Configure Remote Servers]
+Applicable=No
+
+[Package|Paquete de instalación estándar 1|Install Locations]
+C:\Programas\Ariconta6\Ariconta6.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\System32\VB6ES.DLL=$(WinSysPath)
+C:\Windows\System32\wtsapi32.dll=$(WinSysPath)
+C:\Windows\winsxs\x86_microsoft.windows.common-controls_6595b64144ccf1df_5.82.7601.18837_none_ec86b8d6858ec0bc\comctl32.dll=$(WinSysPath)
+C:\Windows\SysWOW64\MSBIND.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\MSSTDFMT.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\STDFTES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Chilkat Software Inc\Chilkat Mail\ChilkatMail.dll=$(WinSysPath)
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\crviewer9.dll=$(WinSysPath)
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\craxddrt9.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT.DLL=$(WinSysPath)
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\ufmanager.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2l2000.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lcom.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ldts.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lexch.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2lfinra.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u252000.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u25dts.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u25samp1.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\Implode.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crqe.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_ado.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_dao.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_odbc.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\querybuilder.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\exlate32.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscsdk80.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscrc.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sscdlg.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\CRAnalyzer.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\p2ixbse.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crdb_dictionary.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\filedialog.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\sacommoncontrols.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_pdf.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\ExportModeller.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crtslv.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_rtf.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\crxf_wordw.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2fcr.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ftext.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2ddisk.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\u2dpost.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Common Files\Crystal Decisions\2.0\bin\keycode.dll=$(CommonFiles)\Crystal Decisions\2.0\bin
+C:\Program Files (x86)\Archivos Comunes\Crystal Decisions\2.0\bin\craxdrt9.dll=$(WinSysPath)
+C:\Windows\SysWOW64\scrrun.dll=$(WinSysPath)
+C:\Windows\SysWOW64\SCRRNES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\MSCOMCTL.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\MSCMCES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\TABCTL32.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\TABCTES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\MSDATGRD.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\DATGDES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\MSADODC.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\ADODCES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\COMDLG32.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\CMDLGES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Office\Office12\MSCAL.OCX=$(AppPath)
+C:\Windows\SysWOW64\COMCT232.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\CMCT2ES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.SkinFramework.v17.2.0.ocx=$(WinSysPath)
+C:\Windows\SysWOW64\RICHTX32.OCX=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\RICHED32.DLL=$(WinSysPathSysFile)
+C:\Windows\SysWOW64\RCHTXES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.CommandBars.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.DockingPane.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Calendar.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ShortcutBar.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.Controls.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Codejock Software\ActiveX\Xtreme SuitePro ActiveX v17.2.0\Bin\Codejock.ReportControl.v17.2.0.ocx=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+
+[Package|Paquete de instalación estándar 1|Configure Shared Files]
+Applicable=Yes
+C:\Programas\Ariconta6\Ariconta6.exe=Yes
+C:\Program Files (x86)\Microsoft Office\Office12\MSCAL.OCX=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+
+[Package|Paquete de instalación estándar 1|Distribution]
+Type=single
+Size=
+Title=Ariconta6 p1
+
+[Package|Paquete de instalación estándar 1|Package]
+PackageFolder=C:\Instalas\PruebaAriconta6
+ProjectFolder=C:\Programas\Ariconta6
+ServerSideCab=
+File1=C:\Instalas\PruebaAriconta6\setup.exe
+File2=C:\Instalas\PruebaAriconta6\Setup.Lst
+File3=C:\Instalas\PruebaAriconta6\Ariconta6.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz

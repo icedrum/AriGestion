@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
+<CstmrDrctDbtInitn>
+<GrpHdr>
+<MsgId>PRE2016091213141455470RE10000522016</MsgId>
+   <CreDtTm>2016-09-12T13:14:14</CreDtTm>
+   <NbOfTxs>1</NbOfTxs>
+   <CtrlSum>121.00</CtrlSum>
+   <InitgPty>
+     <Nm>PRUEBASSSSSS</Nm>
+     <Id>
+        <OrgId>
+           <Othr>
+              <Id>ES70000B96470190</Id>
+           </Othr>
+        </OrgId>
+      </Id>
+   </InitgPty>
+</GrpHdr>
+<PmtInf>
+   <PmtInfId>RE000522016 12/09/16B96470190</PmtInfId>
+   <PmtMtd>DD</PmtMtd>
+   <BtchBookg>false</BtchBookg>
+   <PmtTpInf>
+      <SvcLvl>
+          <Cd>SEPA</Cd>
+      </SvcLvl>
+      <LclInstrm>
+         <Cd>COR1</Cd>
+      </LclInstrm>
+      <SeqTp>RCUR</SeqTp>
+      <CtgyPurp>
+         <Cd>TRAD</Cd>
+      </CtgyPurp>
+   </PmtTpInf>
+   <ReqdColltnDt>2016-09-12</ReqdColltnDt>
+   <Cdtr>
+      <Nm>PRUEBASSSSSS</Nm>
+      <PstlAdr>
+          <Ctry>ES</Ctry>
+          <AdrLine>Pasaje Ventura Feliu 13 I. En 2</AdrLine>
+      </PstlAdr>
+   </Cdtr>
+   <CdtrAcct>
+      <Id>
+         <IBAN>ES6421001864930200004908</IBAN>
+      </Id>
+   </CdtrAcct>
+   <CdtrAgt>
+      <FinInstnId>
+         <BIC>CAIXESBBXXX</BIC>
+      </FinInstnId>
+   </CdtrAgt>
+   <CdtrSchmeId>
+       <Id>
+          <PrvtId>
+             <Othr>
+                 <Id>ES70000B96470190</Id>
+                 <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+             </Othr>
+          </PrvtId>
+       </Id>
+   </CdtrSchmeId>
+   <DrctDbtTxInf>
+      <PmtId>
+          <EndToEndId>430000001 A  0000001020160912001   </EndToEndId>
+      </PmtId>
+      <InstdAmt Ccy="EUR">121.00</InstdAmt>
+      <DrctDbtTx>
+         <MndtRltdInf>
+            <MndtId>072710000069</MndtId>
+            <DtOfSgntr>2009-10-31</DtOfSgntr>
+         </MndtRltdInf>
+      </DrctDbtTx>
+      <DbtrAgt>
+         <FinInstnId>
+            <BIC>CCRIES2AXXX</BIC>
+         </FinInstnId>
+      </DbtrAgt>
+      <Dbtr>
+         <Nm>VIT. DE LA POBLA DEL DUC, COOP</Nm>
+         <PstlAdr>
+            <Ctry>ES</Ctry>
+              <AdrLine>Daniel Sanjuan, 11</AdrLine>
+              <AdrLine>POBLA DEL DUC   46840     VALENCIA</AdrLine>
+         </PstlAdr>
+         <Id>
+            <PrvtId>
+               <Othr>
+                   <Id>072710000069</Id>
+               </Othr>
+            </PrvtId>
+         </Id>
+      </Dbtr>
+      <DbtrAcct>
+         <Id>
+            <IBAN>ES2230582267072710000069</IBAN>
+         </Id>
+      </DbtrAcct>
+      <Purp>
+         <Cd>TRAD</Cd>
+      </Purp>
+      <RmtInf>
+         <Ustrd>Factura A-0000010 de Fecha 12/09/2016</Ustrd>
+      </RmtInf>
+   </DrctDbtTxInf>
+</PmtInf>
+</CstmrDrctDbtInitn></Document>

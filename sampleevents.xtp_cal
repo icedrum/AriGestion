@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calendar CompactMode="1" Version="1">
+	<Options FirstDayOfTheWeek="1" WorkDayStartTime="08:00:00" WorkDayEndTime="17:00:00" ScaleMinTime="07:00:00" dtScaleMaxTime="18:00:00" DayView_CurrentTimeMarkVisible="-1" DayView_Scale2TimeZone="EMPPPPPPIEAAPGAACHAABGAAACAAFGAADHAAEHAABOAAOGAAEGAABGAACHAAACAACHAAPGAANGAABGAAOGAADGAAFGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAFAAADAAAAAAAAAAAAAAAAAAAAAAAIEAAPGAACHAABGAAACAAEGAAFGAAACAAGHAAFGAACHAABGAAOGAAPGAAACAACHAAPGAANGAABGAAOGAADGAAFGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAFAAACAAAAAAAAAAAAAAAEMPPPPPP" AdditionalOptions="495"/>
+	<Events>
+		<Event EventID="-8" StartTime="2016-16-12T08:00:00" EndTime="2016-16-12T08:30:00" Subject="asdadadasdaNew Event" MultipleSchedules="|0|" BusyStatus="2" CreationTime="2016-16-12T17:42:36" LastModificationTime="2016-29-12T18:39:29"/>
+		<Event EventID="-2" StartTime="2016-01-09" EndTime="2016-02-09" Subject="New asdadadasdada" MultipleSchedules="|0|" AllDayEvent="1" CreationTime="2016-29-09T12:44:58" LastModificationTime="2016-29-12T18:39:29"/>
+		<Event EventID="-7" StartTime="2016-11-12T13:00:00" EndTime="2016-11-12T14:30:00" Subject="New Event" MultipleSchedules="|0|" BusyStatus="2" CreationTime="2016-11-12T15:29:44" LastModificationTime="2016-29-12T18:39:29"/>
+	</Events>
+</Calendar>
