@@ -518,7 +518,7 @@ Dim B As Boolean
     
     CboTipoSitu.Visible = Not B
     cmdAceptar.Visible = Not B
-    cmdcancelar.Visible = Not B
+    cmdCancelar.Visible = Not B
  
     
     'Si es regresar
@@ -593,7 +593,7 @@ On Error Resume Next
 
     CargaGrid ""
     If Adodc1.Recordset.RecordCount <= 0 Then
-         MsgBox "No hay ningún registro en la tabla LOG", vbInformation
+         MsgBox "No hay ningún registro en la tabla Acciones", vbInformation
          Screen.MousePointer = vbDefault
           Exit Sub
     Else
@@ -629,12 +629,12 @@ End Sub
 
 
 Private Sub BotonEliminar()
-Dim SQL As String
+Dim Sql As String
 On Error GoTo Error2
 
     '### a mano
-    SQL = "¿Seguro que desea eliminar datos del LOG?" & vbCrLf
-    If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+    Sql = "¿Seguro que desea eliminar datos del LOG?" & vbCrLf
+    If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
         Screen.MousePointer = vbHourglass
         'Hay que eliminar
         vLog.VolcarAFichero2
@@ -649,24 +649,27 @@ End Sub
 
 
 Private Sub BotonEliminarHCO()
-Dim SQL As String
+Dim Sql As String
 On Error GoTo Error2
 
+
+    Exit Sub
+
     '### a mano
-    SQL = "¿Seguro que desea eliminar datos del hcoLog?" & vbCrLf
-    If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
-        SQL = "Puede llevar mucho tiempo ¿Continuar?" & vbCrLf
-        If MsgBox(SQL, vbQuestion + vbYesNo) = vbYes Then
+    Sql = "¿Seguro que desea eliminar datos del hcoLog?" & vbCrLf
+    If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
+        Sql = "Puede llevar mucho tiempo ¿Continuar?" & vbCrLf
+        If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
     
             Screen.MousePointer = vbHourglass
             'Hay que eliminar
-            SQL = InputBox("Eliminar datos con fecha anterior a:", "Eliminar de log_old", Format(DateAdd("m", -2, Now), formatoFechaVer))
-            If SQL <> "" Then
-                If EsFechaOKString(SQL) Then
-                    SQL = "DElete from slog_old where fecha < '" & Format(SQL, FormatoFecha) & "'"
-                    Conn.Execute SQL
+            Sql = InputBox("Eliminar datos con fecha anterior a:", "Eliminar de log_old", Format(DateAdd("m", -2, Now), formatoFechaVer))
+            If Sql <> "" Then
+                If EsFechaOKString(Sql) Then
+                    Sql = "DElete from slog_old where fecha < '" & Format(Sql, FormatoFecha) & "'"
+                    Conn.Execute Sql
                 Else
-                    MsgBox "No es fecha correcta: " & SQL, vbExclamation
+                    MsgBox "No es fecha correcta: " & Sql, vbExclamation
                 End If
             End If
         End If
@@ -705,7 +708,7 @@ On Error Resume Next
                 Aux = txtaux(0).Text
                 If EsFechaOKString(Aux) Then
                    Aux = Format(Aux, FormatoFecha)
-                   Aux = "slog.fecha  >=  '" & Aux & "' AND slog.fecha <= '" & Aux & " 23:59:59'"
+                   Aux = "acciones.fecha  >=  '" & Aux & "' AND acciones.fecha <= '" & Aux & " 23:59:59'"
                    txtaux(0).Text = ""
                 Else
                     Aux = ""
@@ -753,8 +756,8 @@ Private Sub DataGrid1_DblClick()
             If Not Adodc1.Recordset.EOF Then
                 CadenaDesdeOtroForm = "Fecha: " & Adodc1.Recordset!Fecha & vbCrLf
                 CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Usuario / PC : " & Adodc1.Recordset!Usuario & " - " & Adodc1.Recordset!PC & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & Adodc1.Recordset!Titulo & vbCrLf & vbCrLf
-                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Replace(Space(80), " ", "-") & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Accion: " & Adodc1.Recordset!TEXTO & vbCrLf & vbCrLf
+                CadenaDesdeOtroForm = CadenaDesdeOtroForm & Replace(Space(60), " ", "-") & vbCrLf
                 CadenaDesdeOtroForm = CadenaDesdeOtroForm & "Descripción:" & vbCrLf & Adodc1.Recordset!Descripcion
                 MsgBox CadenaDesdeOtroForm, vbInformation
                 CadenaDesdeOtroForm = ""
@@ -829,8 +832,8 @@ Private Sub Form_Load()
     CargaCombo
     
     'Cadena consulta
-    CadenaConsulta = "select slog.fecha,titulo,usuario,pc,descripcion from slog,tmppresu1 "
-    CadenaConsulta = CadenaConsulta & " where tmppresu1.codusu=" & vUsu.Codigo & " and slog.accion=tmppresu1.codigo"
+    CadenaConsulta = "select acciones.fecha,texto,usuario,pc,descripcion from acciones,tmpComun1 "
+    CadenaConsulta = CadenaConsulta & " where tmpComun1.codusu=" & vUsu.Codigo & " and acciones.accion=tmpComun1.codigo"
     DataGrid1.Enabled = False
     CargaGrid
     
@@ -890,19 +893,19 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 
-Private Sub CargaGrid(Optional SQL As String)
+Private Sub CargaGrid(Optional Sql As String)
 Dim B As Boolean
 Dim tots As String
     B = DataGrid1.Enabled
     DataGrid1.Enabled = False
-    If SQL <> "" Then
-        SQL = CadenaConsulta & " AND " & SQL
+    If Sql <> "" Then
+        Sql = CadenaConsulta & " AND " & Sql
         Else
-        SQL = CadenaConsulta
+        Sql = CadenaConsulta
     End If
-    SQL = SQL & " ORDER BY fecha desc"
+    Sql = Sql & " ORDER BY fecha desc"
     Adodc1.ConnectionString = Conn
-    Adodc1.RecordSource = SQL
+    Adodc1.RecordSource = Sql
     Adodc1.CursorType = adOpenDynamic
     Adodc1.LockType = adLockPessimistic
     Adodc1.Refresh
@@ -931,7 +934,7 @@ End Sub
 Private Sub CargaCombo()
 Dim L As Collection
     
-    Conn.Execute "DELETE FROM tmppresu1 where codusu =" & vUsu.Codigo
+    Conn.Execute "DELETE FROM tmpcomun1 where codusu =" & vUsu.Codigo
     CboTipoSitu.Clear
     FormatoCod = ""
     Set L = New Collection
@@ -951,7 +954,7 @@ Dim L As Collection
     If FormatoCod <> "" Then
         FormatoCod = Mid(FormatoCod, 2) 'quito la coma
         
-        FormatoCod = "Insert into tmppresu1 (codusu,codigo,titulo) VALUES " & FormatoCod & ";"
+        FormatoCod = "Insert into tmpcomun1 (codusu,codigo,texto) VALUES " & FormatoCod & ";"
         Conn.Execute FormatoCod
     End If
 End Sub
@@ -966,7 +969,7 @@ End Sub
 
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim Rs As ADODB.Recordset
+Dim RS As ADODB.Recordset
 Dim Cad As String
     
     On Error Resume Next
@@ -974,18 +977,18 @@ Dim Cad As String
     Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
     Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not Rs.EOF Then
+    If Not RS.EOF Then
         Toolbar1.Buttons(1).Enabled = False
         Toolbar1.Buttons(2).Enabled = False
         Toolbar1.Buttons(3).Enabled = False
         
-        Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N")
-        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N")
+        Toolbar1.Buttons(5).Enabled = DBLet(RS!Ver, "N")
+        Toolbar1.Buttons(6).Enabled = DBLet(RS!Ver, "N")
         
-        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N")
+        Toolbar1.Buttons(8).Enabled = DBLet(RS!Imprimir, "N")
         
         
         vUsu.LeerFiltros "arigestion", IdPrograma
@@ -993,8 +996,8 @@ Dim Cad As String
         
     End If
     
-    Rs.Close
-    Set Rs = Nothing
+    RS.Close
+    Set RS = Nothing
     
 End Sub
 

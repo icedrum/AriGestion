@@ -658,7 +658,7 @@ Private Sub btnAcciones_Click(Index As Integer)
             
             Label3.Visible = True
             Label3.Refresh
-            Cargadocumentos
+            'Cargadocumentos
             tabPage(2).Visible = True
             Label3.Visible = False
         Case 0 ' ayuda
@@ -912,7 +912,7 @@ Dim IT As ListItem
 
     On Error GoTo eCargadocumentos
 
-    Set Me.ListView1.SmallIcons = frmppal.ImageList1 'frmPpal.ImageListDocumentos
+    'Set Me.ListView1.SmallIcons = frmppal.ImageList1 'frmPpal.ImageListDocumentos
 
     Cad = "select iddocumento,nombrearchi from usuarios.wfichdocs WHERE aplicacion='ariconta' order by orden "
     Set RN = New ADODB.Recordset

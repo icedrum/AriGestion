@@ -1,11 +1,11 @@
 VERSION 5.00
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{BD0C1912-66C3-49CC-8B12-7B347BF6C846}#17.2#0"; "Codejock.SkinFramework.v17.2.0.ocx"
 Object = "{555E8FCC-830E-45CC-AF00-A012D5AE7451}#17.2#0"; "Codejock.CommandBars.v17.2.0.ocx"
 Object = "{945E8FCC-830E-45CC-AF00-A012D5AE7451}#17.2#0"; "Codejock.DockingPane.v17.2.0.ocx"
+Object = "{A8E5842E-102B-4289-9D57-3B3F5B5E15D3}#17.2#0"; "Codejock.Controls.v17.2.0.ocx"
 Begin VB.Form frmppal 
-   Caption         =   "Ariconta"
+   Caption         =   "AriGestion"
    ClientHeight    =   8160
    ClientLeft      =   120
    ClientTop       =   465
@@ -18,116 +18,17 @@ Begin VB.Form frmppal
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
    Begin MSComctlLib.ImageList imlToolbarIcons 
-      Left            =   8880
-      Top             =   600
+      Left            =   4440
+      Top             =   720
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
-      ImageWidth      =   16
-      ImageHeight     =   16
       MaskColor       =   12632256
       _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   17
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1856A
-            Key             =   "New"
-            Object.Tag             =   "100"
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":185C8
-            Key             =   "Open"
-            Object.Tag             =   "101"
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18626
-            Key             =   "Save"
-            Object.Tag             =   "103"
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18684
-            Key             =   "Print"
-            Object.Tag             =   "113"
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":186E2
-            Key             =   "Cut"
-            Object.Tag             =   "108"
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18740
-            Key             =   "Copy"
-            Object.Tag             =   "106"
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1879E
-            Key             =   "Paste"
-            Object.Tag             =   "107"
-         EndProperty
-         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":187FC
-            Key             =   "Bold"
-            Object.Tag             =   "120"
-         EndProperty
-         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1885A
-            Key             =   "Italic"
-            Object.Tag             =   "121"
-         EndProperty
-         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":188B8
-            Key             =   "Underline"
-            Object.Tag             =   "122"
-         EndProperty
-         BeginProperty ListImage11 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18916
-            Key             =   "Align Left"
-            Object.Tag             =   "123"
-         EndProperty
-         BeginProperty ListImage12 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18974
-            Key             =   "Center"
-            Object.Tag             =   "124"
-         EndProperty
-         BeginProperty ListImage13 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":189D2
-            Key             =   "Align Right"
-            Object.Tag             =   "125"
-         EndProperty
-         BeginProperty ListImage14 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18A30
-            Key             =   "About"
-            Object.Tag             =   "112"
-         EndProperty
-         BeginProperty ListImage15 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18A8E
-            Key             =   ""
-            Object.Tag             =   "166"
-         EndProperty
-         BeginProperty ListImage16 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18AEC
-            Key             =   ""
-            Object.Tag             =   "168"
-         EndProperty
-         BeginProperty ListImage17 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18B4A
-            Key             =   ""
-            Object.Tag             =   "165"
-         EndProperty
-      EndProperty
    End
    Begin MSComctlLib.ImageList ImageListPPal48 
-      Left            =   5280
-      Top             =   3480
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      MaskColor       =   12632256
-      _Version        =   393216
-   End
-   Begin MSComctlLib.ImageList ImageList1 
-      Left            =   3240
-      Top             =   840
+      Left            =   3600
+      Top             =   3360
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -135,8 +36,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_OM 
-      Left            =   1440
-      Top             =   960
+      Left            =   240
+      Top             =   1200
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -144,7 +45,7 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_BN 
-      Left            =   1680
+      Left            =   1320
       Top             =   2880
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -153,8 +54,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_BN16 
-      Left            =   2040
-      Top             =   960
+      Left            =   720
+      Top             =   1320
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -162,8 +63,8 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList imgListComun_OM16 
-      Left            =   2400
-      Top             =   720
+      Left            =   1200
+      Top             =   1560
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
@@ -171,7 +72,7 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList ImageListPpal16 
-      Left            =   360
+      Left            =   0
       Top             =   2760
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -180,7 +81,7 @@ Begin VB.Form frmppal
       _Version        =   393216
    End
    Begin MSComctlLib.ImageList ImgListComun 
-      Left            =   1920
+      Left            =   720
       Top             =   1800
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -188,310 +89,26 @@ Begin VB.Form frmppal
       MaskColor       =   12632256
       _Version        =   393216
    End
-   Begin MSComDlg.CommonDialog cd1 
-      Left            =   360
-      Top             =   4800
-      _ExtentX        =   847
-      _ExtentY        =   847
-      _Version        =   393216
-   End
    Begin MSComctlLib.ImageList ImaListBotoneras32 
-      Left            =   2400
-      Top             =   360
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   32
-      ImageHeight     =   32
-      MaskColor       =   12632256
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   7
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":18BA8
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1F40A
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":25C6C
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":2C4CE
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":32D30
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":39592
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":3FDF4
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
-   Begin MSComctlLib.ImageList ImaListBotoneras 
-      Left            =   2880
+      Left            =   1320
       Top             =   480
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
-      ImageWidth      =   16
-      ImageHeight     =   16
       MaskColor       =   12632256
       _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   8
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":46656
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":4CEB8
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":5371A
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":59F7C
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":607DE
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":67040
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":6D8A2
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":74104
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
-   Begin MSComctlLib.ImageList ImaListBotoneras_BN 
-      Left            =   2760
-      Top             =   960
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483626
-      ImageWidth      =   16
-      ImageHeight     =   16
-      MaskColor       =   -2147483633
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   10
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":74B16
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":7B378
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":81BDA
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":8843C
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":8EC9E
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":95500
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":9BD62
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":A25C4
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":A8E26
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":AF688
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
-   Begin MSComctlLib.ImageList ImageList2 
-      Left            =   2880
-      Top             =   1320
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   16
-      ImageHeight     =   16
-      MaskColor       =   12632256
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   3
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B009A
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B68FC
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":B90AE
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
-   Begin MSComctlLib.ImageList ImageListDocumentos 
-      Left            =   2400
-      Top             =   120
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   32
-      ImageHeight     =   32
-      MaskColor       =   12632256
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   10
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":BF910
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C0B92
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C3344
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C547E
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C5798
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":C8B8A
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CA79C
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage8 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CB579
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage9 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CC4E8
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage10 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CD460
-            Key             =   ""
-         EndProperty
-      EndProperty
-   End
-   Begin MSComctlLib.ImageList ImaListBotoneras32_BN 
-      Left            =   3120
-      Top             =   960
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      BackColor       =   -2147483643
-      ImageWidth      =   32
-      ImageHeight     =   32
-      MaskColor       =   12632256
-      UseMaskColor    =   0   'False
-      _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   7
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":CE3FD
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":D4C5F
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":DB4C1
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":E1D23
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage5 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":E8585
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage6 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":EEDE7
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage7 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":F5649
-            Key             =   ""
-         EndProperty
-      EndProperty
    End
    Begin MSComctlLib.ImageList ImgListviews 
-      Left            =   2880
+      Left            =   2520
       Top             =   3120
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
-      ImageWidth      =   16
-      ImageHeight     =   16
       MaskColor       =   12632256
       _Version        =   393216
-      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-         NumListImages   =   4
-         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":FBEAB
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":10270D
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":104EBF
-            Key             =   ""
-         EndProperty
-         BeginProperty ListImage4 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":10AAE1
-            Key             =   ""
-         EndProperty
-      EndProperty
    End
    Begin MSComctlLib.ImageList imgIcoForms 
-      Left            =   0
+      Left            =   720
       Top             =   0
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -503,21 +120,21 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":111343
+            Picture         =   "frmPpalN.frx":0CCA
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":111D55
+            Picture         =   "frmPpalN.frx":16DC
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":111DF0
+            Picture         =   "frmPpalN.frx":1777
             Key             =   ""
          EndProperty
       EndProperty
    End
    Begin MSComctlLib.ImageList imgListComun16 
-      Left            =   1200
+      Left            =   840
       Top             =   600
       _ExtentX        =   1005
       _ExtentY        =   1005
@@ -525,26 +142,44 @@ Begin VB.Form frmppal
       MaskColor       =   12632256
       _Version        =   393216
    End
+   Begin XtremeSuiteControls.PopupControl PopupControl 
+      Index           =   1
+      Left            =   0
+      Top             =   0
+      _Version        =   1114114
+      _ExtentX        =   635
+      _ExtentY        =   635
+      _StockProps     =   4
+   End
+   Begin XtremeSuiteControls.PopupControl PopupControl 
+      Index           =   0
+      Left            =   1200
+      Top             =   5520
+      _Version        =   1114114
+      _ExtentX        =   635
+      _ExtentY        =   635
+      _StockProps     =   4
+   End
    Begin XtremeSkinFramework.SkinFramework SkinFramework1 
-      Left            =   5640
-      Top             =   1080
+      Left            =   2760
+      Top             =   600
       _Version        =   1114114
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
    End
    Begin XtremeCommandBars.ImageManager ImageManager 
-      Left            =   4800
-      Top             =   1920
+      Left            =   9480
+      Top             =   1320
       _Version        =   1114114
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":112802
+      Icons           =   "frmPpalN.frx":2189
    End
    Begin XtremeCommandBars.CommandBars CommandBars 
-      Left            =   3840
-      Top             =   600
+      Left            =   8520
+      Top             =   1440
       _Version        =   1114114
       _ExtentX        =   635
       _ExtentY        =   635
@@ -552,8 +187,8 @@ Begin VB.Form frmppal
       VisualTheme     =   2
    End
    Begin XtremeDockingPane.DockingPane DockingPaneManager 
-      Left            =   4320
-      Top             =   1320
+      Left            =   6120
+      Top             =   2040
       _Version        =   1114114
       _ExtentX        =   635
       _ExtentY        =   635
@@ -561,13 +196,13 @@ Begin VB.Form frmppal
       VisualTheme     =   2
    End
    Begin XtremeCommandBars.ImageManager ImageManagerGalleryStyles 
-      Left            =   3360
-      Top             =   120
+      Left            =   6120
+      Top             =   1440
       _Version        =   1114114
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":11281C
+      Icons           =   "frmPpalN.frx":21A3
    End
 End
 Attribute VB_Name = "frmppal"
@@ -576,33 +211,10 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Private Declare Function InitCommonControls Lib "Comctl32.dll" () As Long
+
 
 Dim ContextEvent As CalendarEvent
-
-'Public DisableDragging_ForRecurrenceEvents As Boolean
-'Public DisableInPlaceCreateEvents_ForSaSu As Boolean
-'
-'Public EnableScrollV_DayView As Boolean
-'Public EnableScrollH_DayView As Boolean
-'
-'Public EnableScrollV_WeekView As Boolean
-'
-'Public EnableScrollV_MonthView As Boolean
-'Public ToolTips_Mode As Long
-'
-'Dim mailIconArray(0 To 9) As Long
-'Dim toolbarIconArray(0 To 51) As Long
-'
-'
-'
-'
-'
-'
-'Dim WithEvents GalleryQSItems As CommandBarGalleryItems
-
 Dim MRUShortcutBarWidth
-
 
 Const IMAGEBASE = 10000
 Const MinimizedShortcutBarWidth = 32 + 8
@@ -623,8 +235,20 @@ Dim idTabPpal As Integer
 
 Dim Control As CommandBarControl
 Dim ControlNew_NewItems As CommandBarPopup
-Dim Rn2 As ADODB.Recordset
+Dim RN2 As ADODB.Recordset
 Dim Habilitado As Boolean
+
+
+'Para los mensajes
+Private Const ID_POPUP0 = 0
+Private TextoMensaje As String
+Private EncabezadoMsg As String
+Const IDOK = 1
+Const IDCLOSE = 2
+Const IDSITE = 3
+Const IDMINIMIZE = 4
+
+Dim PrimeraVez As Boolean
 
 
 Public Function RibbonBar() As RibbonBar
@@ -775,9 +399,9 @@ Private Sub CreateStatusBar()
    
     If RibbonSeHaCreado Then
         'StatusBar.Pane(0).Value = vEmpresa.nomempre & "    " & vUsu.Login
-        statusBar.Pane(0).Text = "Nº " & vEmpresa.codempre
-        statusBar.Pane(1).Text = vEmpresa.nomempre
-    
+        statusBar.Pane(0).Text = "Nº" & vEmpresa.codempre
+        statusBar.Pane(1).Text = vUsu.Login
+        statusBar.Pane(2).Text = vEmpresa.nomempre
     Else
     
      Dim Pane As StatusBarPane
@@ -795,12 +419,17 @@ Private Sub CreateStatusBar()
      Pane.SetPadding 8, 0, 8, 0
      
      Set Pane = statusBar.AddPane(ID_INDICATOR_WORDCOUNT)
-     Pane.Text = vEmpresa.nomempre
-     Pane.Caption = "&Word Count"
+     Pane.Text = vUsu.Login
      Pane.Value = "1"
      Pane.Button = True
      Pane.SetPadding 8, 0, 8, 0
      
+    Set Pane = statusBar.AddPane(3)
+     Pane.Text = vEmpresa.nomempre
+     Pane.Caption = ""
+     Pane.Value = "1"
+     Pane.Button = True
+     Pane.SetPadding 8, 0, 8, 0
      
      Set Pane = statusBar.AddPane(0)
      Pane.Style = SBPS_STRETCH Or SBPS_NOBORDERS
@@ -1130,6 +759,10 @@ Private Sub DockingPaneManager_AttachPane(ByVal Item As XtremeDockingPane.IPane)
 End Sub
 
 Private Sub Form_Activate()
+    If PrimeraVez Then
+        PrimeraVez = False
+
+    End If
     Screen.MousePointer = vbDefault
 End Sub
 
@@ -1168,9 +801,9 @@ Public Sub CambiarEmpresa(QueEmpresa As Integer)
     Set vParam = New Cparametros
     
     'NO DEBERIAN DAR ERROR
-    vEmpresa.Leer
+    vEmpresa.Leer2
     vParam.Leer
-
+    vEmpresa.FijarDatosAriconta
     
     PonerCaption
     
@@ -1189,14 +822,19 @@ End Sub
 
 
 Private Sub Form_Load()
-   
+    PrimeraVez = True
+    frmLabels.pLabel "Load...."
+    ProcesoLoad
+End Sub
+
+Private Sub ProcesoLoad()
     'Cargamos librerias de icinos de los forms
-    frmIdentifica.pLabel "Carga DLL"
+    frmLabels.pLabel "Carga DLL"
     CargaIconosDlls
    
     CommandBarsGlobalSettings.App = App
             
-    frmIdentifica.pLabel "Leyendo menus usuario"
+    frmLabels.pLabel "Leyendo menus usuario"
     CargaDatosMenusDemas
     
     ShowEventInPane = False
@@ -1213,26 +851,36 @@ Private Sub Form_Load()
         
     Dim A As Pane, B As Pane, C As Pane, d As Pane
     
-    frmIdentifica.pLabel "Creando paneles"
+    frmLabels.pLabel "Creando paneles"
     Set A = DockingPaneManager.CreatePane(PANE_SHORTCUTBAR, 170, 120, DockLeftOf, Nothing)
     A.Tag = PANE_SHORTCUTBAR
     A.MinTrackSize.Width = MinimizedShortcutBarWidth
     
     Set B = DockingPaneManager.CreatePane(PANE_REPORT_CONTROL, 700, 400, DockRightOf, A)
     B.Tag = PANE_REPORT_CONTROL
+    '----------------------------------------
+    
+    
+    
+   
+    frmLabels.pLabel "Visualizar"
    
     DockingPaneManager.Options.HideClient = True
-        
+            
+            
+    frmLabels.pLabel "Carga iconos"
     Set CommandBars.Icons = CommandBarsGlobalSettings.Icons
     LoadIcons
     
+    
+    frmLabels.pLabel "Visualizar 2"
     DockingPaneManager.RecalcLayout
     MRUShortcutBarWidth = frmShortBar.ScaleWidth
    
    
     'En funcion
     ' ID_OPTIONS_STYLEBLUE2010  ID_OPTIONS_STYLESILVER2010    ID_OPTIONS_STYLEBLACK2010
-    frmIdentifica.pLabel "Carga skin"
+    frmLabels.pLabel "Carga skin"
     If vUsu.Skin = 3 Then
         Cad = ID_OPTIONS_STYLEBLACK2010
     Else
@@ -1251,14 +899,10 @@ End Sub
 
 Private Sub CargaIconosDlls()
 
-    ImageList1.ImageHeight = 48
-    ImageList1.ImageWidth = 48
-    GetIconsFromLibrary App.Path & "\styles\icoconppal.dll", 1, 48
-
-
-    ImageList2.ImageHeight = 16
-    ImageList2.ImageWidth = 16
-    GetIconsFromLibrary App.Path & "\styles\icoconppal.dll", 1, 16
+    'ImageList1 .ImageHeight = 48
+    'ImageList1 .ImageWidth = 48
+    'GetIconsFromLibrary App.Path & "\styles\icoconppal.dll", 1, 48
+    
 
     ImageListPPal48.ImageHeight = 48
     ImageListPPal48.ImageWidth = 48
@@ -1269,7 +913,6 @@ Private Sub CargaIconosDlls()
     ImageListPpal16.ImageWidth = 16
     GetIconsFromLibrary App.Path & "\styles\icoconppal2.dll", 9, 16
 
-'    Me.Icon = Me.ImageListPpal16.ListImages(2).Picture
 
 
     ImgListComun.ImageHeight = 24
@@ -1430,7 +1073,7 @@ Private Sub LoadIcons()
 '
     Dim T() As Variant
     'Cad linea son 15
-    T = Array(1, 1, ID_Empresa, 1, 1, ID_Parámetros, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
+    T = Array(1, 1, ID_Empresa, 1, 1, ID_Parámetros, 1, 1, 1, 1, 1, ID_AccionesRealizadas, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, ID_Contadores, 1, 1, 1, 1, 1, 1, 1, 1, _
         ID_Informes, 1, ID_Clientes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, 1, ID_Usuarios, 1, 1, 1, 1, 1, 1, 1, _
@@ -1535,6 +1178,14 @@ Private Sub LoadIcons()
             SuiteControlsGlobalSettings.Icons.LoadIcon App.Path & "\styles\TreeView\icon" & I & ".ico", I, xtpImageNormal
         Next I
 End Sub
+
+Function LoadIcon(Path As String, cx As Long, cy As Long) As Long
+    'Public Const LR_LOADFROMFILE = &H10
+    'LoadIcon = LoadImage(App.hInstance, App.Path + "\" + Path, IMAGE_ICON, cx, cy, LR_LOADFROMFILE)
+    ' Public Const IMAGE_ICON = 1
+    'LoadIcon = LoadImage(App.hInstance, App.Path + "\" + Path, 1, cx, cy, &H10)
+End Function
+
 
 Private Sub SaveRibbonBarToXML()
     Dim Px As PropExchange
@@ -1713,6 +1364,7 @@ Private Sub CreateRibbon()
     
     
     Set RibbonBar = CommandBars.AddRibbonBar("The Ribbon")
+    RibbonBar.RemoveAllTabs
     RibbonBar.EnableDocking xtpFlagStretched
     
     RibbonBar.AllowQuickAccessCustomization = False
@@ -1797,7 +1449,7 @@ Dim RN As ADODB.Recordset
 
 
     Set RN = New ADODB.Recordset
-    Set Rn2 = New ADODB.Recordset
+    Set RN2 = New ADODB.Recordset
     On Error GoTo eCargaMenu
         
     idTabPpal = 0
@@ -1874,7 +1526,7 @@ eCargaMenu:
     Set GroupNew = Nothing
     Set Control = Nothing
     Set RN = Nothing
-    Set Rn2 = Nothing
+    Set RN2 = Nothing
 End Sub
 
 
@@ -1890,28 +1542,28 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'arigestion' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RN2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Cad = ""
-        While Not Rn2.EOF
+        While Not RN2.EOF
          
-           If Not BloqueaPuntoMenu(Rn2!Codigo, "arigestion") Then
+           If Not BloqueaPuntoMenu(RN2!Codigo, "arigestion") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "arigestion") Then
+                If Not MenuVisibleUsuario(DBLet(RN2!Codigo), "arigestion") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "arigestion") Then Habilitado = False
+                    If Not MenuVisibleUsuario(DBLet(RN2!Padre), "arigestion") Then Habilitado = False
                 End If
            
            
                     
-                Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                Set Control = GroupNew.Add(xtpControlButton, RN2!Codigo, RN2!Descripcion)
                 Control.Enabled = Habilitado
              
             End If
-            Rn2.MoveNext
+            RN2.MoveNext
         Wend
-        Rn2.Close
+        RN2.Close
 
          Set GroupNew = Nothing
 End Sub
@@ -1941,31 +1593,31 @@ Private Sub CargaMenuDatosGenerales(IdMenu As Integer)
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'arigestion' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RN2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Cad = ""
-        While Not Rn2.EOF
+        While Not RN2.EOF
          
-           If Not BloqueaPuntoMenu(Rn2!Codigo, "arigestion") Then
+           If Not BloqueaPuntoMenu(RN2!Codigo, "arigestion") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "arigestion") Then
+                If Not MenuVisibleUsuario(DBLet(RN2!Codigo), "arigestion") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "arigestion") Then Habilitado = False
+                    If Not MenuVisibleUsuario(DBLet(RN2!Padre), "arigestion") Then Habilitado = False
                 End If
            
            
                     
               
-                Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                Set Control = GroupNew.Add(xtpControlButton, RN2!Codigo, RN2!Descripcion)
                 
                  
                 Control.Enabled = Habilitado
              
             End If
-            Rn2.MoveNext
+            RN2.MoveNext
         Wend
-        Rn2.Close
+        RN2.Close
 
          Set GroupNew = Nothing
 End Sub
@@ -1985,23 +1637,23 @@ Private Sub CargaMenuFacturacion(IdMenu As Integer)
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'arigestion' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RN2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Cad = ""
-        While Not Rn2.EOF
+        While Not RN2.EOF
         
-           If Not BloqueaPuntoMenu(Rn2!Codigo, "arigestion") Then
+           If Not BloqueaPuntoMenu(RN2!Codigo, "arigestion") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "arigestion") Then
+                If Not MenuVisibleUsuario(DBLet(RN2!Codigo), "arigestion") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "arigestion") Then Habilitado = False
+                    If Not MenuVisibleUsuario(DBLet(RN2!Padre), "arigestion") Then Habilitado = False
                 End If
                 
 
                 
                 
-                Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                Set Control = GroupNew.Add(xtpControlButton, RN2!Codigo, RN2!Descripcion)
                 
                 Control.Enabled = Habilitado
                 
@@ -2009,9 +1661,9 @@ Private Sub CargaMenuFacturacion(IdMenu As Integer)
               
               
             End If
-            Rn2.MoveNext
+            RN2.MoveNext
         Wend
-        Rn2.Close
+        RN2.Close
 
 
 End Sub
@@ -2035,17 +1687,17 @@ Private Sub CargaMenuEstadistica(IdMenu As Integer)
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'arigestion' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RN2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Cad = ""
-        While Not Rn2.EOF
+        While Not RN2.EOF
         
-           If Not BloqueaPuntoMenu(Rn2!Codigo, "arigestion") Then
+           If Not BloqueaPuntoMenu(RN2!Codigo, "arigestion") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "arigestion") Then
+                If Not MenuVisibleUsuario(DBLet(RN2!Codigo), "arigestion") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "arigestion") Then Habilitado = False
+                    If Not MenuVisibleUsuario(DBLet(RN2!Padre), "arigestion") Then Habilitado = False
                 End If
             End If
             
@@ -2056,7 +1708,7 @@ Private Sub CargaMenuEstadistica(IdMenu As Integer)
  '           Case 404, 405, 406
  '               Set Control = GrupPag.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
  '           Case Else
-                Set Control = GroupNew.Add(xtpControlButton, Rn2!Codigo, Rn2!Descripcion)
+                Set Control = GroupNew.Add(xtpControlButton, RN2!Codigo, RN2!Descripcion)
  '           End Select
             
             
@@ -2064,9 +1716,9 @@ Private Sub CargaMenuEstadistica(IdMenu As Integer)
             Control.Enabled = Habilitado
            ' ControlNew_NewItems.KeyboardTip = "V"
          
-            Rn2.MoveNext
+            RN2.MoveNext
         Wend
-        Rn2.Close
+        RN2.Close
 
 
 End Sub
@@ -2090,27 +1742,27 @@ Dim Col As Collection
         
         'todos los hijos que cuelgan en la tab
         Cad = "Select * from menus where aplicacion = 'arigestion' and padre =" & IdMenu & " ORDER BY padre,orden"
-        Rn2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        RN2.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         Cad = ""
         Set Col = New Collection
-        While Not Rn2.EOF
+        While Not RN2.EOF
            I = I + 1
-           If Not BloqueaPuntoMenu(Rn2!Codigo, "arigestion") Then
+           If Not BloqueaPuntoMenu(RN2!Codigo, "arigestion") Then
                 Habilitado = True
     
-                If Not MenuVisibleUsuario(DBLet(Rn2!Codigo), "arigestion") Then
+                If Not MenuVisibleUsuario(DBLet(RN2!Codigo), "arigestion") Then
                     Habilitado = False
                 Else
-                    If Not MenuVisibleUsuario(DBLet(Rn2!Padre), "arigestion") Then Habilitado = False
+                    If Not MenuVisibleUsuario(DBLet(RN2!Padre), "arigestion") Then Habilitado = False
                 End If
             End If
             
-            Col.Add Abs(Habilitado) & "|" & Rn2!Codigo & "|" & Rn2!Descripcion & "|"
+            Col.Add Abs(Habilitado) & "|" & RN2!Codigo & "|" & RN2!Descripcion & "|"
             If Habilitado Then Cad = "S"
             
-            Rn2.MoveNext
+            RN2.MoveNext
         Wend
-        Rn2.Close
+        RN2.Close
         
             '1408    "Traspaso de cuentas en apuntes"
             '1409    "Renumerar registros proveedor"
@@ -2154,7 +1806,7 @@ End Sub
 '**************************************************************************************************************
 '**************************************************************************************************************
 Private Sub AbrirFormularios(Accion As Long)
-
+ 
 
 '''''''Public Const ID_Empresa = 101
 '''''''Public Const ID_Parámetros = 102
@@ -2196,6 +1848,10 @@ Private Sub AbrirFormularios(Accion As Long)
     Case ID_ConceptosFacturas
         frmConceptos.Show vbModal
     
+    Case ID_AccionesRealizadas
+        frmLog.Show vbModal
+    
+    
     Case ID_Clientes
         'Load frmcolClientes
         'frmcolClientes.SetColor Id
@@ -2203,7 +1859,11 @@ Private Sub AbrirFormularios(Accion As Long)
     Case ID_Expedientes
         frmExpediente.numExpediente = ""
         frmExpediente.Show vbModal
+    Case ID_PagodeTasas
+        frmGestionAdministrativa.Show vbModal
         
+    Case ID_Caja
+        frmCaja.Show vbModal
     Case ID_FacturasEmitidas
         frmFacturasCli.FACTURA = ""
         frmFacturasCli.Show vbModal
@@ -2290,4 +1950,187 @@ Public Sub OpcionesMenuInformacion(id As Long)
     End Select
     
 End Sub
+
+
+
+'***************************************************************************************************
+'***************************************************************************************************
+'***************************************************************************************************
+'    Mostrajes OFFICE
+'   Ver el proyecto original en :  codjecock\samples\control\vb\popup
+'
+'***************************************************************************************************
+'***************************************************************************************************
+'***************************************************************************************************
+'
+' HaLanzadoElCero  : significa que ha lanzado un popaup hace un momento, entonces tiene que cojer
+' el index 1
+Public Sub MostrarMensaje(Tipo As Integer, Encabezado As String, TextoMens As String, HaLanzadoElCero As Boolean)
+
+
+    On Error Resume Next
+       
+    Dim X As Integer
+    Dim lastPane As Integer
+    
+    
+    
+    TextoMensaje = TextoMens
+    EncabezadoMsg = Encabezado
+    'lastPane = IIf(chkMultiplePopup, ID_POPUP2, ID_POPUP0)
+    If HaLanzadoElCero Then
+        lastPane = 1
+    Else
+        lastPane = ID_POPUP0
+        
+    End If
+    
+    For X = lastPane To lastPane
+        
+       
+         
+        Dim Popup As XtremeSuiteControls.PopupControl
+        Set Popup = PopupControl(X)
+        
+        Popup.Animation = 2  'cmbAnimation.ListIndex
+        Popup.AnimateDelay = 250
+        Popup.ShowDelay = 2000
+        Popup.Transparency = 200
+        Popup.DefaultLocation = 0
+        
+    
+        Select Case Tipo
+   '         Case 0: SetOffice2000Theme Popup
+   '         Case 1: SetOfficeXPTheme Popup
+   '         Case 2: SetOffice2003Theme Popup
+   '         Case 3: SetOffice2007Theme Popup
+   '         Case 4: SetOffice2013Theme Popup
+   '         Case 5: SetMSNTheme Popup
+   '         Case 6: SetBlueTheme Popup
+            Case 7: SetBlackTheme Popup
+   
+   
+   '         Case 8: SetGreenTheme Popup
+            
+            Case 9: SetRedTheme Popup
+   
+   
+   '        Case 10: SetToolTipTheme Popup
+        End Select
+    Next
+    
+    DesEnablar
+    
+    If lastPane = 0 Then PopupControl(lastPane).Show
+    
+    
+    If lastPane = 1 Then
+        PopupControl(lastPane).Right = PopupControl(ID_POPUP0).Right
+        PopupControl(lastPane).Bottom = (PopupControl(ID_POPUP0).Bottom - PopupControl(ID_POPUP0).Height)
+        PopupControl(lastPane).AnimateDelay = PopupControl(ID_POPUP0).AnimateDelay + 256
+        PopupControl(lastPane).ShowDelay = PopupControl(ID_POPUP0).ShowDelay + 1000
+        PopupControl(lastPane).Show
+    
+    End If
+    'If chkMultiplePopup Then
+    '    PopupControl(ID_POPUP1).Right = PopupControl(ID_POPUP0).Right
+    '    PopupControl(ID_POPUP1).Bottom = (PopupControl(ID_POPUP0).Bottom - PopupControl(ID_POPUP0).Height)
+    '    PopupControl(ID_POPUP1).AnimateDelay = PopupControl(ID_POPUP0).AnimateDelay + 256
+    '    PopupControl(ID_POPUP1).ShowDelay = PopupControl(ID_POPUP0).ShowDelay + 1000
+    '    PopupControl(ID_POPUP1).Show
+    '
+    '    PopupControl(ID_POPUP2).Right = PopupControl(ID_POPUP1).Right
+    '    PopupControl(ID_POPUP2).Bottom = (PopupControl(ID_POPUP1).Bottom - PopupControl(ID_POPUP1).Height)
+    '    PopupControl(ID_POPUP2).AnimateDelay = PopupControl(ID_POPUP1).AnimateDelay + 256
+    '    PopupControl(ID_POPUP2).ShowDelay = PopupControl(ID_POPUP1).ShowDelay + 1000
+    '    PopupControl(ID_POPUP2).Show
+    'End If
+
+End Sub
+
+Private Sub DesEnablar()
+    On Error GoTo eDese
+    Dim Control
+    For Each Control In Controls
+        Control.Enabled = False
+    Next
+    Exit Sub
+eDese:
+    If Err.Number <> 438 Then MuestraError Err.Number
+End Sub
+
+
+Sub SetRedTheme(Popup As XtremeSuiteControls.PopupControl)
+    Dim Item As PopupControlItem
+
+    Popup.RemoveAllItems
+    Popup.Icons.RemoveAll
+
+    Set Item = Popup.AddItem(0, 0, 170, 130, "", RGB(255, 50, 50), RGB(255, 255, 0))
+
+    Set Item = Popup.AddItem(5, 25, 170 - 5, 130 - 5, "", RGB(230, 70, 70), RGB(255, 255, 0))
+
+    'Set Item = Popup.AddItem(104, 27, 170, 45, "more...")
+
+    Set Item = Popup.AddItem(0, 70, 170, 100, TextoMensaje)
+    Item.TextAlignment = DT_CENTER Or DT_WORDBREAK
+    Item.TextColor = RGB(255, 255, 0)
+    Item.CalculateHeight
+    Item.id = IDSITE
+
+    Set Item = Popup.AddItem(12, 30, 12, 47, "")
+    Item.SetIcon LoadIcon("Icons\icon3.ico", 32, 32), xtpPopupItemIconNormal
+
+    Set Item = Popup.AddItem(5, 0, 170, 25, EncabezadoMsg)
+    Item.TextAlignment = DT_SINGLELINE Or DT_VCENTER
+    Item.TextColor = RGB(255, 255, 255)
+    Item.Bold = True
+    Item.Hyperlink = False
+
+    Set Item = Popup.AddItem(151, 6, 164, 19, "")
+    'Item.SetIcons LoadBitmap("Icons\CloseMSN.bmp"), 0, xtpPopupItemIconNormal Or xtpPopupItemIconSelected Or xtpPopupItemIconPressed
+    Item.id = IDCLOSE
+
+    Popup.VisualTheme = xtpPopupThemeCustom
+    Popup.setSize 170, 130
+
+End Sub
+
+Sub SetBlackTheme(Popup As XtremeSuiteControls.PopupControl)
+    Dim Item As PopupControlItem
+
+    Popup.RemoveAllItems
+    Popup.Icons.RemoveAll
+
+    Set Item = Popup.AddItem(0, 0, 170, 130, "", RGB(10, 10, 10), RGB(255, 255, 255))
+
+    Set Item = Popup.AddItem(5, 25, 170 - 5, 130 - 5, "", RGB(70, 70, 70), RGB(200, 200, 200))
+
+    Set Item = Popup.AddItem(104, 27, 170, 45, "")
+    Item.TextColor = RGB(150, 150, 150)
+
+    Set Item = Popup.AddItem(0, 70, 170, 100, TextoMensaje)
+    Item.TextAlignment = DT_CENTER Or DT_WORDBREAK
+    Item.TextColor = RGB(255, 255, 255)
+    Item.CalculateHeight
+    Item.id = IDSITE
+
+    Set Item = Popup.AddItem(12, 30, 12, 47, "")
+    Item.SetIcon LoadIcon("Icons\icon3.ico", 32, 32), xtpPopupItemIconNormal
+
+    Set Item = Popup.AddItem(5, 0, 170, 25, EncabezadoMsg)
+    Item.TextAlignment = DT_SINGLELINE Or DT_VCENTER
+    Item.TextColor = RGB(255, 255, 255)
+    Item.Bold = True
+    Item.Hyperlink = False
+
+    'Set Item = Popup.AddItem(151, 6, 164, 19, "")
+    'Item.SetIcons LoadBitmap("Icons\CloseMSN.bmp"), 0, xtpPopupItemIconNormal Or xtpPopupItemIconSelected Or xtpPopupItemIconPressed
+    'Item.id = IDCLOSE
+
+    Popup.VisualTheme = xtpPopupThemeCustom
+    Popup.setSize 170, 130
+
+End Sub
+
 

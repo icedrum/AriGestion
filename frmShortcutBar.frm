@@ -79,7 +79,7 @@ End Sub
 
 Private Sub wndShortcutBar_SelectedChanged(ByVal Item As XtremeShortcutBar.IShortcutBarItem)
 Dim TabNuevo As RibbonTab
-    Select Case Item.Id
+    Select Case Item.id
         Case SHORTCUT_CONTACTS:
 
             frmInbox.wndCalendarControl.Visible = False

@@ -32,7 +32,7 @@ Option Explicit
 'GRABAR EN TESORERIA
 '======================================================================
 
-Public Function InsertarEnTesoreria(Es1Cuota As Boolean, ByRef rsFactura As ADODB.Recordset, CuentaPrev As String, vTextosCSB As String, MenError As String) As Boolean
+Public Function InsertarEnTesoreria(Es1Cuota As Boolean, ByRef rsFactura As ADODB.Recordset, CuentaPrev As String, vTextosCSB As String, MenError As String, ImporteEntregadoACuenta As Currency) As Boolean
 'Guarda datos de Tesoreria en tablas: ariges.svenci y en conta.scobros
 Dim B As Boolean
 Dim RS As ADODB.Recordset
@@ -69,7 +69,7 @@ Dim Agente As Integer
 
     
     ImpCheque = 0   'por si las necesitamos en otro momento
-    Aportacion = 0
+    Aportacion = ImporteEntregadoACuenta
     Agente = 1
     
     
@@ -85,13 +85,34 @@ Dim Agente As Integer
      
     B = False
     InsertarEnTesoreria = False
+    
+    
+    
+    Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, rsFactura!CodClien)
+    
+    Sql = "SELECT codmacta FROM ariconta" & vParam.Numconta & ".cuentas WHERE codmacta=" & DBSet(Codmacta_, "T")
+    rsVenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If rsVenci.EOF Then
+        Sql = "insert into ariconta" & vParam.Numconta & ".cuentas(codmacta,nommacta,apudirec,model347,razosoci,"
+        Sql = Sql & "dirdatos,codposta,despobla,desprovi,nifdatos,codpais) VALUES (" & DBSet(Codmacta_, "T") & "," & DBSet(rsFactura!NomClien, "T")
+        Sql = Sql & ",1,1," & DBSet(rsFactura!NomClien, "T") & "," & DBSet(rsFactura!DomClien, "T") & "," & DBSet(rsFactura!codposta, "T")
+        Sql = Sql & "," & DBSet(rsFactura!PobClien, "T") & "," & DBSet(rsFactura!ProClien, "T") & "," & DBSet(rsFactura!NIFClien, "T")
+        
+        Sql = Sql & "," & DBSet(rsFactura!codpais, "T") & ")"
+        Ejecuta Sql
+    End If
+    rsVenci.Close
+    
+    
+    
+    
     CadValues3 = ""
     CadValues = ""
     CadValues2 = ""
-    TipForPago = DevuelveDesdeBDNew(1, "ariconta" & vParam.Numconta & ".formapago", "tipforpa", "codforpa", rsFactura!codforpa, "N")
+    TipForPago = DevuelveDesdeBDNew(1, "ariconta" & vParam.Numconta & ".formapago", "tipforpa", "codforpa", rsFactura!Codforpa, "N")
     
     'campo para insertar en conta.scobro de Tesoreria. pAra las de telefonia ya lo ha creado arriba
-    textcsb33 = "'FACTURA: " & rsFactura!numserie & "-" & Format(rsFactura!NumFactu, "0000000") & " de Fecha " & Format(rsFactura!FecFactu, "dd mmm yyyy") & "'"
+    textcsb33 = "'FACTURA: " & rsFactura!numserie & "-" & Format(rsFactura!NumFactu, "0000000") & " de Fecha " & Format(rsFactura!Fecfactu, "dd mmm yyyy") & "'"
 
 
     'Datos fiscales en scobro     Julio 2009
@@ -109,7 +130,7 @@ Dim Agente As Integer
     'Obtener el Nº de Vencimientos de la forma de pago
     
 
-    Sql = "SELECT numerove, primerve, restoven FROM ariconta" & vParam.Numconta & ".formapago WHERE codforpa=" & rsFactura!codforpa
+    Sql = "SELECT numerove, primerve, restoven FROM ariconta" & vParam.Numconta & ".formapago WHERE codforpa=" & rsFactura!Codforpa
     rsVenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not rsVenci.EOF Then
@@ -128,24 +149,24 @@ Dim Agente As Integer
             'Comporbamos si el importe es <>0
             'Obtener los dias de pago del cliente,de momento no esta, y
             'la codmacta viene de la matricula. Ya veremos como
-            Sql = " SELECT  0 diapago1, 0  diapago2,0 diapago3,0 mesnogir,0 diavtoat, matricula "
+            Sql = " SELECT  0 diapago1, 0  diapago2,0 diapago3,0 mesnogir,0 diavtoat, codclien "
             Sql = Sql & " FROM clientes "
-            Sql = Sql & " WHERE codclien=" & rsFactura!codclien
+            Sql = Sql & " WHERE codclien=" & rsFactura!CodClien
             Set RS = New ADODB.Recordset
             RS.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
-            Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, RS!Matricula)
+            Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, RS!CodClien)
            
             
             If Not RS.EOF Then
-                cadValuesAux = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!FecFactu, FormatoFecha) & "', "
-                CadValuesAuxConta = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!FecFactu, FormatoFecha) & "', "
+                cadValuesAux = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
+                CadValuesAuxConta = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
                 '                    Añadire a la cadena fija esta los valores de textcsb41,txcs
                 CadValuesAuxConta = CadValuesAuxConta & vTextosCSB & ","
                 
                
                 'FECHA VTO
-                FecVenci = CDate(rsFactura!FecFactu)
+                FecVenci = CDate(rsFactura!Fecfactu)
                 FecVenci = DateAdd("d", DBLet(rsVenci!primerve, "N"), FecVenci)
                 '===
                 'comprobar si tiene dias de pago y obtener la fecha del vencimiento correcta
@@ -163,10 +184,10 @@ Dim Agente As Integer
                 'Comprobar si cliente tiene dia de vencimiento atrasado
                 CadValues = cadValuesAux & Knumerovenci & ", '" & Format(FecVenci1, FormatoFecha) & "', "
                 CadValues2 = CadValuesAuxConta & Knumerovenci & ", "
-                CadValues2 = CadValues2 & Codmacta_ & ", " & rsFactura!codforpa & ", '" & Format(FecVenci1, FormatoFecha) & "', "
+                CadValues2 = CadValues2 & Codmacta_ & ", " & rsFactura!Codforpa & ", '" & Format(FecVenci1, FormatoFecha) & "', "
                 
                 'IMPORTE del Vencimiento
-                TotalFactura3 = ImporteDeLaFactura - 0 'Aportacion
+                TotalFactura3 = ImporteDeLaFactura - Aportacion
                 If NumeroDeVencimientos = 1 Then
                     ImpVenci = TotalFactura3
                     ImpVenci2 = TotalFactura3 - ImpCheque
@@ -220,7 +241,7 @@ Dim Agente As Integer
                     End If
                     Knumerovenci = Knumerovenci + 1
                     CadValues = CadValues & ", " & cadValuesAux & Knumerovenci & ", '" & Format(FecVenci1, FormatoFecha) & "', "
-                    CadValues2 = CadValues2 & ", " & CadValuesAuxConta & Knumerovenci & ", " & Codmacta_ & ", " & rsFactura!codforpa & ", '" & Format(FecVenci1, FormatoFecha) & "', "
+                    CadValues2 = CadValues2 & ", " & CadValuesAuxConta & Knumerovenci & ", " & Codmacta_ & ", " & rsFactura!Codforpa & ", '" & Format(FecVenci1, FormatoFecha) & "', "
                     
                     'IMPORTE Resto de Vendimientos
                     ImpVenci = Round2(TotalFactura3 / rsVenci!numerove, 2)
@@ -270,7 +291,7 @@ Dim Agente As Integer
                 
                 
                 'Aportacion al terminal
-                'Si tiene cuenta aportacion entonces añadiremos un cobro
+                'Si tiene cuenta aportacion entonces añadiremos un en caja
                 If Aportacion > 0 Then
                     'If vParamAplic.ctaAportacion = "" Then
                     '    MsgBox "Error cta aportacion NULL", vbExclamation
@@ -401,7 +422,10 @@ End Function
 
 
 
+'Cuenta, Si no existe la creo
+Private Sub TratarCuentaContableContabilidad()
 
+End Sub
 
 
 
@@ -497,12 +521,12 @@ End Function
 
 
 
-Public Function DevuelveCuentaContableCliente(EsCuota As Boolean, Matricula As String) As String
+Public Function DevuelveCuentaContableCliente(EsCuota As Boolean, CodClien As String) As String
 Dim C As String
 Dim N As Integer
      
     N = vEmpresa.DigitosUltimoNivel
-    C = Matricula
+    C = CodClien
     N = N - Len(C)
     If EsCuota Then
         N = N - Len(vParam.Raizcuotas)
@@ -517,3 +541,156 @@ End Function
 
 
 
+
+
+
+
+
+
+
+'***********************************************************************************************
+'***********************************************************************************************
+'
+'       Facturar Expediente
+'
+Public Function FacturarExpediente(tiporegi As String, numexped As Long, anoexped As Integer, Fecfactu As Date) As Boolean
+Dim RN As ADODB.Recordset
+Dim Cad As String
+Dim CadTotales As String
+Dim TotBases As Currency
+Dim TotIvas As Currency
+Dim Impor As Currency
+Dim NumeroFactura As Long
+Dim Serie As String
+Dim Lin As Integer
+
+    On Error GoTo eFacturarExpediente
+    FacturarExpediente = False
+    Set RN = New ADODB.Recordset
+
+    
+
+
+    'Primer paso, total e iva
+    Cad = "Select  serfactur  ,numfactu  FROM contadores where tiporegi= '" & tiporegi & "'"
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Serie = RN!serfactur
+    NumeroFactura = RN!NumFactu + 1
+    RN.Close
+        
+    
+    If Not NumeroFactura_y_Fecha_OK(Serie, NumeroFactura, Fecfactu) Then Exit Function
+    
+    
+    
+    TotIvas = 0
+    TotBases = 0
+
+    
+    Cad = "select conceptos.codigiva, sum(importe) base,porceiva,porcerec from expedientes_lineas ,conceptos,"
+    Cad = Cad & " ariconta" & vParam.Numconta & ".tiposiva iva where expedientes_lineas.codconce= conceptos.codconce AND "
+    Cad = Cad & " iva.codigiva=conceptos.codigiva AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND  anoexped =" & anoexped & " group by 1"
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    CadTotales = ""
+    Lin = 0
+    While Not RN.EOF
+        Lin = Lin + 1
+        TotBases = TotBases + RN!Base
+        'factcli_totales (numserie,numfactu,fecfactu,numlinea,baseimpo,codigiva,porciva,porcrec,impoiva,imporec)
+        CadTotales = CadTotales & ", (" & DBSet(Serie, "T") & "," & NumeroFactura & "," & DBSet(Fecfactu, "F") & "," & Lin
+        CadTotales = CadTotales & "," & DBSet(RN!Base, "N", "N") & "," & RN!codigiva
+        CadTotales = CadTotales & "," & DBSet(RN!porceiva, "N", "N") & "," & DBSet(RN!porcerec, "N", "N")
+        'IVA
+        Impor = Round2((DBLet(RN!Base, "N") * RN!porceiva) / 100, 2)
+        TotIvas = TotIvas + Impor
+        CadTotales = CadTotales & "," & DBSet(Impor, "N", "N")
+        'recargo
+        Impor = Round2((DBLet(RN!Base, "N") * RN!porcerec) / 100, 2)
+        TotIvas = TotIvas + Impor
+        CadTotales = CadTotales & "," & DBSet(Impor, "N", "N") & ")"
+        RN.MoveNext
+    Wend
+    RN.Close
+    
+    
+    'Cabecera
+    Cad = " SELECT expedientes.*,codforpa FROM expedientes,clientes WHERE expedientes.codclien=clientes.codclien"
+    Cad = Cad & "  AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND  anoexped =" & anoexped & " group by 1"
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'No puiede ser eof
+    Cad = "INSERT INTO factcli(numserie,numfactu,fecfactu,codclien,codforpa,numexped,fecexped,observa,"
+    Cad = Cad & "totbases,totbasesret,totivas,totrecargo,totfaccl,retfaccl,trefaccl,"
+    Cad = Cad & "cuereten,tiporeten,intconta,usuario,fecha) VALUES ("
+    Cad = Cad & DBSet(Serie, "T") & "," & NumeroFactura & "," & DBSet(Fecfactu, "F") & "," & RN!CodClien
+    Cad = Cad & "," & RN!Codforpa & "," & RN!numexped & "," & DBSet(RN!fecexped, "F") & "," & DBSet(RN!observac, "T", "S")
+    'totbases,totbasesret,totivas,totrecargo,totfaccl,retfaccl,trefaccl,"
+    Cad = Cad & "," & DBSet(TotBases, "N") & ",NULL," & DBSet(TotIvas, "N") & ",0," & DBSet(TotIvas + TotBases, "N")
+    Cad = Cad & ",NULL,NULL,NULL,0,0," & DBSet(vUsu.Login, "T") & "," & DBSet(Now, "FH") & ")"
+    Conn.Execute Cad
+    RN.Close
+    
+    
+    'Lineas
+    Cad = "insert into factcli_lineas(numserie , NumFactu, Fecfactu, numlinea,codconce, nomconce, ampliaci,"
+    Cad = Cad & "cantidad, precio, Importe, codigiva, porciva, porcrec, Impoiva, ImpoRec, aplicret) SELECT "
+    Cad = Cad & DBSet(Serie, "T") & "," & NumeroFactura & "," & DBSet(Fecfactu, "F") & ",numlinea,expedientes_lineas.codconce,"
+    Cad = Cad & " expedientes_lineas.nomconce,ampliaci,1 cantidad,importe,importe,conceptos.codigiva,porceiva,porcerec,"
+    Cad = Cad & "round((importe*porceiva)/100,2),round((importe*porcerec)/100,2),0 apliret"
+    Cad = Cad & " from expedientes_lineas ,conceptos,ariconta1.tiposiva iva WHERE expedientes_lineas.codconce= conceptos.codconce"
+    Cad = Cad & " AND iva.codigiva=conceptos.codigiva AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND  anoexped =" & anoexped & " ORDER BY numlinea"
+    Conn.Execute Cad
+
+    'Totales
+    If CadTotales <> "" Then
+        CadTotales = Mid(CadTotales, 2)
+        Cad = "INSERT INTO factcli_totales (numserie,numfactu,fecfactu,numlinea,baseimpo,codigiva,porciva,porcrec,impoiva,imporec) VALUES "
+        Cad = Cad & CadTotales
+        Conn.Execute Cad
+    End If
+    
+    
+    'Incrementamos contador
+    Cad = "UPDATE  contadores set numfactu =" & NumeroFactura & " WHERE tiporegi= '" & tiporegi & "'"
+    Conn.Execute Cad
+    
+    'Paso el expediente a facturado
+    Cad = " UPDATE expedientes set codsitua=3 WHERE tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND  anoexped =" & anoexped
+    Conn.Execute Cad
+    
+    espera 0.1
+    
+    'Veo si tiene cobros parciales
+    Cad = "SELECT sum(importe) a_cta FROM expedientes_acuenta WHERE tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND  anoexped =" & anoexped
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Impor = 0
+    If Not RN.EOF Then
+        Impor = DBLet(RN!a_cta, "N")
+        'DEBERIAMOS PASAR lo del expediente que este en la caja a la factura
+        'FALTA###
+        Cad = "UPDATE "
+    End If
+    RN.Close
+    
+    Cad = "numserie =" & DBSet(Serie, "T") & " AND numfactu = " & NumeroFactura & " AND fecfactu = " & DBSet(Fecfactu, "F")
+    Cad = " from factcli,clientes where factcli.codclien=clientes.codclien AND " & Cad
+    Cad = "licencia,PobClien ,codposta ,ProClien ,NIFClien ,codpais ,IBAN ,totfaccl " & Cad
+    Cad = "SELECT factcli.codclien, factcli.codforpa ,numserie,NumFactu ,FecFactu ,NomClien ,DomClien," & Cad
+    
+    RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Cad = vParam.CtaBanco
+    InsertarEnTesoreria False, RN, Cad, "", Msg, Impor
+    
+    
+    
+    'Esta todo OK? Si? Pues ale, adelante
+    FacturarExpediente = True
+    
+eFacturarExpediente:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+   Set RN = Nothing
+End Function

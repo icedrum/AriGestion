@@ -293,7 +293,7 @@ Dim Cad2 As String
     For I = 0 To 4
         Me.txtSearchBar(I).Text = Trim(Me.txtSearchBar(I).Text)
         If Me.txtSearchBar(I).Text <> "" Then
-            If SeparaCampoBusqueda(IIf(I = 0, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
+            If SeparaCampoBusqueda(IIf(I = 0 Or I = 4, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
                 If J > 0 Then Cad2 = Cad2 & " AND  "
                 J = J + 1
                 Cad2 = Cad2 & Cad1
@@ -315,7 +315,16 @@ Dim Cad2 As String
     
     CargaDatos Cad2, False
     On Error Resume Next
-    wndReportControl.SetFocus
+    If wndReportControl.SelectedRows.Count > 0 Then
+        wndReportControl.SetFocus
+    Else
+         For I = 0 To 4
+            If txtSearchBar(I).Text <> "" Then
+                txtSearchBar(I).SetFocus
+                Exit For
+            End If
+        Next
+    End If
     Err.Clear
 End Sub
 
@@ -412,9 +421,9 @@ Private Sub SituaBusquedas()
     J = 1100
     For I = 0 To 4
         Me.txtSearchBar(I).Left = J + (6 * I)
-        k = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
-        txtSearchBar(I).Width = k - 60
-        J = J + k
+        K = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
+        txtSearchBar(I).Width = K - 60
+        J = J + K
         
         'Me.txtSearchBar(I).Text = I
     Next
@@ -508,7 +517,7 @@ End Sub
 
 
 'Cuando modifiquemos o insertemos, pondremos el SQL entero
-Public Sub CargaDatos(ByVal Sql As String, EsTodoSQL As Boolean)
+Public Sub CargaDatos(ByVal SQL As String, EsTodoSQL As Boolean)
 Dim Aux  As String
 Dim Inicial As Integer
 Dim N As Integer
@@ -527,21 +536,21 @@ Dim T1 As Single
     If EsTodoSQL Then
         Stop
     Else
-        If Sql <> "" Then Sql = " WHERE " & Sql
+        If SQL <> "" Then SQL = " WHERE " & SQL
             
-        Sql = " FROM clientes" & Sql
-        Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio " & Sql
+        SQL = " FROM clientes" & SQL
+        SQL = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio " & SQL
         
-        Sql = Sql & " ORDER BY codclien"
+        SQL = SQL & " ORDER BY codclien"
     End If
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Inicial = 0
     Clientes = ""
     T1 = Timer
     While Not miRsAux.EOF
         AddRecord2
-        Clientes = Clientes & ", " & miRsAux!codclien
+        Clientes = Clientes & ", " & miRsAux!CodClien
         N = N + 1
         If N > 15 Then
             If Timer - T1 > 0.75 Then
@@ -652,7 +661,7 @@ Dim OtroIcono As Boolean
     
     
     ' '  codclien,nomclien,nifclien,matricula,licencia,essocio "
-    Record.AddItem CStr(miRsAux!codclien)
+    Record.AddItem CStr(miRsAux!CodClien)
     Record.AddItem DBLet(miRsAux!NomClien, "T")
     Record.AddItem CStr(miRsAux!NIFClien)
     Record.AddItem CStr(DBLet(miRsAux!Matricula, "T"))
@@ -661,7 +670,7 @@ Dim OtroIcono As Boolean
     
     
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
-    Record.PreviewText = "ID: " & miRsAux!codclien
+    Record.PreviewText = "ID: " & miRsAux!CodClien
     
 End Sub
 
@@ -785,6 +794,8 @@ Private Sub txtSearchBar_KeyDown(Index As Integer, KeyCode As Integer, Shift As 
         cmdSearch_Click
     ElseIf KeyCode = vbKeyF2 Then
         cmdVertodos_Click
+    ElseIf KeyCode = vbKeyEscape Then
+        Unload Me
     Else
         If Shift = 4 Then
             If KeyCode = vbKeyA Then

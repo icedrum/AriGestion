@@ -115,7 +115,7 @@ Begin VB.Form frmIdentifica
       Index           =   2
       Left            =   360
       TabIndex        =   5
-      Top             =   2850
+      Top             =   2880
       Width           =   2655
    End
    Begin VB.Label Label1 
@@ -348,7 +348,7 @@ Public Sub pLabel(TEXTO As String)
 
     Me.Label1(2).Caption = TEXTO
     Label1(2).Refresh
-    espera 0.3
+    espera 0.05
 End Sub
 
 
@@ -395,6 +395,7 @@ Dim Ok As Byte
         'OK
         If vEmpresa Is Nothing Then
             UsuarioCorrecto
+            Load frmLabels
             Unload Me
         End If
     End If
@@ -463,20 +464,10 @@ Dim PrimeraBD As String
         RevisarIntroduccion = 0
 
 
-        
-
-
-
-
-
-
         OtrasAcciones
 
+        
 
-        'La madre de todas las batallas
-        pLabel "Cargando principal"
-    
-        Load frmppal
 End Sub
 
 
@@ -614,7 +605,7 @@ Dim miRsAux As ADODB.Recordset
     'Conceptos
     Set miRsAux = New ADODB.Recordset
     
-    miRsAux.Open "Select * from usuarios.usuarios where nivelusu <> -1 order by login", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    miRsAux.Open "Select * from usuarios.usuarios where nivelariges <> -1 order by login", Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
 
     
     While Not miRsAux.EOF

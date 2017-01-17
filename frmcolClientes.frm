@@ -279,6 +279,7 @@ Begin VB.Form frmcolClientes
                EndProperty
                BeginProperty Button9 {66833FEA-8583-11D1-B16A-00C0F0283628} 
                   Enabled         =   0   'False
+                  Object.Visible         =   0   'False
                   Object.ToolTipText     =   "Impresión avanzada"
                EndProperty
                BeginProperty Button10 {66833FEA-8583-11D1-B16A-00C0F0283628} 
@@ -373,7 +374,7 @@ Dim Cad2 As String
     For I = 0 To 4
         Me.txtSearchBar(I).Text = Trim(Me.txtSearchBar(I).Text)
         If Me.txtSearchBar(I).Text <> "" Then
-            If SeparaCampoBusqueda(IIf(I = 0, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
+            If SeparaCampoBusqueda(IIf(I = 0 Or I = 4, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
                 If J > 0 Then Cad2 = Cad2 & " AND  "
                 J = J + 1
                 Cad2 = Cad2 & Cad1
@@ -394,8 +395,20 @@ Dim Cad2 As String
     
     
     CargaDatos Cad2, False
+    
+    
     On Error Resume Next
-    wndReportControl.SetFocus
+     If wndReportControl.SelectedRows.Count > 0 Then
+        wndReportControl.SetFocus
+    Else
+         For I = 0 To 4
+            If txtSearchBar(I).Text <> "" Then
+                txtSearchBar(I).SetFocus
+                Exit For
+            End If
+        Next
+    End If
+    
     Err.Clear
 End Sub
 
@@ -410,9 +423,17 @@ Private Sub Form_Activate()
         DoEvents
         CargaDatos "", False
         wndReportControl.Populate
-        
+         HacerPrimeravez
     End If
 End Sub
+
+
+Private Sub HacerPrimeravez()
+    On Error Resume Next
+    txtSearchBar(1).SetFocus
+    Err.Clear
+End Sub
+
 
 Private Sub Form_Load()
     PrimeraVez = True
@@ -495,9 +516,9 @@ Private Sub SituaBusquedas()
     J = 1100
     For I = 0 To 4
         Me.txtSearchBar(I).Left = J + (6 * I)
-        k = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
-        txtSearchBar(I).Width = k - 60
-        J = J + k
+        K = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
+        txtSearchBar(I).Width = K - 60
+        J = J + K
         
         'Me.txtSearchBar(I).Text = I
     Next
@@ -548,6 +569,7 @@ Public Sub CreateReportControl()
     
     
     Set Column = wndReportControl.Columns.Add(4, "ID", 30, True)
+    Column.Alignment = xtpAlignmentRight
     
     Set Column = wndReportControl.Columns.Add(5, "Nombre", 200, True)
     Set Column = wndReportControl.Columns.Add(6, "DNI", 60, True)
@@ -596,12 +618,16 @@ End Sub
 
 
 'Cuando modifiquemos o insertemos, pondremos el SQL entero
-Public Sub CargaDatos(ByVal Sql As String, EsTodoSQL As Boolean)
+Public Sub CargaDatos(ByVal SQL As String, EsTodoSQL As Boolean)
 Dim Aux  As String
 Dim Inicial As Integer
 Dim N As Integer
 Dim V As Boolean
 Dim T1 As Single
+
+
+
+    On Error GoTo eCargaDatos
 
     Screen.MousePointer = vbHourglass
     statusBar.Panels(1).Text = "Leyendo BD"
@@ -616,45 +642,62 @@ Dim T1 As Single
     If EsTodoSQL Then
         Stop
     Else
-        If Sql <> "" Then Sql = " WHERE " & Sql
+        If SQL <> "" Then SQL = " WHERE " & SQL
             
-        Sql = " FROM clientes" & Sql
-        Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio " & Sql
+        SQL = " FROM clientes" & SQL
+        SQL = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio " & SQL
         
-        Sql = Sql & " ORDER BY codclien"
+        SQL = SQL & " ORDER BY codclien"
     End If
     
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Inicial = 0
     Clientes = ""
     T1 = Timer
     While Not miRsAux.EOF
         AddRecord2
-        Clientes = Clientes & ", " & miRsAux!codclien
+        Clientes = Clientes & ", " & miRsAux!CodClien
         N = N + 1
-        If N > 15 Then
+        If N > 40 Then
+            SQL = "1"
+            
             If Timer - T1 > 0.75 Then
                 V = Not V
                 Label V
                 T1 = Timer
             End If
             wndReportControl.Populate
-            PonerIconosRs Inicial, Me.wndReportControl.Rows.Count - 1
+            
+            Label1.Caption = "Carga iconos"
+            Label1.Refresh
         
+            
+            PonerIconosRs Inicial, Me.wndReportControl.Rows.Count - 1
+                    
+            
+            SQL = "2"
             'Haremos ahora el poplate
             wndReportControl.Populate
             
             'Movemos variables
+            SQL = "3  " & Inicial + N
             Inicial = Inicial + N - 1
             Clientes = ""
             N = 0
+            
+            SQL = "4  " & Inicial
+            
         End If
         miRsAux.MoveNext
     Wend
     miRsAux.Close
         
+    SQL = "N>0"
     If N > 0 Then
         wndReportControl.Populate
+        
+        
+        SQL = "Iconos last"
         PonerIconosRs Inicial, Me.wndReportControl.Rows.Count - 1
     
         'Haremos ahora el poplate
@@ -666,8 +709,17 @@ Dim T1 As Single
         N = 0
     End If
     
+    
+    SQL = "Tool butt"
     Me.Toolbar1.Buttons(2).Enabled = wndReportControl.Records.Count > 0
     Me.Toolbar1.Buttons(3).Enabled = wndReportControl.Records.Count > 0
+    
+    
+    
+eCargaDatos:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, SQL
+    
+    
     
     statusBar.Panels(1).Text = ""
     Label1.Caption = ""
@@ -679,6 +731,9 @@ Private Sub PonerIconosRs(Inicial As Integer, Final As Integer)
 Dim RN As ADODB.Recordset
 Dim Cad As String
 Dim C As Integer
+Dim I As Integer
+
+    On Error GoTo ePonerIconosRs
 
     Clientes = Mid(Clientes, 2)
     Set RN = New ADODB.Recordset
@@ -702,6 +757,9 @@ Dim C As Integer
         End If
         RN.Close
     Next
+    
+ePonerIconosRs:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
     Set RN = Nothing
 End Sub
 
@@ -713,6 +771,10 @@ Private Sub AddRecord2()
 Dim Record As ReportRecord
 Dim Socio As Boolean
 Dim OtroIcono As Boolean
+
+
+    On Error GoTo eAddRecord2
+
     'Adds a new Record to the ReportControl's collection of records, this record will
     'automatically be attached to a row and displayed with the Populate method
     Set Record = wndReportControl.Records.Add()
@@ -722,6 +784,7 @@ Dim OtroIcono As Boolean
     Set Item = Record.AddItem("")
     Socio = miRsAux!esSocio
     Item.SortPriority = IIf(Socio, 1, 0)
+
     Item.Icon = IIf(Socio, RECORD_UNREAD_MAIL_ICON, -1)
        
     'Cuota
@@ -744,16 +807,23 @@ Dim OtroIcono As Boolean
     
     
     ' '  codclien,nomclien,nifclien,matricula,licencia,essocio "
-    Record.AddItem CStr(miRsAux!codclien)
+    Set Item = Record.AddItem(CStr(miRsAux!CodClien))
+    Item.Value = CLng(miRsAux!CodClien)
     Record.AddItem DBLet(miRsAux!NomClien, "T")
     Record.AddItem CStr(miRsAux!NIFClien)
     Record.AddItem CStr(DBLet(miRsAux!Matricula, "T"))
-    Record.AddItem CStr(DBLet(miRsAux!licencia, "T"))
-
+    
+    Set Item = Record.AddItem(DBLet(miRsAux!licencia, "T"))
+    Item.Value = CLng(DBLet(miRsAux!licencia, "N"))
     
     
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
-    Record.PreviewText = "ID: " & miRsAux!codclien
+    Record.PreviewText = "ID: " & miRsAux!CodClien
+    
+    
+    
+    
+eAddRecord2:
     
 End Sub
 
@@ -899,7 +969,9 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
         For I = 0 To 4
             txtSearchBar(I).Text = ""
         Next
-    Case 8
+        CargaDatos "", False
+    Case 100
+        'Aqui no entra. Es como imprmiriamos el wndrptcontrol
             wndReportControl.PrintPreviewOptions.Title = "Clientes"
             wndReportControl.PrintOptions.Header.Font.Bold = False
             wndReportControl.PrintOptions.Header.Font.SIZE = 24
@@ -913,7 +985,7 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
             wndReportControl.PrintPreview True
     
     
-    Case 9
+    Case 8
         frmClientesList.Show vbModal
     End Select
 End Sub
@@ -996,9 +1068,9 @@ End Sub
 
 Private Sub AbrirCliente(ByVal Row As XtremeReportControl.IReportRow)
 Dim Leer As Boolean
-Dim Sql As String
+Dim SQL As String
     
-    
+    Screen.MousePointer = vbHourglass
     If Row Is Nothing Then
         CadenaDesdeOtroForm = ""
         frmCliente.IdCliente = -1
@@ -1019,9 +1091,10 @@ Dim Sql As String
     If Not Leer Then Exit Sub
     
     Set miRsAux = New ADODB.Recordset
-    Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio "
-    Sql = Sql & " FROM clientes  where codclien=" & CadenaDesdeOtroForm
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Screen.MousePointer = vbHourglass
+    SQL = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio "
+    SQL = SQL & " FROM clientes  where codclien=" & CadenaDesdeOtroForm
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not miRsAux.EOF Then
         
         If Row Is Nothing Then
@@ -1042,5 +1115,6 @@ Dim Sql As String
     End If
     miRsAux.Close
     Set miRsAux = Nothing
+    Screen.MousePointer = vbDefault
 End Sub
 

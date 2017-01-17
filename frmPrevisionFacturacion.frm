@@ -2,12 +2,12 @@ VERSION 5.00
 Object = "{7CAC59E5-B703-4CCF-B326-8B956D962F27}#17.2#0"; "Codejock.ReportControl.v17.2.0.ocx"
 Begin VB.Form frmPrevisionFacturacion 
    Caption         =   "Facturas periodicas"
-   ClientHeight    =   11040
+   ClientHeight    =   10950
    ClientLeft      =   120
    ClientTop       =   450
    ClientWidth     =   16425
    LinkTopic       =   "Form1"
-   ScaleHeight     =   11040
+   ScaleHeight     =   10950
    ScaleWidth      =   16425
    StartUpPosition =   2  'CenterScreen
    Begin XtremeReportControl.ReportControl wndReportControl 
@@ -477,8 +477,8 @@ Dim Aux As String
 
       
     Record.AddItem ("")
-    Set Item = Record.AddItem(CStr(miRsAux!codclien))
-    Item.Value = Val(miRsAux!codclien)
+    Set Item = Record.AddItem(CStr(miRsAux!CodClien))
+    Item.Value = Val(miRsAux!CodClien)
     
     Record.AddItem CStr(miRsAux!NomClien)
     Record.AddItem CStr(miRsAux!codconce)
@@ -632,11 +632,30 @@ Dim F2 As Date
     
     
     'Ultima comprobacion. Cuenta banco en contabilidad
-    ctacontabanco = vParam.BancoPropioFacturacionContabilidad()
+    ctacontabanco = vParam.CtaBanco
     If ctacontabanco = "" Then
         MsgBox "No existe cuenta banco en contabilidad", vbExclamation
         Exit Sub
     End If
+    
+    
+    
+    
+    
+    'Abrimos pantalla para confimar fecha y ampliacion
+    CadenaDesdeOtroForm = ""
+    frmMensajes.Opcion = 2
+    frmMensajes.Parametros = Me.Text1(1).Text
+    frmMensajes.Show vbModal
+    If CadenaDesdeOtroForm = "" Then Exit Sub
+    
+    
+    
+    
+    
+    
+    
+    
     
     'Todo ha ido bien
     'Facturamos a inicio facturacion
@@ -883,6 +902,7 @@ Dim EsUNaCuota As Boolean
     
     
     
+    
    
     
     
@@ -908,7 +928,7 @@ Dim EsUNaCuota As Boolean
     Cad = Cad & "`observa`,`totbases`,`totbasesret`,`totivas`,`totrecargo`,`totfaccl`,`retfaccl`,`trefaccl`,"
     Cad = Cad & "`cuereten`,`tiporeten`,`intconta`,`usuario`,`fecha`) values ("
     Cad = Cad & DBSet(rsContador!serfactur, "T") & "," & rsContador!NumFactu + 1 & "," & DBSet(Me.Text1(1).Text, "F") & ","
-    Cad = Cad & wndReportControl.Rows(I).Record(2).Caption & "," & miRsAux!codforpa & ",NULL,NULL,"
+    Cad = Cad & wndReportControl.Rows(I).Record(2).Caption & "," & miRsAux!Codforpa & ",NULL,NULL,"
     
     'Amoliacion
     Cad = Cad & DBSet(RecuperaValor(AmpliacionesFacturacion, 1), "T") & ","
@@ -973,7 +993,7 @@ Dim EsUNaCuota As Boolean
     If rsContador!serfactur = "ASO" Or rsContador!serfactur = "CUO" Then EsUNaCuota = True
     
     
-    If Not InsertarEnTesoreria(EsUNaCuota, miRsAux, ctacontabanco, "", Msg) Then Err.Raise 513, Msg, Msg
+    If Not InsertarEnTesoreria(EsUNaCuota, miRsAux, ctacontabanco, "", Msg, 0) Then Err.Raise 513, Msg, Msg
     
     
     

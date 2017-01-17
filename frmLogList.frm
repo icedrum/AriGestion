@@ -639,7 +639,7 @@ Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
 
-Private SQL As String
+Private Sql As String
 Dim Cad As String
 Dim RC As String
 Dim I As Integer
@@ -866,25 +866,25 @@ End Sub
 
 Private Sub PushButton2_Click(Index As Integer)
     'FILTROS
-    If Index = 0 Then
-        frmppal.cd1.Filter = "*.csv|*.csv"
-         
-    Else
-        frmppal.cd1.Filter = "*.pdf|*.pdf"
-    End If
-    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmppal.cd1.FilterIndex = 1
-    frmppal.cd1.ShowSave
-    If frmppal.cd1.FileTitle <> "" Then
-        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
-            If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
-        End If
-        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
-    End If
+'    If Index = 0 Then
+'        frmppal.cd1.Filter = "*.csv|*.csv"
+'
+'    Else
+'        frmppal.cd1.Filter = "*.pdf|*.pdf"
+'    End If
+'    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+'    frmppal.cd1.FilterIndex = 1
+'    frmppal.cd1.ShowSave
+'    If frmppal.cd1.FileTitle <> "" Then
+'        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
+'            If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+'        End If
+'        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
+'    End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmppal.cd1.ShowPrinter
+  '  frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 
@@ -905,18 +905,18 @@ Dim Sql2 As String
 
     'Monto el SQL
     If Me.optLog(0) Then
-        SQL = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
-        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
-        SQL = SQL & " where codusu = " & vUsu.Codigo
-        SQL = SQL & " order by 1,2,3,4"
+        Sql = "Select  `tmppendientes`.`nomforpa` Fecha, `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`Situacion` Accion, `tmppendientes`.`observa` Detalle"
+        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
+        Sql = Sql & " where codusu = " & vUsu.Codigo
+        Sql = Sql & " order by 1,2,3,4"
     Else
-        SQL = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
-        SQL = SQL & "  FROM  `tmppendientes` `tmppendientes`"
-        SQL = SQL & " where codusu = " & vUsu.Codigo
-        SQL = SQL & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
+        Sql = "Select  `tmppendientes`.`nombre` Trabajador, `tmppendientes`.`nomforpa` Fecha,`tmppendientes`.`Situacion` Accion,  `tmppendientes`.`observa` Detalle"
+        Sql = Sql & "  FROM  `tmppendientes` `tmppendientes`"
+        Sql = Sql & " where codusu = " & vUsu.Codigo
+        Sql = Sql & " order by `tmppendientes`.`nombre`, `tmppendientes`.`nomforpa` "
     End If
     'LLamos a la funcion
-    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
+    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
     
 End Sub
 
@@ -969,7 +969,7 @@ End Sub
 
 
 Private Function MontaSQL() As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim Sql2 As String
 Dim RC As String
 Dim RC2 As String

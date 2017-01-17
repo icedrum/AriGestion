@@ -44,7 +44,7 @@ Begin VB.Form frmInbox
       ShowCaptionBar  =   -1  'True
    End
    Begin VB.Frame FrameBorder 
-      BackColor       =   &H000F0200&
+      BackColor       =   &H00FFFFFF&
       BorderStyle     =   0  'None
       Caption         =   "Frame1"
       Height          =   6135

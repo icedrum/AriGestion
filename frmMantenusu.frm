@@ -1522,13 +1522,13 @@ Dim Itm As ListItem
         Set Itm = ListView1.ListItems.Add
         Itm.Text = miRsAux!codusu
         Itm.SubItems(1) = miRsAux!Login
-        If miRsAux!nivelusu = 0 Then
+        If miRsAux!nivelariges = 0 Then
             Itm.SmallIcon = 4
         Else
             Itm.SmallIcon = 5
         End If
         'Nombre y nivel de usuario
-        Sql = miRsAux!nivelusu & "|" & miRsAux!nomusu & "|"
+        Sql = miRsAux!nivelariges & "|" & miRsAux!nomusu & "|"
         Itm.Tag = Sql
         'Sig
         miRsAux.MoveNext
@@ -1673,7 +1673,7 @@ Dim AsignarDatos As Boolean
             miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             If Not miRsAux.EOF Then
                 'Tiene nivel usu
-                If miRsAux!nivelusu > 0 Then
+                If miRsAux!nivelariges > 0 Then
                     MsgBox "El usuario ya existe para la contabilidad", vbExclamation
                     LimpiarCamposUsuario
                     Text2(0).SetFocus
@@ -1965,27 +1965,27 @@ End Sub
 
 Private Sub CargaCombo6(Usuario As Integer)
 Dim Sql As String
-Dim Rs As ADODB.Recordset
+Dim RS As ADODB.Recordset
 
     'skin
     Combo6.Clear
     
-    Sql = "select codusu, login from usuarios.usuarios where codusu <> " & DBSet(Usuario, "N") & " and login <> 'root' and nivelusu > -1 order by 1"
+    Sql = "select codusu, login from usuarios.usuarios where codusu <> " & DBSet(Usuario, "N") & " and login <> 'root' and nivelariges > -1 order by 1"
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     Combo6.AddItem "Ninguno"
     Combo6.ItemData(Combo6.NewIndex) = 0
     
-    While Not Rs.EOF
-        Combo6.AddItem Rs.Fields(1).Value
-        Combo6.ItemData(Combo6.NewIndex) = Rs.Fields(0).Value
+    While Not RS.EOF
+        Combo6.AddItem RS.Fields(1).Value
+        Combo6.ItemData(Combo6.NewIndex) = RS.Fields(0).Value
         
-        Rs.MoveNext
+        RS.MoveNext
     Wend
     
-    Set Rs = Nothing
+    Set RS = Nothing
     
 End Sub
 

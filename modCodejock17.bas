@@ -861,6 +861,7 @@ Public Const ID_Parámetros = 102
 Public Const ID_Contadores = 103
 Public Const ID_Usuarios = 104
 Public Const ID_Informes = 105
+Public Const ID_AccionesRealizadas = 106
 Public Const ID_Clientes = 201
 Public Const ID_ConceptosFacturas = 202
 Public Const ID_Expedientes = 301

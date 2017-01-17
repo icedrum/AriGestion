@@ -15,44 +15,24 @@ Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 
+Private Const AccionesRegistradas = 8
 'ACCIONES DISPONIBLES
 '
-'
-'
-'       1.- Modificar asiento
-'       2.- Eliminar asiento
-'       3.- Modificar Linea de asiento
-'       4.- Eliminar Linea de asiento
+'   1- Modificar factura
+'   2- Borrar factura
+'   3- Modificar linea fra
+'   4- Eliminar linea fra
 
-'       5,6,7,8      FRACLI
-'       9,10,11,12   FRAPRO
+'   5. Insertar caja desde exp
+'   6- Modificar caja
+'   7.- Eliminar caja
 
-'       13.- Generar amortizacion
-'       14.- Deshacer amortizacion
+'   8.- Expediente. Borrar cobro a cuenta
 
-'       15.- Liquidacion de IVA
-'       16.- Deshacer Liquidacion
-
-'       17.- proceso cierre [RENUMERAR]
-'       18.- proceso cierre [CIERRE]
-'       19.- proceso cierre [DESHACER]
-
-'       20.- Traspaso de cuentas en apuntes"
-'       21.- Renumerar registro Proveedor
-'       22.- Aumentar dígitos contables
-
-'       23.- Eliminar cobros
-'       24.- Eliminar pagos
-
-'       25.- Modificacion de contadores
-
-'       26.- Compensaciones
-'       27.- Eliminar remesa y vtos
-
-Private Const AccionesRegistradas = 28
 Private mvarDatosDescripcion As String
-
-Dim Sql As String
+Private mvarDatosAntes As String   'Para grabar cosas antes y desp
+Private mvarDatosDespues As String   'Para grabar cosas antes y desp
+Dim SQL As String
 
 
 Public Property Let DatosDescripcion(ByVal vData As String)
@@ -69,6 +49,30 @@ Public Property Get DatosDescripcion() As String
 End Property
 
 
+'--------------------------------------------------------------------------
+'--------------------------------------------------------------------------
+'--------------------------------------------------------------------------
+'  Servira para tener dos variables globarles.
+' Cargaremos los valores que habian antes (suceptibles de ser logeados, y los cargaremos despues.
+' Si hay diferencia, grabo log
+Public Property Let DatosAntes(ByVal vData As String)
+    mvarDatosAntes = vData
+End Property
+Public Property Get DatosAntes() As String
+    DatosAntes = mvarDatosAntes
+End Property
+Public Property Let DatosDespues(ByVal vData As String)
+    mvarDatosDespues = vData
+End Property
+Public Property Get DatosDespues() As String
+    DatosDespues = mvarDatosDespues
+End Property
+
+
+
+
+
+
 
 Public Function Insertar(Accion As Byte, ByRef ElUsuario As Usuario, Descripcion As String) As Boolean
 
@@ -76,15 +80,15 @@ Public Function Insertar(Accion As Byte, ByRef ElUsuario As Usuario, Descripcion
     On Error GoTo EI
     Insertar = False
     
-    Sql = "insert into `acciones` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
-    Sql = Sql & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
-    Sql = Sql & DevNombreSQL(ElUsuario.PC) & "',"
+    SQL = "insert into `acciones` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
+    SQL = SQL & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
+    SQL = SQL & DevNombreSQL(ElUsuario.PC) & "',"
     If Descripcion = "" Then
-        Sql = Sql & "NULL)"
+        SQL = SQL & "NULL)"
     Else
-        Sql = Sql & DBSet(Descripcion, "T") & ")"
+        SQL = SQL & DBSet(Descripcion, "T") & ")"
     End If
-    Conn.Execute Sql
+    Conn.Execute SQL
     
     
     Insertar = True
@@ -95,67 +99,32 @@ EI:
 End Function
 
 Private Function DimeAccion(N As Integer) As String
-Dim H As Integer
 Dim C As String
 
-    If N <= 12 Then
-        'las 9 primeras son mantenimientos basicos
-        H = N Mod 2
-        If H = 1 Then
-            C = "Modificar"
-        ElseIf H = 0 Then
-            C = "Eliminar"
-        End If
+
+    C = ""
+    Select Case N
+    Case 1
+        C = "Modificar factura"
+    Case 1
+        C = "Borrar factura"
+    Case 3
+        C = "Modificar linea factura"
+    Case 4
+        C = "Eliminar linea factura"
         
-        If ((N - 1) Mod 4) >= 2 Then
-            C = C & " Línea"
-        End If
-        
-        H = (N - 1) \ 4
-        If H = 0 Then
-            C = C & " Asiento"
-        ElseIf H = 1 Then
-            C = C & " Factura Cliente"
-        Else
-            C = C & " Factura Proveedor"
-        End If
-            
-    Else
-        'Aqui iran yendo resto acciones
-        Select Case N
-            Case 13
-                C = "Generar Amortización"
-            Case 14
-                C = "Deshacer Amortización"
-            Case 15
-                C = "Liquidación IVA"
-            Case 16
-                C = "Eliminar Liquidacion"
-            Case 17
-                C = "Proceso Cierre [RENUMERAR]"
-            Case 18
-                C = "Proceso Cierre [CIERRE]"
-            Case 19
-                C = "Proceso Cierre [DESHACER]"
-            Case 20
-                C = "Traspaso de cuentas en apuntes"
-            Case 21
-                C = "Renumerar registro Proveedor"
-            Case 22
-                C = "Aumentar dígitos contables"
-            Case 23
-                C = "Eliminar cobros"
-            Case 24
-                C = "Eliminar pagos"
-            Case 25
-                C = "Modificacion de contadores"
-            Case 26
-                C = "Compensaciones"
-            Case 27
-                C = "Eliminar remesa y vtos"
-        End Select
-        
-    End If
+    Case 5
+        C = "Insertar en caja"
+    Case 6
+        C = "Modificar caja"
+    Case 7
+        C = "Eliminar en caja"
+    Case 8
+        C = "Exp. eliminar pago"
+    Case 9
+        C = "Quitar gestion stock"
+    
+    End Select
     DimeAccion = C
 End Function
 
@@ -165,8 +134,8 @@ Dim I As Integer
 
  On Error GoTo EDevuelveAcciones
     For I = 1 To AccionesRegistradas
-        Sql = I & "|" & DimeAccion(I) & "|"
-        ListaAcciones.Add Sql
+        SQL = I & "|" & DimeAccion(I) & "|"
+        ListaAcciones.Add SQL
     Next I
     
     DevuelveAcciones = True
@@ -205,9 +174,9 @@ Dim Rs As ADODB.Recordset
     F = DateAdd("d", -1, F)
     
     
-    Sql = "Select * from acciones where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
-    Sql = "INSERT INTO acciones_old " & Sql
-    Conn.Execute Sql
+    SQL = "Select * from acciones where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
+    SQL = "INSERT INTO acciones_old " & SQL
+    Conn.Execute SQL
     Conn.Execute "DELETE from acciones where fecha <'" & Format(F, "yyyy-mm-dd") & "'"
         
     
@@ -217,9 +186,9 @@ Dim Rs As ADODB.Recordset
     
     Exit Sub
 EVolcar:
-    Sql = "Error volcado datos acciones: " & vbCrLf & Err.Description
-    Sql = Sql & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
-    MsgBox Sql, vbExclamation
+    SQL = "Error volcado datos acciones: " & vbCrLf & Err.Description
+    SQL = SQL & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
+    MsgBox SQL, vbExclamation
     Err.Clear
     Set Rs = Nothing
 End Sub

@@ -539,8 +539,6 @@ Option Explicit
 ' ***********************************************************************************************************
 ' ***********************************************************************************************************
 
-Private WithEvents frmCl As frmBasico
-Attribute frmCl.VB_VarHelpID = -1
 Dim PrimeraVez As String
 
 
@@ -593,25 +591,20 @@ Dim cerrar As Boolean
     If cerrar Then Unload Me
 End Sub
 
-Private Sub frmCl_DatoSeleccionado(CadenaSeleccion As String)
-    txtCliente(0).Tag = CadenaSeleccion
-End Sub
 
 Private Sub imgCli_Click(Index As Integer)
-    Set frmCl = New frmBasico '
-    txtCliente(0).Tag = ""
-    AyudaClientesBasico frmCl
-    If txtCliente(0).Tag <> "" Then
-        txtCliente(Index).Text = RecuperaValor(txtCliente(0).Tag, 1)
-        txtDescCliente(Index).Text = RecuperaValor(txtCliente(0).Tag, 2)
-        txtCliente(0).Tag = ""
+    CadenaDesdeOtroForm = ""
+    frmcolClientesBusqueda.Show vbModal
+    If CadenaDesdeOtroForm <> "" Then
+        txtCliente(Index).Text = CadenaDesdeOtroForm
+        txtCliente_LostFocus Index
         If Index = 0 Then
             PonFoco txtCliente(1)
         Else
             PonerFocoCmb Combo1
         End If
     End If
-    Set frmCl = Nothing
+
 End Sub
 
 Private Sub optTipoSal_Click(Index As Integer)
@@ -620,26 +613,26 @@ End Sub
 
 
 Private Sub PushButton2_Click(Index As Integer)
-    'FILTROS
-    If Index = 0 Then
-        frmppal.cd1.Filter = "*.csv|*.csv"
-         
-    Else
-        frmppal.cd1.Filter = "*.pdf|*.pdf"
-    End If
-    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
-    frmppal.cd1.FilterIndex = 1
-    frmppal.cd1.ShowSave
-    If frmppal.cd1.FileTitle <> "" Then
-        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
-            If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
-        End If
-        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
-    End If
+'    'FILTROS
+'    If Index = 0 Then
+'        frmppal.cd1.Filter = "*.csv|*.csv"
+'
+'    Else
+'        frmppal.cd1.Filter = "*.pdf|*.pdf"
+'    End If
+'    frmppal.cd1.InitDir = App.Path & "\Exportar" 'PathSalida
+'    frmppal.cd1.FilterIndex = 1
+'    frmppal.cd1.ShowSave
+'    If frmppal.cd1.FileTitle <> "" Then
+'        If Dir(frmppal.cd1.FileName, vbArchive) <> "" Then
+'            If MsgBox("El archivo ya existe. Reemplazar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+'        End If
+'        txtTipoSalida(Index + 1).Text = frmppal.cd1.FileName
+'    End If
 End Sub
 
 Private Sub PushButtonImpr_Click()
-    frmppal.cd1.ShowPrinter
+ '   frmppal.cd1.ShowPrinter
     PonerDatosPorDefectoImpresion Me, True
 End Sub
 

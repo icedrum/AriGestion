@@ -37,7 +37,7 @@ Public Declare Function LoadLibraryEx Lib "kernel32" Alias "LoadLibraryExA" (ByV
 Public Const DONT_RESOLVE_DLL_REFERENCES = &H1
 Public Const LOAD_LIBRARY_AS_DATAFILE = &H2
 Public Declare Function FreeLibrary Lib "kernel32" (ByVal hLibModule As Long) As Long
-Public Declare Function EnumResourceNames Lib "kernel32" Alias "EnumResourceNamesA" (ByVal ghmodule As Long, ByVal lpType As ResType, ByVal lpEnumFunc As Long, ByVal Lparam As Long) As Long
+Public Declare Function EnumResourceNames Lib "kernel32" Alias "EnumResourceNamesA" (ByVal ghmodule As Long, ByVal lpType As ResType, ByVal lpEnumFunc As Long, ByVal lParam As Long) As Long
 'String management
 Public Declare Function StrLen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As Long) As Long
 Public Declare Function StrCpy Lib "kernel32" Alias "lstrcpyA" (ByVal lpString1 As String, ByVal lpString2 As Long) As Long
@@ -258,7 +258,7 @@ Public Function GetDataArray(ByVal ResType As String, ByVal ResName As String, B
 
 End Function
 
-Public Function EnumResNameProc(ByVal ghmodule As Long, ByVal lpszType As ResType, ByVal lpszName As Long, ByVal Lparam As Long) As Long
+Public Function EnumResNameProc(ByVal ghmodule As Long, ByVal lpszType As ResType, ByVal lpszName As Long, ByVal lParam As Long) As Long
     Dim sNumber As String, IsNum As Boolean
     
     If (lpszName > &HFFFF&) Or (lpszName < 0) Then
@@ -350,24 +350,24 @@ Public Sub LoadIconRes(ByVal sResType As ResType, ByVal sResNumber As String, By
 
     
             If opcio = 1 Then
-                frmPpal.ImageList1.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+              '  frmppal.ImageList1.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 2 Then
-                frmPpal.imgListComun.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.ImgListComun.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             '++
             ElseIf opcio = 3 Then
-                frmPpal.imgListComun_BN.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.imgListComun_BN.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 4 Then
-                frmPpal.imgListComun_OM.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.imgListComun_OM.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 5 Then
-                frmPpal.imgListComun16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.imgListComun16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 6 Then
-                frmPpal.imgListComun_BN16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.imgListComun_BN16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 7 Then
-                frmPpal.imgListComun_OM16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.imgListComun_OM16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 8 Then
-                frmPpal.ImageListPPal48.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.ImageListPPal48.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             ElseIf opcio = 9 Then
-                frmPpal.ImageListPpal16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
+                frmppal.ImageListPpal16.ListImages.Add , sResName & " " & CStr(arrSize) & " " & W & "x" & H, hPicture
             '++
             End If
     End If

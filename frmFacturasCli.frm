@@ -19,10 +19,46 @@ Begin VB.Form frmFacturasCli
    Begin VB.Frame Frame2 
       Height          =   4050
       Index           =   0
-      Left            =   270
+      Left            =   240
       TabIndex        =   70
-      Top             =   870
+      Top             =   840
       Width           =   17160
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   15
+         Left            =   11160
+         TabIndex        =   90
+         Tag             =   "T|T|S|||factcli|usuario|||"
+         Top             =   570
+         Width           =   1350
+      End
+      Begin VB.TextBox Text1 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   360
+         Index           =   14
+         Left            =   9600
+         TabIndex        =   89
+         Tag             =   "Exp|F|S|||factcli|fecexped|||"
+         Top             =   600
+         Width           =   1350
+      End
       Begin VB.CheckBox chkContab 
          Caption         =   "Contabilizada"
          BeginProperty Font 
@@ -36,10 +72,10 @@ Begin VB.Form frmFacturasCli
          EndProperty
          Height          =   270
          Index           =   0
-         Left            =   9720
+         Left            =   12840
          TabIndex        =   88
          Tag             =   "Inc|N|N|0||factcli|intconta|||"
-         Top             =   600
+         Top             =   720
          Width           =   1785
       End
       Begin VB.TextBox Text1 
@@ -56,7 +92,7 @@ Begin VB.Form frmFacturasCli
          Height          =   360
          Index           =   5
          Left            =   7950
-         TabIndex        =   4
+         TabIndex        =   3
          Tag             =   "Forma de pago|N|N|||factcli|codforpa|000||"
          Text            =   "1234567890"
          Top             =   1260
@@ -76,7 +112,7 @@ Begin VB.Form frmFacturasCli
          Height          =   360
          Index           =   4
          Left            =   210
-         TabIndex        =   3
+         TabIndex        =   2
          Tag             =   "Cliente|N|N|||factcli|codclien|0000||"
          Text            =   "1234567890"
          Top             =   1260
@@ -96,7 +132,7 @@ Begin VB.Form frmFacturasCli
          Index           =   1
          Left            =   5160
          MaxLength       =   30
-         TabIndex        =   1
+         TabIndex        =   0
          Tag             =   "Fecha|F|N|||factcli|fecfactu|dd/mm/yyyy|N|"
          Top             =   570
          Width           =   1275
@@ -116,7 +152,7 @@ Begin VB.Form frmFacturasCli
          Height          =   360
          Index           =   0
          Left            =   6645
-         TabIndex        =   2
+         TabIndex        =   1
          Tag             =   "Nº factura|N|S|0||factcli|numfactu|0000000|S|"
          Top             =   570
          Width           =   1395
@@ -136,7 +172,7 @@ Begin VB.Form frmFacturasCli
          Index           =   2
          Left            =   240
          MaxLength       =   3
-         TabIndex        =   0
+         TabIndex        =   14
          Tag             =   "Serie|T|N|||factcli|numserie||S|"
          Text            =   "123"
          Top             =   570
@@ -237,7 +273,7 @@ Begin VB.Form frmFacturasCli
          Left            =   9660
          List            =   "frmFacturasCli.frx":0002
          Style           =   2  'Dropdown List
-         TabIndex        =   5
+         TabIndex        =   4
          Tag             =   "Tipo retencion|N|N|||factcli|tiporeten|||"
          Top             =   2310
          Width           =   4560
@@ -275,7 +311,7 @@ Begin VB.Form frmFacturasCli
          Height          =   360
          Index           =   6
          Left            =   9690
-         TabIndex        =   7
+         TabIndex        =   6
          Tag             =   "Cuenta Retencion|T|S|||factcli|cuereten|||"
          Text            =   "1234567890"
          Top             =   3270
@@ -295,7 +331,7 @@ Begin VB.Form frmFacturasCli
          Height          =   360
          Index           =   7
          Left            =   14700
-         TabIndex        =   6
+         TabIndex        =   5
          Tag             =   "Porcentaje Retencion|N|S|||factcli|retfaccl|##0.00||"
          Text            =   "1234567890"
          Top             =   2280
@@ -315,14 +351,52 @@ Begin VB.Form frmFacturasCli
          Index           =   13
          Left            =   8160
          TabIndex        =   71
-         Tag             =   "Exp|F|S|||factcli|fecexped|||"
+         Tag             =   "Numero|N|S|||factcli|numexped|00000||"
          Top             =   570
          Width           =   1350
+      End
+      Begin VB.Label Label1 
+         Caption         =   "F.Exped."
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   240
+         Index           =   4
+         Left            =   9720
+         TabIndex        =   92
+         Top             =   270
+         Width           =   1455
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Usuario"
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   240
+         Index           =   3
+         Left            =   11160
+         TabIndex        =   91
+         Top             =   270
+         Width           =   870
       End
       Begin VB.Image imgppal 
          Height          =   240
          Index           =   6
-         Left            =   9120
+         Left            =   10680
          Top             =   240
          Visible         =   0   'False
          Width           =   240
@@ -508,7 +582,7 @@ Begin VB.Form frmFacturasCli
          Width           =   1365
       End
       Begin VB.Label Label1 
-         Caption         =   "Expedida"
+         Caption         =   "Expediente"
          BeginProperty Font 
             Name            =   "Verdana"
             Size            =   9.75
@@ -524,7 +598,7 @@ Begin VB.Form frmFacturasCli
          Left            =   8160
          TabIndex        =   77
          Top             =   270
-         Width           =   870
+         Width           =   1335
       End
       Begin VB.Image imgppal 
          Height          =   240
@@ -1341,7 +1415,7 @@ Begin VB.Form frmFacturasCli
          Index           =   13
          Left            =   6480
          MultiLine       =   -1  'True
-         TabIndex        =   10
+         TabIndex        =   9
          Tag             =   "A|T|S|||factcli_lineas|ampliaci|||"
          Text            =   "frmFacturasCli.frx":00D3
          Top             =   2160
@@ -1365,7 +1439,7 @@ Begin VB.Form frmFacturasCli
          Index           =   6
          Left            =   7920
          MaxLength       =   15
-         TabIndex        =   12
+         TabIndex        =   11
          Tag             =   "Importe|N|N|||factcli_lineas|precio|###,###,##0.00||"
          Text            =   "precio"
          Top             =   2160
@@ -1519,7 +1593,7 @@ Begin VB.Form frmFacturasCli
          Index           =   5
          Left            =   7320
          MaxLength       =   10
-         TabIndex        =   11
+         TabIndex        =   10
          Tag             =   "Cantidad|N|N|||factcli_lineas|cantidad|###,###,##0.00||"
          Text            =   "cantidad"
          Top             =   2160
@@ -1598,7 +1672,7 @@ Begin VB.Form frmFacturasCli
          Index           =   4
          Left            =   4050
          MaxLength       =   15
-         TabIndex        =   9
+         TabIndex        =   8
          Tag             =   "Cuenta|T|N|||factcli_lineas|codconce|||"
          Text            =   "clie"
          Top             =   2160
@@ -1665,7 +1739,7 @@ Begin VB.Form frmFacturasCli
          Height          =   350
          Index           =   0
          Left            =   105
-         TabIndex        =   8
+         TabIndex        =   7
          Tag             =   "Nº Serie|T|S|||factcli_lineas|numserie||S|"
          Text            =   "Serie"
          Top             =   2145
@@ -1900,7 +1974,7 @@ Begin VB.Form frmFacturasCli
       EndProperty
       Height          =   375
       Left            =   16380
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   10350
       Width           =   1035
    End
@@ -1917,7 +1991,7 @@ Begin VB.Form frmFacturasCli
       EndProperty
       Height          =   375
       Left            =   15090
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   10350
       Width           =   1035
    End
@@ -2083,7 +2157,8 @@ Private WithEvents frmFPag As frmBasico
 Attribute frmFPag.VB_VarHelpID = -1
 Private WithEvents frmVario As frmBasico
 Attribute frmVario.VB_VarHelpID = -1
-
+Private WithEvents frmCo As frmConceptos
+Attribute frmCo.VB_VarHelpID = -1
 
 Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
@@ -2182,6 +2257,7 @@ Dim TipForpa As Integer
 Dim AntLetraSer As String
 
 
+Dim ModificarCobrosEnTesoreria As String
 
 
 
@@ -2193,6 +2269,13 @@ End Sub
 
 
 
+
+Private Sub cboFiltro_KeyPress(KeyAscii As Integer)
+
+    If Modo = 2 Or Modo = 0 Then
+        If KeyAscii = 27 Then Unload Me
+    End If
+End Sub
 
 Private Sub chkContab_Click(Index As Integer)
     If Modo = 1 Then
@@ -2234,7 +2317,7 @@ Private Sub cmdAceptar_Click()
                     'Primera cosa a hacer
                     'ACutalizar contador
                     Cad = DevuelveDesdeBD("numfactu", "contadores", "serfactur", Text1(2).Text, "T")
-                    If Val(Cad) = Val(Text1(0).Text) Then
+                    If Val(Cad) + 1 = Val(Text1(0).Text) Then
                         'OKKK. hay que incrementar en uno la factura
                         Cad = "UPDATE contadores set numfactu=" & CLng(Cad) + 1
                         Cad = Cad & " WHERE serfactur = " & DBSet(Text1(2).Text, "T")
@@ -2261,7 +2344,7 @@ Private Sub cmdAceptar_Click()
                 I = 1
                 If Data1.Recordset!numserie = Text1(2).Text Then
                     If Data1.Recordset!NumFactu = CLng(Text1(0).Text) Then
-                        If Data1.Recordset!FecFactu = Text1(1).Text Then
+                        If Data1.Recordset!Fecfactu = Text1(1).Text Then
                             I = 0
                             'NO HA MODIFICADO NADA
                         End If
@@ -2274,6 +2357,8 @@ Private Sub cmdAceptar_Click()
                     MsgBox "No se puede cambiar campos clave  de la factura.", vbExclamation
                     RC = False
                 Else
+                    'Por si cambia cosas "importante"
+                    vLog.DatosAntes = ""
                     RC = ModificarFactura
                 End If
                     
@@ -2282,7 +2367,10 @@ Private Sub cmdAceptar_Click()
                     TerminaBloquear
                     
                     'LOG
-                    vLog.Insertar 5, vUsu, "Factura : " & Text1(2).Text & Text1(0).Text & " " & Text1(1).Text
+                    vLog.DatosDespues = ""
+                    If vLog.DatosAntes <> vLog.DatosDespues Then _
+                        vLog.Insertar 1, vUsu, "Factura : " & Text1(2).Text & Text1(0).Text & " " & Text1(1).Text
+                    
                     'Creo que no hace falta volver a situar el datagrid
                     'If SituarData1(0) Then
                     PosicionarData
@@ -2332,15 +2420,26 @@ End Function
 Private Sub cmdAux_Click(Index As Integer)
         
         If Index = 0 Then
-        
-        
+            
+            Set frmCo = New frmConceptos
+            CadenaConsulta = "2"
+            frmCo.DatosADevolverBusqueda = "0|1|3|"
+            frmCo.Show vbModal
+            Set frmCo = Nothing
+            If CadenaConsulta <> "" Then
+                txtaux(4).Text = RecuperaValor(CadenaConsulta, 1)
+                txtaux(6).Text = RecuperaValor(CadenaConsulta, 3)
+                txtAux_LostFocus 4
+                PonFoco txtaux(13)
+            End If
+
         
         
         Else
             'Observaciones
             If Modo <> 2 And Modo <> 5 Then Exit Sub
-            If txtAux(13).Visible Then
-                CadenaConsulta = txtAux(13).Text
+            If txtaux(13).Visible Then
+                CadenaConsulta = txtaux(13).Text
             Else
                 If Me.AdoAux(1).Recordset.EOF Then Exit Sub
                 CadenaConsulta = DBLet(Me.AdoAux(1).Recordset!ampliaci, "T")
@@ -2352,7 +2451,7 @@ Private Sub cmdAux_Click(Index As Integer)
             
             frmZ.pValor = CStr(CadenaConsulta)
             CadenaConsulta = ""
-            If txtAux(13).Visible Then
+            If txtaux(13).Visible Then
                 frmZ.pModo = 3
             Else
                 frmZ.pModo = Modo
@@ -2360,8 +2459,8 @@ Private Sub cmdAux_Click(Index As Integer)
             frmZ.Caption = "Ampliacion linea factura"
             frmZ.Show vbModal
             Set frmZ = Nothing
-            If txtAux(13).Visible Then
-                If CadenaConsulta <> "" Then txtAux(13).Text = CadenaConsulta
+            If txtaux(13).Visible Then
+                If CadenaConsulta <> "" Then txtaux(13).Text = CadenaConsulta
             End If
         
         
@@ -2385,17 +2484,26 @@ Private Sub Form_Activate()
         B = False
         If FACTURA <> "" Then
             B = True
-            Modo = 2
-            Sql = "Select * from factcli "
-            Sql = Sql & " WHERE numserie = " & DBSet(RecuperaValor(FACTURA, 1), "T")
-            Sql = Sql & " AND numfactu =" & RecuperaValor(FACTURA, 2)
-            Sql = Sql & " AND fecfactu= " & DBSet(RecuperaValor(FACTURA, 3), "F")
-            CadenaConsulta = Sql
-            PonerCadenaBusqueda
-            'BOTON lineas
             
-            cboFiltro.ListIndex = 0
             
+            If RecuperaValor(FACTURA, 1) = "-1" Then
+                'NUEVA FACTURA
+                BotonAnyadir
+                Me.Text1(4).Text = RecuperaValor(FACTURA, 2)
+                Text4(4).Text = RecuperaValor(FACTURA, 3)
+                Modo = 3
+            Else
+                Modo = 2
+                Sql = "Select * from factcli "
+                Sql = Sql & " WHERE numserie = " & DBSet(RecuperaValor(FACTURA, 1), "T")
+                Sql = Sql & " AND numfactu =" & RecuperaValor(FACTURA, 2)
+                Sql = Sql & " AND fecfactu= " & DBSet(RecuperaValor(FACTURA, 3), "F")
+                CadenaConsulta = Sql
+                PonerCadenaBusqueda
+                'BOTON lineas
+                
+                cboFiltro.ListIndex = 0
+            End If
         Else
             Modo = 0
             CadenaConsulta = "Select * from " & NombreTabla & " WHERE numserie is null"
@@ -2410,16 +2518,7 @@ Private Sub Form_Activate()
         
         PonerModo CInt(Modo)
 
-        If Modo <> 2 Then
-            
-            'ESTO LO HE CAMBIADO HOY 9 FEB 2006
-            'Antes no estaba el IF
-            If FACTURA <> "" Then
-                MsgBox "Proceso de sistema. Stop. Frm_Activate"
-            End If
-        Else
-
-        End If
+    
   
         Toolbar1.Enabled = True
         
@@ -2574,7 +2673,7 @@ Dim I As Integer
     PonerModoUsuarioGnral 0, "ariconta"
     
     'Maxima longitud cuentas
-    txtAux(5).MaxLength = vEmpresa.DigitosUltimoNivel
+    txtaux(5).MaxLength = vEmpresa.DigitosUltimoNivel
     PulsadoSalir = False
 
 End Sub
@@ -2667,12 +2766,16 @@ Dim B As Boolean
     
     B = Modo = 2 Or Modo = 0 Or Modo = 5
     
-    For I = 0 To Text1.Count - 1
+    For I = 0 To 12
         Text1(I).Locked = B
         If Modo <> 1 Then
             Text1(I).BackColor = vbWhite
         End If
     Next I
+    For I = 13 To 15
+         BloquearTxt Text1(I), Modo <> 1
+    Next
+    
     If Modo = 4 Then
         BloquearTxt Text1(0), True
         BloquearTxt Text1(1), True
@@ -2733,15 +2836,15 @@ Dim B As Boolean
         LLamaLineas 1, 3, anc
     End If
     
-    For I = 0 To txtAux.Count - 1
-        txtAux(I).BackColor = vbWhite
+    For I = 0 To txtaux.Count - 1
+        txtaux(I).BackColor = vbWhite
     Next I
     
     Frame4.Enabled = (Modo = 1)
     
     
     'txtaux(8).Enabled = (Modo = 1)
-    txtAux(9).Enabled = (Modo = 1)
+   ' txtaux(9).Enabled = (Modo = 1)
     
     
     ' ponemos en azul clarito
@@ -2869,6 +2972,10 @@ End Sub
 
 
 
+
+Private Sub frmCo_DatoSeleccionado(CadenaSeleccion As String)
+    CadenaConsulta = CadenaSeleccion
+End Sub
 
 Private Sub frmFPag_DatoSeleccionado(CadenaSeleccion As String)
     If CadenaSeleccion <> "" Then
@@ -3142,7 +3249,7 @@ Private Sub PonerCadenaBusqueda()
     Data1.Refresh
     
     If Data1.Recordset.RecordCount <= 0 Then
-        MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
+        If Not PrimeraVez Then MsgBox "No hay ningún registro en la tabla " & NombreTabla, vbInformation
         Screen.MousePointer = vbDefault
         Exit Sub
     Else
@@ -3192,9 +3299,10 @@ Private Sub BotonAnyadir()
     Text1(8).Text = "0,00"
     Text1(9).Text = "0,00"
     Text1(2).Text = "FDI"
+    Text1_LostFocus 2
+    Text1(15).Text = vUsu.Login
     
-    
-    PonFoco Text1(2)
+    PonFoco Text1(1)
     ' ***********************************************************
     
 End Sub
@@ -3206,7 +3314,7 @@ Private Sub BotonModificar()
     
     
 
-    If Not PuedeModificarFactura Then Exit Sub
+    If Not PuedeModificarFactura2 Then Exit Sub
 
 
     PonerModo 4
@@ -3232,7 +3340,7 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     
     
     
-    If Not PuedeModificarFactura Then Exit Sub
+    If Not PuedeModificarFactura2 Then Exit Sub
     
     
     DataGridAux(1).Enabled = False
@@ -3254,10 +3362,13 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     
    
     
-    Sql = Sql & vbCrLf & vbCrLf & "Va usted a eliminar la factura :" & vbCrLf
+    Sql = vbCrLf & vbCrLf & "Va usted a eliminar la factura :" & vbCrLf
     Sql = Sql & "Numero : " & Data1.Recordset!NumFactu & vbCrLf
-    Sql = Sql & "Fecha  : " & Data1.Recordset!FecFactu & vbCrLf
-    Sql = Sql & "Cliente : " & Me.Data1.Recordset!codclien & " - " & Text4(4).Text & vbCrLf
+    Sql = Sql & "Fecha  : " & Data1.Recordset!Fecfactu & vbCrLf
+    Sql = Sql & "Cliente : " & Me.Data1.Recordset!CodClien & " - " & Text4(4).Text & vbCrLf
+    
+    Sql = String(40, "*") & Sql & vbCrLf & String(40, "*") & vbCrLf
+    
     Sql = Sql & vbCrLf & "          ¿Desea continuar ?" & vbCrLf
     
     If Not EliminarDesdeActualizar Then
@@ -3271,14 +3382,14 @@ Private Sub BotonEliminar(EliminarDesdeActualizar As Boolean)
     Conn.BeginTrans
     
     I = Data1.Recordset!NumFactu
-    Fec = Data1.Recordset!FecFactu
+    Fec = Data1.Recordset!Fecfactu
     If BorrarFactura Then
         'LOG
         SqlLog = "Factura : " & CStr(DBLet(Data1.Recordset!numserie)) & Format(I, "000000") & " de fecha " & Fec
         SqlLog = SqlLog & vbCrLf & "Cliente : " & Text1(4).Text & " " & Text4(4).Text
         SqlLog = SqlLog & vbCrLf & "Importe : " & Text1(12).Text
         
-        vLog.Insertar 6, vUsu, SqlLog
+        vLog.Insertar 2, vUsu, SqlLog
     
        
         Conn.CommitTrans
@@ -3312,7 +3423,7 @@ Private Function BorrarFactura() As Boolean
     On Error GoTo EBorrar
     Sql = " WHERE numserie = '" & Data1.Recordset!numserie & "'"
     Sql = Sql & " AND numfactu = " & Data1.Recordset!NumFactu
-    Sql = Sql & " AND fecfactu= " & DBSet(Data1.Recordset!FecFactu, "F")
+    Sql = Sql & " AND fecfactu= " & DBSet(Data1.Recordset!Fecfactu, "F")
     'Las lineas
     AntiguoText1 = "DELETE from factcli_totales " & Sql
     Conn.Execute AntiguoText1
@@ -3321,6 +3432,13 @@ Private Function BorrarFactura() As Boolean
     'La factura
     AntiguoText1 = "DELETE from factcli " & Sql
     Conn.Execute AntiguoText1
+    
+    
+    'Los cobros
+    cadFormula = ObtenerWhereCab(True)
+    cadFormula = Replace(cadFormula, "factcli.", "factcli_vtos.")
+    Conn.Execute "DELETE from factcli_vtos " & cadFormula
+    
     
 EBorrar:
     If Err.Number = 0 Then
@@ -3349,8 +3467,8 @@ Dim CPostal As String, desProvi As String, desPais As String
         'If Not AdoAux(I).Recordset.EOF Then PonerCamposForma2 Me, AdoAux(I), 2, "FrameAux" & I
     Next I
     
-    imgppal(6).Enabled = (Text1(8).Text <> "")
-    imgppal(6).Visible = (Text1(8).Text <> "")
+    'imgppal(6).Enabled = (Text1(8).Text <> "")
+    'imgppal(6).Visible = (Text1(8).Text <> "")
         
     Text4(2).Text = PonerNombreDeCod(Text1(2), "contadores", "nomregis", "serfactur", "T")
     Text4(4).Text = PonerNombreDeCod(Text1(4), "clientes", "nomclien", "codclien")
@@ -3438,26 +3556,66 @@ Dim V
 End Sub
 
 
+Private Function PuedeModificarseCobroAriconta() As Boolean
+Dim Cad As String
+        PuedeModificarseCobroAriconta = True
+        Cad = ObtenerWhereCab(False)
+        Cad = Replace(Cad, "factcli.", "cobros.") & " AND 1"
+        Cad = DevuelveDesdeBD("concat(situacion,'|',coalesce(codrem,0),'|')", "ariconta" & vParam.Numconta & ".cobros", Cad, "1")
+        If Cad <> "" Then
+            If RecuperaValor(Cad, 1) = "1" Then
+                ModificarCobrosEnTesoreria = "Ya esta cobrado"
+            Else
+                Cad = RecuperaValor(Cad, 2)
+                If Val(Cad) > 0 Then ModificarCobrosEnTesoreria = "Esta remesado"
+            End If
+        End If
+        PuedeModificarseCobroAriconta = ModificarCobrosEnTesoreria = ""
+End Function
+
 Private Function DatosOK() As Boolean
 Dim B As Boolean
 Dim Cad As String
-
-
+Dim N As Long
+Dim PuedeModificarCobro As Boolean
     On Error GoTo EDatosOK
 
     DatosOK = False
     
-    'fecha de liquidacion
-    Text1(13).Text = Text1(1).Text
-    
-   
+  
     
     B = CompForm2(Me, 1)
     If Not B Then Exit Function
     
     
-    Cad = ""
     
+    'Si modifica y el cobro esta remesado, NO se toca
+    PuedeModificarCobro = True
+    ModificarCobrosEnTesoreria = ""
+    If Modo = 4 Then
+        If Not PuedeModificarseCobroAriconta Then
+            Cad = ""
+            'Si ha cambiado Codforpa,codclien o retenciones, entonces NO puede continuar
+            If Val(Data1.Recordset!CodClien) <> Val(Text1(4).Text) Then Cad = Cad & vbCrLf & "-Cliente"
+            If Val(Data1.Recordset!Codforpa) <> Val(Text1(5).Text) Then Cad = Cad & vbCrLf & "-Forma de pago"
+            If Combo1.ItemData(Combo1.ListIndex) <> Val(Data1.Recordset!tiporeten) Then Cad = Cad & vbCrLf & "-Tipo retencion"
+            If Cad <> "" Then
+                Cad = ModificarCobrosEnTesoreria & vbCrLf & "No puede cambiar: " & Cad
+                MsgBox Cad, vbExclamation
+                Exit Function
+            End If
+        End If
+    End If
+    
+    
+    'Veamos que la fecha de factura esta correcta
+    If Not FechaFacturaOK(CDate(Text1(1).Text)) Then Exit Function
+    
+    
+    'Veremos que para esta serie NO hay una factura con fecha posterior
+    If Not NumeroFactura_y_Fecha_OK(Text1(2).Text, CLng(Text1(0).Text), CDate(Text1(1).Text)) Then Exit Function
+    
+    Cad = ""
     ' NOV 2007
     ' NUEVA ambitode fecha activa
     ' controles añadidos de la factura de david
@@ -3484,7 +3642,27 @@ Dim Cad As String
     If Text4(4).Text = "" And (Modo = 3 Or Modo = 4) Then
         Cad = Cad & vbCrLf & "-No existe cliente"
         I = 4
+    
+    Else
+        
+        If Modo = 3 Then
+            If Val(DevuelveDesdeBD("situclien", "clientes", "codclien", Text1(4).Text)) > 0 Then
+                Cad = "Cliente no esta activo"
+                I = 4
+            End If
+          
+        Else
+            If Data1.Recordset!CodClien <> Val(Text1(4).Text) Then
+                If Val(DevuelveDesdeBD("situclien", "clientes", "codclien", Text1(4).Text)) > 0 Then
+                    Cad = "Cliente no esta activo"
+                    I = 4
+                End If
+            End If
+            
+        End If
+        
     End If
+    
     
     If Cad <> "" Then
         MsgBox "Datos incorrectos:" & vbCrLf & Cad, vbExclamation
@@ -3493,6 +3671,12 @@ Dim Cad As String
     End If
 
 
+    
+        
+    
+    
+    
+    
     
 
 
@@ -3583,36 +3767,36 @@ Dim RS As ADODB.Recordset
 
         Case 1, 13 '1 - fecha de factura
                    '13- fecha de liquidacion
-                   
+                
+            If Text1(Index).Text = "" Then Exit Sub
             Sql = ""
             If Not EsFechaOK(Text1(Index)) Then
                 MsgBox "Fecha incorrecta", vbExclamation
-                'If Index = 1 Then Text1(14).Text = ""
                 PonFoco Text1(Index)
                 Exit Sub
             End If
             'ModificandoLineas = FechaCorrecta2(CDate(Text1(Index).Text))
-            If ModificandoLineas > 1 Then
-                If ModificandoLineas = 2 Then
-                    RC = varTxtFec
-                Else
-                    If ModificandoLineas = 3 Then
-                        RC = "ya esta cerrado"
-                    Else
-                        RC = " todavia no ha sido abierto"
-                    End If
-                    RC = "La fecha pertenece a un ejercicio que " & RC
-                End If
-                MsgBox RC, vbExclamation
-                Text1(Index).Text = ""
-                If Index = 1 Then Text1(14).Text = ""
-                PonFoco Text1(Index)
-                Exit Sub
-            End If
+'
+'                If ModificandoLineas = 2 Then
+'                    RC = varTxtFec
+'                Else
+'                    If ModificandoLineas = 3 Then
+'                        RC = "ya esta cerrado"
+'                    Else
+'                        RC = " todavia no ha sido abierto"
+'                    End If
+'                    RC = "La fecha pertenece a un ejercicio que " & RC
+'                End If
+'                MsgBox RC, vbExclamation
+'                Text1(Index).Text = ""
+'                If Index = 1 Then Text1(14).Text = ""
+'                PonFoco Text1(Index)
+'                Exit Sub
+'
             
             Text1(Index).Text = Format(Text1(Index).Text, formatoFechaVer)
              
-            If Index = 1 And Modo <> 1 Then Text1(13).Text = Text1(1).Text
+            
             
            
 
@@ -3788,7 +3972,7 @@ Dim LINASI As Long
 Dim Ampliacion As String
     
     
-    If Not PuedeModificarFactura Then Exit Sub
+    If Not PuedeModificarFactura2 Then Exit Sub
             
     
     If Not BLOQUEADesdeFormulario2(Me, Data1, 1) Then Exit Sub
@@ -3864,7 +4048,7 @@ Dim SqlLog As String
     Select Case Index
         Case 1 'linea de asiento
             Sql = "¿Seguro que desea eliminar la línea de la factura?"
-            Sql = Sql & vbCrLf & "Serie: " & AdoAux(Index).Recordset!numserie & " - " & AdoAux(Index).Recordset!NumFactu & " - " & AdoAux(Index).Recordset!FecFactu & " - " & AdoAux(Index).Recordset!numlinea
+            Sql = Sql & vbCrLf & "Serie: " & AdoAux(Index).Recordset!numserie & " - " & AdoAux(Index).Recordset!NumFactu & " - " & AdoAux(Index).Recordset!Fecfactu & " - " & AdoAux(Index).Recordset!numlinea
             If MsgBox(Sql, vbQuestion + vbYesNo) = vbYes Then
                 Eliminar = True
                 Sql = "DELETE FROM factcli_lineas "
@@ -3892,15 +4076,15 @@ Dim SqlLog As String
         SqlLog = "Factura : " & Text1(2).Text & Text1(0).Text & " " & Text1(1).Text & " Línea : " & DBLet(Me.AdoAux(1).Recordset!numlinea, "N")
         SqlLog = SqlLog & vbCrLf & "Importe : " & DBLet(Me.AdoAux(1).Recordset!Importe, "N")
         
-        vLog.Insertar 8, vUsu, SqlLog
+        vLog.Insertar 4, vUsu, SqlLog
+        
         'Creo que no hace falta volver a situar el datagrid
+        lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
         
-            lblIndicador.Caption = Data1.Recordset.AbsolutePosition & " de " & Data1.Recordset.RecordCount
-            
-            Data1.Refresh
-            PonerModo 2
-        
-        '**** hasta aqui
+        Data1.Refresh
+        PonerModo 2
+    
+
         
         
         ' *** si n'hi han tabs sense datagrid, posar l'If ***
@@ -3976,35 +4160,35 @@ Dim I As Integer
                 ' *** valor per defecte a l'insertar i formateig de tots els camps ***
                 Case 1 'lineas de factura
                     If Limpia Then
-                        For I = 0 To txtAux.Count - 1
-                            txtAux(I).Text = ""
+                        For I = 0 To txtaux.Count - 1
+                            txtaux(I).Text = ""
                         Next I
                     End If
-                    txtAux(0).Text = Text1(2).Text 'serie
-                    txtAux(1).Text = Text1(0).Text 'numfactu
-                    txtAux(2).Text = Text1(1).Text 'fecha
+                    txtaux(0).Text = Text1(2).Text 'serie
+                    txtaux(1).Text = Text1(0).Text 'numfactu
+                    txtaux(2).Text = Text1(1).Text 'fecha
                    
                     
-                    txtAux(3).Text = Format(NumF, "0000") 'linea contador
+                    txtaux(3).Text = Format(NumF, "0000") 'linea contador
                     
-                    
+                    txtaux(5).Text = "1"
                     If Limpia Then txtAux2(4).Text = ""
-                    PonFoco txtAux(4)
+                    PonFoco txtaux(4)
                     chkAux2(0).Value = 0
             End Select
 
     End Select
 End Sub
 
-Private Function ExisteEnFactura(Serie As String, NumFactu As String, FecFactu As String, Cuenta As String) As Boolean
+Private Function ExisteEnFactura(Serie As String, NumFactu As String, Fecfactu As String, Cuenta As String) As Boolean
 Dim Sql As String
 
     ExisteEnFactura = False
     
-    If Serie = "" Or NumFactu = "" Or FecFactu = "" Or Cuenta = "" Then Exit Function
+    If Serie = "" Or NumFactu = "" Or Fecfactu = "" Or Cuenta = "" Then Exit Function
 
     Sql = "select count(*) from factcli_lineas where numserie = " & DBSet(Serie, "T") & " and numfactu = " & DBSet(NumFactu, "N")
-    Sql = Sql & " and fecfactu = " & DBSet(FecFactu, "F") & " and codmacta = " & DBSet(Cuenta, "T")
+    Sql = Sql & " and fecfactu = " & DBSet(Fecfactu, "F") & " and codmacta = " & DBSet(Cuenta, "T")
 
     ExisteEnFactura = (TotalRegistros(Sql) <> 0)
     
@@ -4056,22 +4240,22 @@ Private Sub BotonModificarLinea(Index As Integer)
     Select Case Index
         ' *** valor per defecte al modificar dels camps del grid ***
         Case 1 'lineas de facturas
-            txtAux(0).Text = DataGridAux(Index).Columns(0).Text
-            txtAux(1).Text = DataGridAux(Index).Columns(1).Text
-            txtAux(2).Text = DataGridAux(Index).Columns(2).Text
-            txtAux(3).Text = DataGridAux(Index).Columns(3).Text
-            txtAux(4).Text = DataGridAux(Index).Columns(4).Text
+            txtaux(0).Text = DataGridAux(Index).Columns(0).Text
+            txtaux(1).Text = DataGridAux(Index).Columns(1).Text
+            txtaux(2).Text = DataGridAux(Index).Columns(2).Text
+            txtaux(3).Text = DataGridAux(Index).Columns(3).Text
+            txtaux(4).Text = DataGridAux(Index).Columns(4).Text
             txtAux2(4).Text = DataGridAux(Index).Columns(5).Text 'denominacion
-            txtAux(13).Text = DataGridAux(Index).Columns(6).Text 'ampliaci
-            txtAux(12).Text = DataGridAux(Index).Columns(14).Text 'centro de coste
-            txtAux(5).Text = DataGridAux(Index).Columns(7).Text '
-            txtAux(6).Text = DataGridAux(Index).Columns(8).Text '
-            txtAux(12).Text = DataGridAux(Index).Columns(9).Text 'centro de coste
-            txtAux(7).Text = DataGridAux(Index).Columns(10).Text '
-            txtAux(8).Text = DataGridAux(Index).Columns(11).Text '%iva
-            txtAux(9).Text = DataGridAux(Index).Columns(12).Text '%retencion
-            txtAux(10).Text = DataGridAux(Index).Columns(13).Text 'importe iva
-            txtAux(11).Text = DataGridAux(Index).Columns(14).Text 'importe retencion
+            txtaux(13).Text = DataGridAux(Index).Columns(6).Text 'ampliaci
+            txtaux(12).Text = DataGridAux(Index).Columns(14).Text 'centro de coste
+            txtaux(5).Text = DataGridAux(Index).Columns(7).Text '
+            txtaux(6).Text = DataGridAux(Index).Columns(8).Text '
+            txtaux(12).Text = DataGridAux(Index).Columns(9).Text 'centro de coste
+            txtaux(7).Text = DataGridAux(Index).Columns(10).Text '
+            txtaux(8).Text = DataGridAux(Index).Columns(11).Text '%iva
+            txtaux(9).Text = DataGridAux(Index).Columns(12).Text '%retencion
+            txtaux(10).Text = DataGridAux(Index).Columns(13).Text 'importe iva
+            txtaux(11).Text = DataGridAux(Index).Columns(14).Text 'importe retencion
             
             
             
@@ -4089,7 +4273,7 @@ Private Sub BotonModificarLinea(Index As Integer)
     LLamaLineas Index, ModoLineas, anc
     
     
-    PonFoco txtAux(4)
+    PonFoco txtaux(4)
     
     ' ***************************************************************************************
 End Sub
@@ -4106,10 +4290,10 @@ Dim B As Boolean
     B = (xModo = 1 Or xModo = 2) 'Insertar o Modificar Llínies
     Select Case Index
         Case 1 'lineas de factura
-            For jj = 4 To txtAux.Count - 1
-                txtAux(jj).Visible = B
-                txtAux(jj).top = alto
-                If jj >= 7 And jj <= 12 Then BloquearTxt txtAux(jj), True
+            For jj = 4 To txtaux.Count - 1
+                txtaux(jj).Visible = B
+                txtaux(jj).top = alto
+                If jj >= 7 And jj <= 12 Then BloquearTxt txtaux(jj), True
             Next jj
             
             txtAux2(4).Visible = B
@@ -4120,8 +4304,8 @@ Dim B As Boolean
             
             For jj = 0 To 1
                 cmdAux(jj).Visible = B
-                cmdAux(jj).top = txtAux(4).top
-                cmdAux(jj).Height = txtAux(4).Height
+                cmdAux(jj).top = txtaux(4).top
+                cmdAux(jj).Height = txtaux(4).Height
             Next jj
             
  
@@ -4155,7 +4339,7 @@ Dim B As Boolean
         If txtAux2(4).Text = "" Then
             Sql = "Error concepto facturación"
         Else
-            Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtAux(4).Text)
+            Sql = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtaux(4).Text)
             If Sql <> txtAux2(4).Text Then
                 Sql = "Concepto no es el selccionado"
             Else
@@ -4300,7 +4484,7 @@ Dim tots As String
             
             Else
                 For I = 0 To 3
-                    txtAux(I).Text = ""
+                    txtaux(I).Text = ""
                 Next I
                 
             End If
@@ -4353,18 +4537,23 @@ Dim Cad As String
     
         If B And InsertarDesdeForm2(Me, 2, nomframe) Then
         
+            
             B = RecalcularTotales
             
-            If B Then RecalcularTotalesFactura
-        
+            If B Then B = RecalcularTotalesFactura
+            
+            
             If B Then
                 Conn.CommitTrans
             Else
                 Conn.RollbackTrans
             End If
             
-            B = BLOQUEADesdeFormulario2(Me, Data1, 1)
+            'El cobro, aqui bajo fuera de la transaccion
+            If B Then InsertarEnCobros
             
+            
+            B = BLOQUEADesdeFormulario2(Me, Data1, 1)
             Select Case NumTabMto
                 Case 0, 1 ' *** els index de les llinies en grid (en o sense tab) ***
                     CargaGrid NumTabMto, True
@@ -4375,12 +4564,12 @@ Dim Cad As String
                     CargaGrid 1, True
                     Limp = True
 
-                    txtAux(11).Text = ""
+                    txtaux(11).Text = ""
                     If Limp Then
                         txtAux2(5).Text = ""
                         txtAux2(12).Text = ""
                         For I = 0 To 11
-                            txtAux(I).Text = ""
+                            txtaux(I).Text = ""
                         Next I
                     End If
                     ModoLineas = 0
@@ -4402,7 +4591,7 @@ Dim Sql As String
     
     ActualizarIva = False
     
-    Sql = "update cuentas set codigiva = " & DBSet(txtAux(7).Text, "N") & " where codmacta = " & DBSet(txtAux(5).Text, "T")
+    Sql = "update cuentas set codigiva = " & DBSet(txtaux(7).Text, "N") & " where codmacta = " & DBSet(txtaux(5).Text, "T")
     Conn.Execute Sql
     
     ActualizarIva = True
@@ -4433,17 +4622,31 @@ Dim Cad As String
         B = True
         If CambiarIva Then B = ActualizarIva
         
+        'Sy cambia grabare log
+        vLog.DatosAntes = AdoAux(1).Recordset!codconce & "|" & AdoAux(1).Recordset!Importe & "|"
+        
         If B And ModificaDesdeFormulario2(Me, 2, nomframe) Then
         
             B = RecalcularTotales
             
-            'LOG
-            vLog.Insertar 7, vUsu, "Factura : " & Text1(2).Text & Text1(0).Text & " " & Text1(1).Text & " Linea : " & txtAux(4).Text
-        
+            If B Then InsertarEnCobros
+            
+            
             If B Then
                 Conn.CommitTrans
             Else
                 Conn.RollbackTrans
+            End If
+            
+            
+            
+            'LOG
+            If B Then
+                vLog.DatosDespues = Val(txtaux(4).Text) & "|" & ImporteFormateado(txtaux(12).Text) & "|"
+                If vLog.DatosAntes <> vLog.DatosDespues Then
+                    vLog.DatosDespues = "Concepto: " & RecuperaValor(vLog.DatosAntes, 1) & "  Importe: " & RecuperaValor(vLog.DatosAntes, 2)
+                    vLog.Insertar 3, vUsu, "Factura : " & Text1(2).Text & Text1(0).Text & " " & Text1(1).Text & " Linea : " & txtaux(3).Text & vbCrLf & vLog.DatosDespues
+                End If
             End If
             
             ' *** si cal que fer alguna cosa abas d'insertar ***
@@ -4537,8 +4740,8 @@ Dim Cad As String
 End Sub
 
 Private Sub txtaux_GotFocus(Index As Integer)
-    AntiguoText1 = txtAux(Index).Text
-    ConseguirFoco txtAux(Index), Modo
+    AntiguoText1 = txtaux(Index).Text
+    ConseguirFoco txtaux(Index), Modo
 End Sub
 
 
@@ -4550,9 +4753,8 @@ End Sub
 Private Sub txtaux_KeyPress(Index As Integer, KeyAscii As Integer)
     If KeyAscii = teclaBuscar Then
         Select Case Index
-            Case 4:  KEYImage KeyAscii, 0 ' cta base
-            'Case 7:  KEYImage KeyAscii, 1 ' iva
-            'Case 12:  KEYImage KeyAscii, 2 ' Centro Coste
+            Case 4:  KEYImage KeyAscii, 0
+            Case 13:  KEYImage KeyAscii, 1
         End Select
     Else
         KEYpress KeyAscii
@@ -4561,7 +4763,7 @@ End Sub
 
 Private Sub KEYImage(KeyAscii As Integer, indice As Integer)
     KeyAscii = 0
-  '  cmdAux_Click (Indice)
+    cmdAux_Click (indice)
 End Sub
 '++
 
@@ -4571,36 +4773,43 @@ Private Sub txtAux_LostFocus(Index As Integer)
     Dim Importe As Currency
     Dim IVA As String
     
-        If Not PerderFocoGnral(txtAux(Index), Modo) Then Exit Sub
+        If Not PerderFocoGnral(txtaux(Index), Modo) Then Exit Sub
         
         Select Case Index
         Case 4
             RC = ""
             IVA = ""
-            If PonerFormatoEntero(txtAux(Index)) Then
-                IVA = "codigiva"
-                RC = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtAux(Index).Text, "N", IVA)
+            If PonerFormatoEntero(txtaux(Index)) Then
+                IVA = "concat(codigiva,'|',preciocon,'|')"
+                RC = DevuelveDesdeBD("nomconce", "conceptos", "codconce", txtaux(Index).Text, "N", IVA)
                 If RC = "" Then
                     IVA = ""
-                    MsgBox "No se encuentra el concepto: " & txtAux(Index).Text, vbExclamation
-                    txtAux(Index).Text = ""
-                    PonFoco txtAux(Index)
+                    MsgBox "No se encuentra el concepto: " & txtaux(Index).Text, vbExclamation
+                    txtaux(Index).Text = ""
+                    PonFoco txtaux(Index)
                     
                 End If
                 
             End If
             txtAux2(Index).Text = RC
             If IVA <> "" Then
+                'IVA
+                'Lleva el precio y el tipo IVA. Si no tiene precio puesto, que ponga este
+                If txtaux(6).Text = "" Then
+                    RC = TransformaPuntosComas(RecuperaValor(IVA, 2))
+                    txtaux(6).Text = Format(RC, FormatoImporte)
+                End If
+                IVA = RecuperaValor(IVA, 1)
                 'Pondremos los datos del iva
-                txtAux(7).Text = IVA
+                txtaux(7).Text = IVA
                 IVA = "porcerec"
-                RC = DevuelveDesdeBD("porceiva", "ariconta" & vParam.Numconta & ".tiposiva", "codigiva", txtAux(7).Text, , IVA)
+                RC = DevuelveDesdeBD("porceiva", "ariconta" & vParam.Numconta & ".tiposiva", "codigiva", txtaux(7).Text, , IVA)
                 If RC = "" Then
-                    MsgBox "IVA no encontrado en contabilidad: " & txtAux(7).Text, vbExclamation
+                    MsgBox "IVA no encontrado en contabilidad: " & txtaux(7).Text, vbExclamation
                     IVA = ""
                 Else
-                    txtAux(8).Text = Format(RC, FormatoDec10d2)
-                    txtAux(9).Text = Format(IVA, FormatoDec10d2)
+                    txtaux(8).Text = Format(RC, FormatoDec10d2)
+                    txtaux(9).Text = Format(IVA, FormatoDec10d2)
                 End If
             End If
             If IVA = "" Then
@@ -4609,7 +4818,7 @@ Private Sub txtAux_LostFocus(Index As Integer)
             End If
             
         Case 5, 6
-            PonerFormatoDecimal txtAux(Index), 1
+            PonerFormatoDecimal txtaux(Index), 1
     
         Case 6
 
@@ -4714,17 +4923,17 @@ Dim miI As Integer
         miI = -1
         Select Case Index
         Case 0
-            txtAux(0).Text = ""
+            txtaux(0).Text = ""
             miI = 3
         Case 3
-            txtAux(3).Text = ""
+            txtaux(3).Text = ""
             miI = 0
         Case 4
-            txtAux(4).Text = ""
+            txtaux(4).Text = ""
             miI = 1
             
         Case 8
-            txtAux(8).Text = ""
+            txtaux(8).Text = ""
             miI = 2
         End Select
        ' If miI >= 0 Then cmdAux_Click miI
@@ -4754,7 +4963,7 @@ Private Function SituarData1() As Boolean
         While Not Data1.Recordset.EOF
             If CStr(.Fields!numserie) = Text1(2).Text Then
                 If CStr(.Fields!NumFactu) = Val(Text1(0).Text) Then
-                    If Format(CStr(.Fields!FecFactu), formatoFechaVer) = Text1(1).Text Then
+                    If Format(CStr(.Fields!Fecfactu), formatoFechaVer) = Text1(1).Text Then
                         SituarData1 = True
                         Exit Function
                     End If
@@ -4810,7 +5019,7 @@ Dim C As String
         Cad = Cad & " inner join ariconta" & vParam.Numconta & ".tiposiva tt on h.codigiva = tt.codigiva  WHERE "
         Cad = Cad & " numserie=" & DBSet(Data1.Recordset!numserie, "T")
         Cad = Cad & " and numfactu=" & Data1.Recordset!NumFactu
-        Cad = Cad & " and fecfactu=" & DBSet(Data1.Recordset!FecFactu, "F")
+        Cad = Cad & " and fecfactu=" & DBSet(Data1.Recordset!Fecfactu, "F")
         GroupBy = ""
         BuscaChekc = "numlinea"
         
@@ -5066,35 +5275,35 @@ Private Sub CalcularIVA()
 Dim J As Integer
 Dim Base As Currency
 Dim Aux As Currency
-Dim impor As Currency
+Dim Impor As Currency
     
-    impor = ImporteFormateado(txtAux(5).Text)
-    Base = ImporteFormateado(txtAux(6).Text)
+    Impor = ImporteFormateado(txtaux(5).Text)
+    Base = ImporteFormateado(txtaux(6).Text)
     
-    impor = Round(Base * impor, 2)
-    txtAux(12).Text = Format(impor, FormatoImporte)
+    Impor = Round(Base * Impor, 2)
+    txtaux(12).Text = Format(Impor, FormatoImporte)
     'EL iva
-    Aux = ImporteFormateado(txtAux(8).Text) / 100
+    Aux = ImporteFormateado(txtaux(8).Text) / 100
     
     If Aux = 0 Then
         Base = 0
-        If txtAux(10).Text = "" Then
-            txtAux(10).Text = ""
+        If txtaux(10).Text = "" Then
+            txtaux(10).Text = ""
         Else
-            txtAux(10).Text = "0,00"
+            txtaux(10).Text = "0,00"
         End If
     Else
-        Base = Round((Aux * impor), 2)
-        txtAux(10).Text = Format(Base, FormatoImporte)
+        Base = Round((Aux * Impor), 2)
+        txtaux(10).Text = Format(Base, FormatoImporte)
     End If
     
     'Recargo
-    Aux = ImporteFormateado(txtAux(9).Text) / 100
+    Aux = ImporteFormateado(txtaux(9).Text) / 100
     If Aux = 0 Then
-        txtAux(11).Text = ""
+        txtaux(11).Text = ""
     Else
-        Base = Base + Round(Aux * impor, 2)
-        txtAux(11).Text = Format(Round((Aux * impor), 2), FormatoImporte)
+        Base = Base + Round(Aux * Impor, 2)
+        txtaux(11).Text = Format(Round((Aux * Impor), 2), FormatoImporte)
     End If
     
     
@@ -5296,7 +5505,7 @@ Private Sub ImprimirFactura()
 
     cadFormula = "2"
     If Modo = 2 Then
-        If Not Me.Data1.Recordset.EOF Then cadFormula = Data1.Recordset!numserie & "|" & Data1.Recordset!NumFactu & "|" & Data1.Recordset!FecFactu & "|"
+        If Not Me.Data1.Recordset.EOF Then cadFormula = Data1.Recordset!numserie & "|" & Data1.Recordset!NumFactu & "|" & Data1.Recordset!Fecfactu & "|"
     End If
     frmFacturasList.DatosFactura = cadFormula
     frmFacturasList.Show vbModal
@@ -5308,8 +5517,10 @@ End Sub
 Private Sub InsertarEnCobros()
 Dim RR As ADODB.Recordset
 Dim EsUNaCuota As Boolean
-    
-    If Modo = 4 Then
+Dim ImporteEntregadoACuenta As Currency
+
+    ImporteEntregadoACuenta = 0
+    If Modo = 4 Or Modo = 5 Then
         'Borramos
         cadFormula = ObtenerWhereCab(True)
         cadFormula = Replace(cadFormula, "factcli.", "factcli_vtos.")
@@ -5324,6 +5535,23 @@ Dim EsUNaCuota As Boolean
     End If
     Set RR = New ADODB.Recordset
 
+    If Data1.Recordset!numserie = "FEX" Then
+        'Puede llevar, o no, entregas a cuenta
+        If Not IsNull(Data1.Recordset!numexped) Then
+            Set miRsAux = New ADODB.Recordset
+            cadFormula = "tiporegi = 0 AND numdocum = " & Data1.Recordset!numexped & " AND anoexped =" & Year(Data1.Recordset!fecexped)
+            cadFormula = "Select * from caja where " & cadFormula
+            miRsAux.Open cadFormula, Conn, adOpenKeyset, adLockOptimistic, adCmdText
+            While Not miRsAux.EOF
+                ImporteEntregadoACuenta = ImporteEntregadoACuenta + miRsAux!Importe
+                miRsAux.MoveNext
+            Wend
+            miRsAux.Close
+            Set miRsAux = Nothing
+        End If
+    End If
+
+
     'Habra que  hacer una clase, de momento, por velocidad, no tengo otra opcion
     cadFormula = ObtenerWhereCab(False)
     cadFormula = " from factcli,clientes where factcli.codclien=clientes.codclien AND " & cadFormula
@@ -5333,20 +5561,21 @@ Dim EsUNaCuota As Boolean
     RR.Open cadFormula, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
         
     'Tesoreria
-    cadFormula = vParam.BancoPropioFacturacionContabilidad()
+    
     EsUNaCuota = False
     If Text1(2).Text = "ASO" Or Text1(2).Text = "CUO" Then EsUNaCuota = True
    
-    
-    
-    InsertarEnTesoreria EsUNaCuota, RR, cadFormula, "", Msg
+   
+   
+   
+    InsertarEnTesoreria EsUNaCuota, RR, vParam.CtaBanco, "", Msg, ImporteEntregadoACuenta
         
 End Sub
 
 
-Private Function PuedeModificarFactura() As Boolean
-    
-    PuedeModificarFactura = False
+Private Function PuedeModificarFactura2() As Boolean
+Dim Cad As String
+    PuedeModificarFactura2 = False
     
     If Val(Data1.Recordset!intconta) = 1 Then
         MsgBox "Factura contabilizada", vbExclamation
@@ -5354,11 +5583,10 @@ Private Function PuedeModificarFactura() As Boolean
     End If
     
     
-    'Si el periodo...
     
-    
-    
+    If Not FechaFacturaOK(Data1.Recordset!Fecfactu) Then Exit Function
     
     'Llegado aqui, ya puede
-    PuedeModificarFactura = True
+    PuedeModificarFactura2 = True
 End Function
+

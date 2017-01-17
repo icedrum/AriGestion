@@ -158,5 +158,5 @@ Sub UpdateLayout()
 End Sub
 
 Private Sub MainCaption_ExpandButtonClicked()
-    Call frmPpal.ExpandButtonClicked
+    Call frmppal.ExpandButtonClicked
 End Sub

@@ -27,6 +27,40 @@ Begin VB.Form frmConceptos
    ScaleWidth      =   18120
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame FrameBotonGnral2 
+      Height          =   705
+      Left            =   3840
+      TabIndex        =   21
+      Top             =   30
+      Width           =   1575
+      Begin MSComctlLib.Toolbar Toolbar2 
+         Height          =   330
+         Left            =   120
+         TabIndex        =   22
+         Top             =   150
+         Width           =   1305
+         _ExtentX        =   2302
+         _ExtentY        =   582
+         ButtonWidth     =   609
+         ButtonHeight    =   582
+         AllowCustomize  =   0   'False
+         Style           =   1
+         _Version        =   393216
+         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
+            NumButtons      =   3
+            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.Visible         =   0   'False
+            EndProperty
+            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.ToolTipText     =   "Tasas"
+            EndProperty
+            BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
+               Object.Visible         =   0   'False
+               Object.ToolTipText     =   "sd"
+            EndProperty
+         EndProperty
+      End
+   End
    Begin VB.CommandButton cmdAux 
       Appearance      =   0  'Flat
       Caption         =   "+"
@@ -42,7 +76,7 @@ Begin VB.Form frmConceptos
       Height          =   315
       Index           =   0
       Left            =   4200
-      TabIndex        =   22
+      TabIndex        =   20
       ToolTipText     =   "Buscar cuenta"
       Top             =   5640
       Visible         =   0   'False
@@ -64,7 +98,7 @@ Begin VB.Form frmConceptos
       Left            =   14880
       List            =   "frmConceptos.frx":001F
       Style           =   2  'Dropdown List
-      TabIndex        =   21
+      TabIndex        =   7
       Tag             =   "Tipo|N|N|||conceptos|tipoconcepto|||"
       Top             =   6000
       Width           =   1335
@@ -108,7 +142,7 @@ Begin VB.Form frmConceptos
       Height          =   350
       Index           =   3
       Left            =   9360
-      TabIndex        =   20
+      TabIndex        =   19
       Text            =   "Dat"
       Top             =   6240
       Width           =   2955
@@ -152,7 +186,7 @@ Begin VB.Form frmConceptos
       Height          =   350
       Index           =   2
       Left            =   4800
-      TabIndex        =   19
+      TabIndex        =   18
       Text            =   "Dat"
       Top             =   5760
       Width           =   2955
@@ -182,7 +216,7 @@ Begin VB.Form frmConceptos
    Begin VB.Frame FrameBotonGnral 
       Height          =   705
       Left            =   60
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   30
       Width           =   3585
       Begin VB.CheckBox chkVistaPrevia 
@@ -198,7 +232,7 @@ Begin VB.Form frmConceptos
          EndProperty
          Height          =   195
          Left            =   3750
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   270
          Visible         =   0   'False
          Width           =   1215
@@ -206,7 +240,7 @@ Begin VB.Form frmConceptos
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   330
          Left            =   240
-         TabIndex        =   14
+         TabIndex        =   15
          Top             =   180
          Width           =   3135
          _ExtentX        =   5530
@@ -315,7 +349,7 @@ Begin VB.Form frmConceptos
       EndProperty
       Height          =   375
       Left            =   15360
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   7950
       Visible         =   0   'False
       Width           =   1035
@@ -334,7 +368,7 @@ Begin VB.Form frmConceptos
       EndProperty
       Height          =   375
       Left            =   16680
-      TabIndex        =   8
+      TabIndex        =   9
       Top             =   7950
       Visible         =   0   'False
       Width           =   1035
@@ -378,7 +412,6 @@ Begin VB.Form frmConceptos
       Height          =   350
       Index           =   0
       Left            =   60
-      MaxLength       =   3
       TabIndex        =   0
       Tag             =   "Código concepto|N|N|0|900|conceptos|codconce|000|S|"
       Text            =   "Dat"
@@ -389,7 +422,7 @@ Begin VB.Form frmConceptos
       Bindings        =   "frmConceptos.frx":006A
       Height          =   6855
       Left            =   60
-      TabIndex        =   9
+      TabIndex        =   10
       Top             =   900
       Width           =   17790
       _ExtentX        =   31380
@@ -470,7 +503,7 @@ Begin VB.Form frmConceptos
       EndProperty
       Height          =   375
       Left            =   16680
-      TabIndex        =   12
+      TabIndex        =   13
       Top             =   7950
       Visible         =   0   'False
       Width           =   1035
@@ -487,7 +520,7 @@ Begin VB.Form frmConceptos
       EndProperty
       Height          =   540
       Left            =   120
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   7920
       Width           =   2865
       Begin VB.Label lblIndicador 
@@ -504,15 +537,15 @@ Begin VB.Form frmConceptos
          EndProperty
          Height          =   255
          Left            =   240
-         TabIndex        =   11
+         TabIndex        =   12
          Top             =   120
          Width           =   2550
       End
    End
    Begin MSAdodcLib.Adodc adodc1 
       Height          =   375
-      Left            =   6600
-      Top             =   30
+      Left            =   12000
+      Top             =   0
       Visible         =   0   'False
       Width           =   2055
       _ExtentX        =   3625
@@ -556,50 +589,10 @@ Begin VB.Form frmConceptos
       EndProperty
       _Version        =   393216
    End
-   Begin VB.Frame FrameDesplazamiento 
-      Height          =   705
-      Left            =   3870
-      TabIndex        =   15
-      Top             =   30
-      Width           =   2415
-      Begin MSComctlLib.Toolbar Toolbar2 
-         Height          =   330
-         Left            =   180
-         TabIndex        =   16
-         Top             =   150
-         Width           =   1965
-         _ExtentX        =   3466
-         _ExtentY        =   582
-         ButtonWidth     =   609
-         ButtonHeight    =   582
-         AllowCustomize  =   0   'False
-         Style           =   1
-         _Version        =   393216
-         BeginProperty Buttons {66833FE8-8583-11D1-B16A-00C0F0283628} 
-            NumButtons      =   4
-            BeginProperty Button1 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Primero"
-               ImageIndex      =   6
-            EndProperty
-            BeginProperty Button2 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Anterior"
-               ImageIndex      =   7
-            EndProperty
-            BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Siguiente"
-               ImageIndex      =   8
-            EndProperty
-            BeginProperty Button4 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-               Object.ToolTipText     =   "Último"
-               ImageIndex      =   9
-            EndProperty
-         EndProperty
-      End
-   End
    Begin MSComctlLib.Toolbar ToolbarAyuda 
       Height          =   390
       Left            =   17520
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   120
       Width           =   405
       _ExtentX        =   714
@@ -662,7 +655,7 @@ Public DatosADevolverBusqueda As String    'Tendra el nº de text que quiere que 
 Public Event DatoSeleccionado(CadenaSeleccion As String)
 Public vWhere As String
 
-Private Const IdPrograma = 203
+Private Const IdPrograma = ID_ConceptosFacturas
 
 Private frmMens As frmMensajes
 Private WithEvents frmIv As frmBasico
@@ -856,7 +849,7 @@ Private Sub BotonModificar()
     txtAux2(2).Text = DataGrid1.Columns(5).Text
     txtaux(3).Text = DataGrid1.Columns(6).Text
     txtAux2(3).Text = DataGrid1.Columns(7).Text
-    
+
     
     I = Adodc1.Recordset!tipoconcepto
     SituarCombo Combo3, I
@@ -887,7 +880,7 @@ End Sub
 
 
 Private Sub BotonEliminar()
-Dim Sql As String
+Dim SQL As String
     On Error GoTo Error2
     'Ciertas comprobaciones
     If Adodc1.Recordset.EOF Then Exit Sub
@@ -895,13 +888,13 @@ Dim Sql As String
     
     If Not SepuedeBorrar Then Exit Sub
     '### a mano
-    Sql = "Seguro que desea eliminar el concepto:"
-    Sql = Sql & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
-    Sql = Sql & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
-    If MsgBox(Sql, vbQuestion + vbYesNoCancel) = vbYes Then
+    SQL = "Seguro que desea eliminar el concepto:"
+    SQL = SQL & vbCrLf & "Código: " & Adodc1.Recordset.Fields(0)
+    SQL = SQL & vbCrLf & "Denominación: " & Adodc1.Recordset.Fields(1)
+    If MsgBox(SQL, vbQuestion + vbYesNoCancel) = vbYes Then
         'Hay que eliminar
-        Sql = "Delete from conceptos where codconce=" & Adodc1.Recordset!codconce
-        Conn.Execute Sql
+        SQL = "Delete from conceptos where codconce=" & Adodc1.Recordset!codconce
+        Conn.Execute SQL
         CargaGrid ""
         Adodc1.Recordset.Cancel
     End If
@@ -1090,15 +1083,12 @@ Private Sub Form_Load()
         .Buttons(8).Image = 16
     End With
 
-    ' desplazamiento
+
     With Me.Toolbar2
         .HotImageList = frmppal.imgListComun_OM
         .DisabledImageList = frmppal.imgListComun_BN
         .ImageList = frmppal.ImgListComun
-        .Buttons(1).Image = 6
-        .Buttons(2).Image = 7
-        .Buttons(3).Image = 8
-        .Buttons(4).Image = 9
+        .Buttons(2).Image = 31
     End With
     
     ' La Ayuda
@@ -1116,7 +1106,7 @@ Private Sub Form_Load()
     
     cmdRegresar.Visible = (DatosADevolverBusqueda <> "")
     
-    DespalzamientoVisible False
+
     
     PonerModo 0
     CadAncho = False
@@ -1128,7 +1118,7 @@ Private Sub Form_Load()
     CadenaConsulta = CadenaConsulta & " ,preciocon, conceptos.codigiva,nombriva,conceptos.codmacta,nommacta,"
     CadenaConsulta = CadenaConsulta & " if(gestionadm=1,""*"","""") gestionadm ,conceptos.periodicidad"
     CadenaConsulta = CadenaConsulta & " ,if(tipoconcepto=0,""General"",if(tipoconcepto=1,""Cuota"",if(tipoconcepto=2,""Cuota asoc"",if(tipoconcepto=3,""Laboral"",""Fiscal""))))"
-    CadenaConsulta = CadenaConsulta & " as QueTipo,tipoconcepto"
+    CadenaConsulta = CadenaConsulta & " as QueTipo,tipoconcepto  , stock "
     CadenaConsulta = CadenaConsulta & " FROM conceptos INNER JOIN ariconta1.tiposiva elIva ON conceptos.codigiva=elIva.codigiva"
     CadenaConsulta = CadenaConsulta & " LEFT JOIN ariconta1.cuentas LaCta on lacta.codmacta=conceptos.codmacta WHERE 1=1 "
     
@@ -1184,21 +1174,21 @@ End Sub
 'Se puede comentar todo y asi no hace nada ni da error
 'El SQL es propio de cada tabla
 Private Function SugerirCodigoSiguiente() As String
-    Dim Sql As String
-    Dim RS As ADODB.Recordset
+    Dim SQL As String
+    Dim Rs As ADODB.Recordset
     
-    Sql = "Select Max(codconce) from conceptos where codconce<900"
+    SQL = "Select Max(codconce) from conceptos where codconce<900"
     
-    Set RS = New ADODB.Recordset
-    RS.Open Sql, Conn, , , adCmdText
-    Sql = "1"
-    If Not RS.EOF Then
-        If Not IsNull(RS.Fields(0)) Then
-            Sql = CStr(RS.Fields(0) + 1)
+    Set Rs = New ADODB.Recordset
+    Rs.Open SQL, Conn, , , adCmdText
+    SQL = "1"
+    If Not Rs.EOF Then
+        If Not IsNull(Rs.Fields(0)) Then
+            SQL = CStr(Rs.Fields(0) + 1)
         End If
     End If
-    RS.Close
-    SugerirCodigoSiguiente = Sql
+    Rs.Close
+    SugerirCodigoSiguiente = SQL
 End Function
 
 Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
@@ -1220,24 +1210,21 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
     End Select
 End Sub
 
-Private Sub DespalzamientoVisible(bol As Boolean)
-    FrameDesplazamiento.Visible = bol
-    FrameDesplazamiento.Enabled = bol
-End Sub
 
-Private Sub CargaGrid(Optional Sql As String)
+
+Private Sub CargaGrid(Optional SQL As String)
     Dim J As Integer
     Dim TotalAncho As Integer
     Dim I As Integer
     
     Adodc1.ConnectionString = Conn
-    If Sql <> "" Then
-        Sql = CadenaConsulta & " AND " & Sql
+    If SQL <> "" Then
+        SQL = CadenaConsulta & " AND " & SQL
         Else
-        Sql = CadenaConsulta
+        SQL = CadenaConsulta
     End If
-    Sql = Sql & " ORDER BY codconce"
-    Adodc1.RecordSource = Sql
+    SQL = SQL & " ORDER BY codconce"
+    Adodc1.RecordSource = SQL
     Adodc1.CursorType = adOpenDynamic
     Adodc1.LockType = adLockOptimistic
     Adodc1.Refresh
@@ -1257,12 +1244,12 @@ Private Sub CargaGrid(Optional Sql As String)
         TotalAncho = TotalAncho + DataGrid1.Columns(I).Width
                 
     I = 2
-        DataGrid1.Columns(I).Caption = "Periodicidad"
-        DataGrid1.Columns(I).Width = 1300
+        DataGrid1.Columns(I).Caption = "Periodo"
+        DataGrid1.Columns(I).Width = 1100
         
     I = 3
         DataGrid1.Columns(I).Caption = "Precio"
-        DataGrid1.Columns(I).Width = 1000
+4        DataGrid1.Columns(I).Width = 900
         DataGrid1.Columns(I).NumberFormat = FormatoImporte
         DataGrid1.Columns(I).Alignment = dbgRight
         
@@ -1289,11 +1276,13 @@ Private Sub CargaGrid(Optional Sql As String)
     DataGrid1.Columns(9).Visible = False
     
     I = 10
-        DataGrid1.Columns(I).Caption = "Tipo concepto"
-        DataGrid1.Columns(I).Width = 1800
+        DataGrid1.Columns(I).Caption = "Tipo"
+        DataGrid1.Columns(I).Width = 1000
     
     DataGrid1.Columns(11).Visible = False
-    
+        
+    'La 12 no tocamos nada
+    DataGrid1.Columns(12).Alignment = dbgRight
         
         'Fiajamos el cadancho
     If Not CadAncho Then
@@ -1320,7 +1309,9 @@ Private Sub CargaGrid(Optional Sql As String)
         Combo2.Width = DataGrid1.Columns(8).Width - 60
         
         Combo3.Left = DataGrid1.Columns(10).Left + 30
-        Combo3.Width = DataGrid1.Columns(10).Width - 60
+        Combo3.Width = DataGrid1.Columns(10).Width
+        
+      
         
         cmdAux(0).Left = txtAux2(2).Left - 180
         cmdAux(0).Height = txtAux2(2).Height
@@ -1335,6 +1326,29 @@ Private Sub CargaGrid(Optional Sql As String)
 End Sub
 
 
+
+Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
+    'Solo hay una opcion
+    'Button.Index
+    If Modo = 1 Or Modo > 2 Then Exit Sub
+    If Adodc1.Recordset.EOF Then Exit Sub
+    
+    
+    If Val(Adodc1.Recordset!tipoconcepto) <> 0 Then
+        MsgBox "Este tipo de cuota no lleva control de movimientos", vbExclamation
+        Exit Sub
+    End If
+    
+    frmGestionTasasMov.Concepto = Adodc1.Recordset!codconce
+    frmGestionTasasMov.Show vbModal
+    
+    'Refrescamos y situamos
+    
+    I = Adodc1.Recordset.Fields(0)
+    PonerModo 0
+    CargaGrid CadWhere
+    Adodc1.Recordset.Find (Adodc1.Recordset.Fields(0).Name & " =" & I)
+End Sub
 
 Private Sub ToolbarAyuda_ButtonClick(ByVal Button As MSComctlLib.Button)
     Select Case Button.Index
@@ -1433,41 +1447,26 @@ End Sub
 
 
 Private Function SepuedeBorrar() As Boolean
-Dim Sql As String
+Dim SQL As String
     SepuedeBorrar = False
-    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "condebes", Adodc1.Recordset!codconce, "N")
-    If Sql <> "" Then
-        MsgBox "Esta vinculada con parametros de amortizacion", vbExclamation
-        Exit Function
-    End If
-    Sql = DevuelveDesdeBD("tipoamor", "paramamort", "conhaber", Adodc1.Recordset!codconce, "N")
-    If Sql <> "" Then
-        MsgBox "Esta vinculada con parametros de amortizacion", vbExclamation
-        Exit Function
-    End If
     
     
     
-    
-    
-
-        Set miRsAux = New ADODB.Recordset
-        Sql = "Select * from tipofpago where condecli =" & Adodc1.Recordset!codconce
-        Sql = Sql & " OR conhacli =" & Adodc1.Recordset!codconce
-        Sql = Sql & " OR condepro =" & Adodc1.Recordset!codconce
-        Sql = Sql & " OR conhapro =" & Adodc1.Recordset!codconce
-        miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-        If miRsAux.EOF Then Sql = ""
-        miRsAux.Close
-        Set miRsAux = Nothing
-        
-        If Sql <> "" Then
-            MsgBox "Concepto vinculado en pagos tesoreria", vbExclamation
-            Exit Function
+    Msg = "expedientes_lineas|clientes_fiscal|clientes_laboral|clientes_cuotas|factcli_lineas|"
+    MsgErr = ""
+    For I = 1 To 5
+        SQL = DevuelveDesdeBD("count(*)", RecuperaValor(Msg, CInt(I)), "codconce", CStr(Me.Adodc1.Recordset!codconce))
+        If Val(SQL) > 0 Then
+            MsgErr = MsgErr & "- " & RecuperaValor("Expedientes|Fiscal|Laboral|Cuotas|Facturas|", CInt(I)) & " (" & SQL & ")" & vbCrLf
         End If
+    Next
     
-
-    SepuedeBorrar = True
+    Msg = ""
+    If MsgErr <> "" Then
+        MsgBox "Concepto en: " & vbCrLf & vbCrLf & MsgErr, vbExclamation
+    Else
+        SepuedeBorrar = True
+    End If
 End Function
 
 
@@ -1491,7 +1490,7 @@ End Sub
 
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim Cad As String
     
     On Error Resume Next
@@ -1499,22 +1498,22 @@ Dim Cad As String
     Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
     Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
-    Set RS = New ADODB.Recordset
-    RS.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not RS.EOF Then
-        Toolbar1.Buttons(1).Enabled = DBLet(RS!creareliminar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(3).Enabled = DBLet(RS!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+    If Not Rs.EOF Then
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
         
-        Toolbar1.Buttons(5).Enabled = DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2)
-        Toolbar1.Buttons(6).Enabled = DBLet(RS!Ver, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
         
-        Toolbar1.Buttons(8).Enabled = DBLet(RS!Imprimir, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
     End If
     
-    RS.Close
-    Set RS = Nothing
+    Rs.Close
+    Set Rs = Nothing
     
 End Sub
 

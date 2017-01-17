@@ -21,10 +21,14 @@ Private mvarnomempre As String 'copia local
 Private mvarCifEmpre As String 'copia local
 
 Private mvarDigitosUltimoNivel  As Integer
+Private mvarFechaInicioEjercicio As Date
+Private mvarUltimoDiaPeriodoLiquidado As Date   'ultima fecha IVA liquidado
+
+
 
 Private Sql As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
-Private Rs As ADODB.Recordset
+Private RS As ADODB.Recordset
 Private RC As Byte
 
 
@@ -83,6 +87,21 @@ Public Property Get DigitosUltimoNivel() As String
      DigitosUltimoNivel = mvarDigitosUltimoNivel
 End Property
 
+Public Property Get FechaInicioEjercicio() As Date
+'se usa cuando se asigna un valor a la propiedad, en el
+'lado derecho de la asignacion
+'Syntax: Debug.Print X.nomempre
+     FechaInicioEjercicio = mvarFechaInicioEjercicio
+End Property
+
+Public Property Get UltimoDiaPeriodoLiquidado() As Date
+'se usa cuando se asigna un valor a la propiedad, en el
+'lado derecho de la asignacion
+'Syntax: Debug.Print X.nomempre
+     UltimoDiaPeriodoLiquidado = mvarUltimoDiaPeriodoLiquidado
+End Property
+
+
 
 
 
@@ -96,29 +115,30 @@ End Property
 
 
 '****   LEER  ***
-Public Function Leer() As Byte
+Public Function Leer2() As Byte
     On Error GoTo Err3
     Sql = "SELECT codigo ,nomempre,CifEmpre FROM  Empresas "
-    Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     Mens = ""
-    If Rs.EOF Then
-        Leer = 1
+    If RS.EOF Then
+        Leer2 = 1
         
         'ELSE
         Else
             Mens = "Datos basicos"
-            mvarcodempre = Rs!Codigo
-            mvarnomempre = Rs!nomempre
-            mvarCifEmpre = Rs!CifEmpre
+            mvarcodempre = RS!Codigo
+            mvarnomempre = RS!nomempre
+            mvarCifEmpre = RS!CifEmpre
             
-            mvarDigitosUltimoNivel = 9 'hay que ir a la conta
+            
+           
           
-            Leer = 0
+            Leer2 = 0
     End If
-    Rs.Close
+    RS.Close
     
-    Set Rs = Nothing
+    Set RS = Nothing
     Exit Function
 
 Err3:
@@ -126,13 +146,47 @@ Err3:
     Mens = Mens & "Número: " & Err.Number & vbCrLf
     Mens = Mens & "Descripción: " & Err.Description
     MsgBox Mens, vbExclamation
-    Set Rs = Nothing
-    Leer = 1
+    Set RS = Nothing
+    Leer2 = 1
 End Function
 
 
 
 
-
+Public Function FijarDatosAriconta() As Boolean
+ Dim Mes As Integer
+ Dim Dias As Integer
+ 
+    On Error GoTo eFijarDatosAriconta
+    FijarDatosAriconta = False
+    Set RS = New ADODB.Recordset
+    Sql = "SELECT  numnivel,numdigi1,numdigi2,numdigi3,numdigi4,numdigi5,numdigi6,numdigi7,numdigi8,numdigi9,numdigi10"
+    Sql = Sql & " FROM ariconta" & vParam.Numconta & ".empresa "
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = RS!numnivel
+    mvarDigitosUltimoNivel = RS.Fields(CInt(Sql))
+    RS.Close
+    
+    Sql = "Select periodos,perfactu,anofactu , fechaini  "
+    Sql = Sql & " FROM ariconta" & vParam.Numconta & ".parametros "
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If RS!periodos = 0 Then
+        'Trimestral
+        Mes = RS!perfactu * 3
+    Else
+        Mes = RS!perfactu
+    End If
+    Dias = DiasMes(CByte(Mes), RS!anofactu)
+    mvarUltimoDiaPeriodoLiquidado = CDate(Dias & "/" & Format(Mes, "00") & "/" & RS!anofactu)
+    mvarFechaInicioEjercicio = RS!fechaini
+    
+    
+    RS.Close
+    FijarDatosAriconta = True
+    
+eFijarDatosAriconta:
+    If Err.Number <> 0 Then MuestraError Err.Number, Sql
+    Set RS = Nothing
+End Function
 
 

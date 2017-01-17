@@ -645,7 +645,7 @@ Dim CadB As String
 
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+    Dim Cad As String
     Dim I As Integer
     
     Screen.MousePointer = vbHourglass
@@ -659,6 +659,8 @@ Private Sub cmdAceptar_Click()
                 'MsgBox "Registro insertado.", vbInformation
                 PonerModo 0
                 lblIndicador.Caption = ""
+                
+                Unload Me
             End If
         End If
     Case 4
@@ -675,6 +677,8 @@ Private Sub cmdAceptar_Click()
                         LimpiarCampos
                         PonerModo 0
                     End If
+                    lblIndicador.Caption = ""
+                    If Me.NumeroAccion <> "" Then Unload Me
                 End If
             End If
     Case 1
@@ -708,14 +712,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim Sql As String
+    Dim SQL As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            Sql = " id = " & Text1(0).Text & ""
-            Data1.Recordset.Find Sql
+            SQL = " id = " & Text1(0).Text & ""
+            Data1.Recordset.Find SQL
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -740,7 +744,7 @@ Private Sub BotonAnyadir()
     Text1(2).Text = Format(Now, "dd/mm/yyyy hh:nn:ss")
     
     '###A mano
-    PonFoco Text1(2)
+    If CadB <> "-1" Then PonFoco Text1(2)
 End Sub
 
 Private Sub BotonBuscar()
@@ -810,7 +814,7 @@ Private Sub BotonModificar()
 End Sub
 
 Private Sub BotonEliminar()
-    Dim cad As String
+    Dim Cad As String
     Dim I As Integer
 
     'Ciertas comprobaciones
@@ -818,10 +822,10 @@ Private Sub BotonEliminar()
     
 
     '### a mano
-    cad = "Seguro que desea eliminar de la BD el registro:"
-    cad = cad & vbCrLf & "ID: " & Data1.Recordset.Fields(0)
-    cad = cad & vbCrLf & "Fecha: " & Data1.Recordset.Fields(1)
-    I = MsgBox(cad, vbQuestion + vbYesNo)
+    Cad = "Seguro que desea eliminar de la BD el registro:"
+    Cad = Cad & vbCrLf & "ID: " & Data1.Recordset.Fields(0)
+    Cad = Cad & vbCrLf & "Fecha: " & Data1.Recordset.Fields(1)
+    I = MsgBox(Cad, vbQuestion + vbYesNo)
     'Borramos
     If I = vbYes Then
         'Hay que eliminar
@@ -854,7 +858,7 @@ End Sub
 
 
 Private Sub cmdRegresar_Click()
-Dim cad As String
+Dim Cad As String
 Dim I As Integer
 Dim J As Integer
 Dim Aux As String
@@ -862,7 +866,7 @@ Dim Aux As String
     If Not Data1.Recordset.EOF Then
     
         If Text1(0).Text <> "" Then
-            cad = ""
+            Cad = ""
             I = 0
             Do
                 J = I + 1
@@ -870,10 +874,10 @@ Dim Aux As String
                 If I > 0 Then
                     Aux = Mid(DatosADevolverBusqueda, J, I - J)
                     J = Val(Aux)
-                    cad = cad & Text1(J).Text & "|"
+                    Cad = Cad & Text1(J).Text & "|"
                 End If
             Loop Until I = 0
-            RaiseEvent DatoSeleccionado(cad)
+            RaiseEvent DatoSeleccionado(Cad)
         
         End If
     End If
@@ -915,7 +919,8 @@ Private Sub Form_Activate()
                 BotonAnyadir
                 Text1(4).Text = RecuperaValor(NumeroAccion, 2)
                 Text2(0).Text = RecuperaValor(NumeroAccion, 3)
-                PonFoco Text1(2)
+                'PonFoco Text1(2)
+                PonerFocoCmb Me.Combo1(0)
             Else
                 PonerCadenaBusqueda
             End If
@@ -1024,13 +1029,13 @@ Private Sub CargarCombo()
     Combo1(0).AddItem "Trivial"
     Combo1(0).ItemData(0) = 0
     Combo1(0).AddItem "Baja"
-    Combo1(0).ItemData(0) = 2
+    Combo1(0).ItemData(1) = 2
     Combo1(0).AddItem "Media"
-    Combo1(0).ItemData(0) = 5
+    Combo1(0).ItemData(2) = 5
     Combo1(0).AddItem "Alta"
-    Combo1(0).ItemData(0) = 8
+    Combo1(0).ItemData(3) = 8
     Combo1(0).AddItem "Urgente"
-    Combo1(0).ItemData(0) = 10
+    Combo1(0).ItemData(4) = 10
     
     CargaComboTabla Combo1(1), "tipoaccion", "desctipoaccion", "stipoaccion", ""
     
@@ -1096,7 +1101,7 @@ Private Sub Text1_GotFocus(Index As Integer)
 End Sub
 
 Private Sub Text1_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    KEYdown KeyCode
+ If Index <> 1 Then KEYdown KeyCode
 End Sub
 
 '++
@@ -1135,7 +1140,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
     Dim I As Integer
-    Dim Sql As String
+    Dim SQL As String
     Dim mTag As CTag
     
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
@@ -1178,7 +1183,7 @@ Private Sub Text1_LostFocus(Index As Integer)
 End Sub
 
 Private Sub HacerBusqueda()
-Dim cad As String
+Dim Cad As String
 Dim CadB As String
 CadB = ObtenerBusqueda(Me)
 
@@ -1243,7 +1248,7 @@ End Sub
 Private Sub PonerCampos()
     Dim I As Integer
     Dim mTag As CTag
-    Dim Sql As String
+    Dim SQL As String
     If Data1.Recordset.EOF Then Exit Sub
     PonerCamposForma Me, Data1
     Modo = 3
@@ -1362,13 +1367,13 @@ End Function
 'El SQL es propio de cada tabla
 Private Sub SugerirCodigoSiguiente()
 
-    Dim Sql As String
+    Dim SQL As String
     Dim Rs As ADODB.Recordset
 
-    Sql = "Select Max(id) from " & NombreTabla
+    SQL = "Select Max(id) from " & NombreTabla
     Text1(0).Text = 1
     Set Rs = New ADODB.Recordset
-    Rs.Open Sql, Conn, , , adCmdText
+    Rs.Open SQL, Conn, , , adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
             Text1(0).Text = Rs.Fields(0) + 1
@@ -1419,15 +1424,15 @@ End Sub
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
 Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
     Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not Rs.EOF Then
         Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)

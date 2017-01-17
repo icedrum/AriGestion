@@ -657,7 +657,7 @@ Option Explicit
 
 Private Const IdPrograma = 101
 
-Dim Rs As ADODB.Recordset
+Dim RS As ADODB.Recordset
 Dim Modo As Byte
 Private Function DatosOK() As Boolean
     If Text1(1).Text = "" Or Text1(2).Text = "" Then
@@ -668,7 +668,7 @@ Private Function DatosOK() As Boolean
 End Function
 
 Private Sub cmdAceptar_Click()
-    Dim cad As String
+    Dim Cad As String
     Dim I As Integer
     
     Screen.MousePointer = vbHourglass
@@ -714,7 +714,7 @@ Private Sub BotonModificar()
     'MODIFICAR
     '----------
     'Añadiremos el boton de aceptar y demas objetos para insertar
-    cmdAceptar.Caption = "Modificar"
+    cmdAceptar.Caption = "&Modificar"
     PonerModo 4
     'Escondemos el navegador y ponemos insertando
     'Como el campo 1 es clave primaria, NO se puede modificar
@@ -783,17 +783,17 @@ Private Sub Form_Load()
                 
         'SQl
         Me.Tag = "select * from usuarios.empresasariconta where ariconta='" & vUsu.CadenaConexion & "'"
-        Set Rs = New ADODB.Recordset
-        Rs.Open Me.Tag, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
-        If Rs.EOF Then
+        Set RS = New ADODB.Recordset
+        RS.Open Me.Tag, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+        If RS.EOF Then
             MsgBox "Error fatal.  ---  NO HAY EMPRESA ---", vbCritical
             End
             Exit Sub
         End If
-        Text1(0).Text = Rs!codempre
-        Text1(1).Text = Rs!nomempre
-        Text1(2).Text = Rs!nomresum
-        Rs.Close
+        Text1(0).Text = RS!codempre
+        Text1(1).Text = RS!nomempre
+        Text1(2).Text = RS!nomresum
+        RS.Close
     Else
         PonerCampos
         PonerModo 0
@@ -919,24 +919,24 @@ End Sub
 
 
 Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
-Dim Rs As ADODB.Recordset
-Dim cad As String
+Dim RS As ADODB.Recordset
+Dim Cad As String
     
     On Error Resume Next
 
-    cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
-    cad = cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.Id, "N")
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & DBSet(IdPrograma, "N") & " and codusu = " & DBSet(vUsu.id, "N")
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
-    If Not Rs.EOF Then
-        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 0 Or Modo = 2)
+    If Not RS.EOF Then
+        Toolbar1.Buttons(2).Enabled = DBLet(RS!Modificar, "N") And (Modo = 0 Or Modo = 2)
     
     End If
     
-    Rs.Close
-    Set Rs = Nothing
+    RS.Close
+    Set RS = Nothing
     
 End Sub
 

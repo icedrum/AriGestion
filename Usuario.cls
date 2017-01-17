@@ -40,8 +40,8 @@ Private mvarFiltroGastosFijos As Integer 'filtro de gastos fijos
 
 Private mvarFormulariosConPermisosEspeciales As String
 
-Private Rs As ADODB.Recordset
-Private SQL As String
+Private RS As ADODB.Recordset
+Private Sql As String
 Private Mens As String
 
 Public Property Let Nivel(ByVal vData As Long)
@@ -168,17 +168,17 @@ Public Property Get PC() As String
 End Property
 
 
-Public Property Let Id(ByVal vData As Long)
+Public Property Let id(ByVal vData As Long)
 'se usa cuando se asigna un valor a una propiedad, en el lado izquierdo de la asignación.
 'Syntax: X.Codigo= 5
     mvarId = vData
 End Property
 
 
-Public Property Get Id() As Long
+Public Property Get id() As Long
 'se usa cuando se asigna un valor a una propiedad, en el lado derecho de la asignación.
 'Syntax: Debug.Print X.Codigo
-    Id = mvarId
+    id = mvarId
 End Property
 
 
@@ -301,38 +301,38 @@ Public Function Leer(ByVal vlogin As String) As Byte
 Attribute Leer.VB_Description = "Lee un grupo de formas de cobro en función del código que se le ha pasado. Si devuelve 0 se ha conseguido leer el dato."
 Dim I As Long
     On Error GoTo Err1
-    SQL = "SELECT * FROM Usuarios.Usuarios WHERE login = '" & vlogin & "'"
-    Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Sql = "SELECT * FROM Usuarios.Usuarios WHERE login = '" & vlogin & "'"
+    Set RS = New ADODB.Recordset
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
-    If Rs.EOF Then
+    If RS.EOF Then
         Leer = 1
     Else
         I = DevuelveAumentoPC
-        mvarCodigo = Val(DBLet(Rs!codusu)) + I
-        mvarNombre = DBLet(Rs!nomusu)
-        mvarNivel = Val(DBLet(Rs!nivelusu))
-        mvarPasswdPROPIO = Rs!passwordpropio
+        mvarCodigo = Val(DBLet(RS!codusu)) + I
+        mvarNombre = DBLet(RS!nomusu)
+        mvarNivel = Val(DBLet(RS!nivelariges))
+        mvarPasswdPROPIO = RS!passwordpropio
         mvarlogin = vlogin
         mvarCadenaConexion = ""  'Se le asigna en tiempo de diseño
         
-        mvarId = Val(DBLet(Rs!codusu))
-        mvarSkin = DBLet(Rs!Skin)
+        mvarId = Val(DBLet(RS!codusu))
+        mvarSkin = DBLet(RS!Skin)
         
         
         Leer = 0
     End If
-    Rs.Close
+    RS.Close
     Exit Function
 Err1:
     Mens = "Error: " & Err.Number & " : " & Err.Description
     MsgBox Mens, vbExclamation
-    Rs.Close
+    RS.Close
     Leer = 1
 End Function
 
-Public Sub LeerFiltros(Aplicacion As String, idPrg As Integer)
-Dim Rs As ADODB.Recordset
+Public Sub LeerFiltros(aplicacion As String, idPrg As Integer)
+Dim RS As ADODB.Recordset
 ' 301 = asientos
 
 
@@ -348,70 +348,70 @@ Dim Rs As ADODB.Recordset
     mvarFiltroGastosFijos = 0
     
     
-    SQL = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(Aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = "SELECT codigo, filtro FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
-    If Not Rs.EOF Then
+    If Not RS.EOF Then
         Select Case idPrg
             Case 301
-                mvarFiltroAsientos = DBLet(Rs!FILTRO, "N")
+                mvarFiltroAsientos = DBLet(RS!FILTRO, "N")
             Case 401
-                mvarFiltroFactCli = DBLet(Rs!FILTRO, "N")
+                mvarFiltroFactCli = DBLet(RS!FILTRO, "N")
             Case 404
-                mvarFiltroFactPro = DBLet(Rs!FILTRO, "N")
+                mvarFiltroFactPro = DBLet(RS!FILTRO, "N")
             Case 1101
-                mvarFiltroPresup = DBLet(Rs!FILTRO, "N")
+                mvarFiltroPresup = DBLet(RS!FILTRO, "N")
             Case 601
-                mvarFiltroCobros = DBLet(Rs!FILTRO, "N")
+                mvarFiltroCobros = DBLet(RS!FILTRO, "N")
             Case 801
-                mvarFiltroPagos = DBLet(Rs!FILTRO, "N")
+                mvarFiltroPagos = DBLet(RS!FILTRO, "N")
             Case 807
-                mvarFiltroGastosFijos = DBLet(Rs!FILTRO, "N")
+                mvarFiltroGastosFijos = DBLet(RS!FILTRO, "N")
         End Select
     End If
     
-    Rs.Close
-    Set Rs = Nothing
+    RS.Close
+    Set RS = Nothing
     
     Exit Sub
 Err1:
     Mens = "Error: " & Err.Number & " : " & Err.Description
     MsgBox Mens, vbExclamation
-    Rs.Close
+    RS.Close
 
 End Sub
 
-Public Function PermiteOpcion(Aplicacion As String, idPrg As Integer, Opcion As Integer) As Boolean
+Public Function PermiteOpcion(aplicacion As String, idPrg As Integer, Opcion As Integer) As Boolean
 
     On Error GoTo ePermiteOpcion
     
     PermiteOpcion = False
 
-    SQL = "SELECT codigo, "
+    Sql = "SELECT codigo, "
     Select Case Opcion
         Case vbOpcionVer
-            SQL = SQL & "ver "
+            Sql = Sql & "ver "
         Case vbOpcionCrearEliminar
-            SQL = SQL & "creareliminar "
+            Sql = Sql & "creareliminar "
         Case vbOpcionModificar
-            SQL = SQL & "modificar "
+            Sql = Sql & "modificar "
         Case vbOpcionImprimir
-            SQL = SQL & "imprimir "
+            Sql = Sql & "imprimir "
         Case vbOpcionEspecial
-            SQL = SQL & "especial "
+            Sql = Sql & "especial "
     
     End Select
-    SQL = SQL & " FROM menus_usuarios WHERE aplicacion = " & DBSet(Aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = Sql & " FROM menus_usuarios WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
-    Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Set RS = New ADODB.Recordset
+    RS.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     
-    If Not Rs.EOF Then
-        PermiteOpcion = (DBLet(Rs.Fields(1).Value) = 1)
+    If Not RS.EOF Then
+        PermiteOpcion = (DBLet(RS.Fields(1).Value) = 1)
     End If
     Exit Function
 
@@ -421,15 +421,15 @@ End Function
 
 
 
-Public Sub ActualizarFiltro(Aplicacion As String, idPrg As Integer, Valor As Integer)
+Public Sub ActualizarFiltro(aplicacion As String, idPrg As Integer, Valor As Integer)
     On Error GoTo Err1
 
 
-    SQL = "update menus_usuarios set filtro = " & DBSet(Valor, "N")
-    SQL = SQL & "  WHERE aplicacion = " & DBSet(Aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
-    SQL = SQL & " and codigo = " & DBSet(idPrg, "N")
+    Sql = "update menus_usuarios set filtro = " & DBSet(Valor, "N")
+    Sql = Sql & "  WHERE aplicacion = " & DBSet(aplicacion, "T") & " and codusu = " & DBSet(mvarId, "N")
+    Sql = Sql & " and codigo = " & DBSet(idPrg, "N")
     
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     Select Case idPrg
         Case 301 ' asientos
@@ -459,8 +459,8 @@ Private Function DevuelveAumentoPC() As Long
 
 DevuelveAumentoPC = 32000
 mvarPC = ComputerName
-SQL = DevuelveDesdeBD("codpc", "Usuarios.pcs", "nompc", mvarPC, "T")
-If SQL <> "" Then DevuelveAumentoPC = Val(SQL) * 1000
+Sql = DevuelveDesdeBD("codpc", "Usuarios.pcs", "nompc", mvarPC, "T")
+If Sql <> "" Then DevuelveAumentoPC = Val(Sql) * 1000
 
 End Function
 
@@ -498,8 +498,8 @@ End Sub
 
 
 Public Sub ActualizarSkin()
-    SQL = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.Id
+    Sql = "UPDATE usuarios.usuarios SET skin=" & mvarSkin & " WHERE codusu = " & vUsu.id
     
-    EjecutarSQL SQL
+    EjecutarSQL Sql
 End Sub
 

@@ -27,11 +27,18 @@ Private mvarNumconta As Integer
 Private mvarRaizcuotas As String
 Private mvarRaiztasas As String
 Private mvarIvaexento As Integer
-Private mvarBanco As String
+Private mvarCtaBanco As String
 
-Private Sql As String  'Para la sentencia
+'CAJA
+Private mvarCtaCaja As String
+Private mvarCtaGastosCaja As String
+Private mvarCtaIngresosCaja As String
+
+
+
+Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
-Private RS As Recordset
+Private Rs As Recordset
 Private RC As Byte
 
 
@@ -102,41 +109,62 @@ Public Property Get Ivaexento() As Integer
      Ivaexento = mvarIvaexento
 End Property
 
-
-
-
+'****   SOLO GET  ***
+Public Property Get CtaBanco() As String
+     CtaBanco = mvarCtaBanco
+End Property
+Public Property Get CtaCaja() As String
+     CtaCaja = mvarCtaCaja
+End Property
+Public Property Get CtaGastosCaja() As String
+     CtaGastosCaja = mvarCtaGastosCaja
+End Property
+Public Property Get CtaIngresosCaja() As String
+     CtaIngresosCaja = mvarCtaIngresosCaja
+End Property
 
 '****   LEER  ***
-Public Function leer() As Byte
+Public Function Leer() As Byte
     On Error GoTo Err3
-    Sql = "SELECT * FROM parametros"
-    Set RS = New ADODB.Recordset
-    RS.Open Sql, Conn, adOpenForwardOnly, adLockOptimistic
-    If RS.EOF Then
-        leer = 1
+    SQL = "SELECT * FROM parametros"
+    Set Rs = New ADODB.Recordset
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic
+    If Rs.EOF Then
+        Leer = 1
         'ELSE
         Else
 
 
-            mvarSerconta = RS!Serconta
-            mvarUsuconta = RS!Usuconta
-            mvarPasconta = RS!Pasconta
-            mvarNumconta = RS!Numconta
-            mvarRaizcuotas = DBLet(RS!Raizcuotas, "T")
-            mvarRaiztasas = DBLet(RS!Raiztasas, "T")
-            mvarIvaexento = DBLet(RS!Ivaexento, "N")
+            mvarSerconta = Rs!Serconta
+            mvarUsuconta = Rs!Usuconta
+            mvarPasconta = Rs!Pasconta
+            mvarNumconta = Rs!Numconta
+            mvarRaizcuotas = DBLet(Rs!Raizcuotas, "T")
+            mvarRaiztasas = DBLet(Rs!Raiztasas, "T")
+            mvarIvaexento = DBLet(Rs!Ivaexento, "N")
+
+            mvarCtaBanco = DBLet(Rs!CtaBanco, "T")
+            
+            
+            'CAJA
+            mvarCtaCaja = DBLet(Rs!CtaCaja, "T")
+            mvarCtaGastosCaja = DBLet(Rs!CtaGastosCaja, "T")
+            mvarCtaIngresosCaja = DBLet(Rs!ctaingrescaja, "T")
 
             
+            
+            
+            
             'mvarPathAyuda = DBLet(Rs!PathAyuda, "T")
-           leer = 0
+           Leer = 0
     End If
 
-    RS.Close
+    Rs.Close
+    
+    If mvarCtaBanco = "" Then BancoPropioFacturacionContabilidad
     
     
-    
-    
-    Set RS = Nothing
+    Set Rs = Nothing
     Exit Function
 
 Err3:
@@ -145,16 +173,15 @@ Err3:
     Mens = Mens & "Descripción: " & Err.Description
     MsgBox Mens, vbExclamation
     On Error Resume Next
-    CerrarRs RS
-    leer = 1
+    CerrarRs Rs
+    Leer = 1
     Err.Clear
 End Function
 
 
 
-Public Function BancoPropioFacturacionContabilidad() As String
-    If mvarBanco = "" Then
-        mvarBanco = DevuelveDesdeBD("codmacta", "ariconta" & vParam.Numconta & ".bancos", "1", "1 ORDER BY codmacta desc")
-    End If
-    BancoPropioFacturacionContabilidad = mvarBanco
-End Function
+Private Sub BancoPropioFacturacionContabilidad()
+    'Leeremos el primer valor. NO deberia pasar
+    mvarCtaBanco = DevuelveDesdeBD("codmacta", "ariconta" & vParam.Numconta & ".bancos", "1", "1 ORDER BY codmacta desc")
+    
+End Sub
