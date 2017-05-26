@@ -276,11 +276,12 @@ Public Sub CreateReportControlSindesglose()
     Column.Icon = COLUMN_IMPORTANCE_ICON
     
     Set Column = wndReportControl.Columns.Add(2, "ID", 30, True)
-    Set Column = wndReportControl.Columns.Add(3, "Creada", 140, True)
-    Set Column = wndReportControl.Columns.Add(4, "Usuario", 140, True)
-    Set Column = wndReportControl.Columns.Add(5, "Cerrada", 140, True)
-    Set Column = wndReportControl.Columns.Add(6, "Lineas", 25, True)
-    Set Column = wndReportControl.Columns.Add(7, "Importe", 125, True)
+    Set Column = wndReportControl.Columns.Add(3, "Creada", 120, True)
+    Set Column = wndReportControl.Columns.Add(4, "Usuario", 120, True)
+    Set Column = wndReportControl.Columns.Add(5, "Por Banco", 120, True)
+    Set Column = wndReportControl.Columns.Add(6, "Cerrada", 140, True)
+    Set Column = wndReportControl.Columns.Add(7, "Lineas", 25, True)
+    Set Column = wndReportControl.Columns.Add(8, "Importe", 125, True)
     Column.Alignment = xtpAlignmentRight
 End Sub
 
@@ -376,8 +377,12 @@ Dim GroupRow As XtremeReportControl.ReportGroupRow
           If wndReportControl.Rows(I).GroupRow Then
               'Es la del grupo
               'Debug.Print ""
+              
+              
               Set GroupRow = wndReportControl.Rows(I)
-              GroupRow.GroupCaption = GroupRow.GroupCaption & "    " & Format(Importe, FormatoImporte) & "€"
+              Msg = Mid(GroupRow.GroupCaption, InStr(1, GroupRow.GroupCaption, ":") + 1)
+              Msg = DevuelveDesdeBD("If(pagoporbanco=1,'Banco','Caja')", "gestadministrativa", "id", Msg)
+              GroupRow.GroupCaption = GroupRow.GroupCaption & "    " & Msg & "    " & Format(Importe, FormatoImporte) & "€"
               Importe = 0
           Else
               'Debug.Print wndReportControl.Rows(I).Record.Item(7).Value
@@ -587,6 +592,10 @@ Dim Aux As String
     
     Record.AddItem CStr(miRsAux!Usuario)
     
+    Record.AddItem CStr(IIf(DBLet(miRsAux!pagoPorBanco, "N") = 1, "SI", " "))
+    
+    
+    
     Set Item = Record.AddItem("")
     
     If Not IsNull(miRsAux!fechafinalizacion) Then
@@ -669,13 +678,16 @@ Private Sub ImprimirProceso(idd As Long)
     InicializarVbles True
     cadNomRPT = "rGestionAdm.rpt"
     cadFormula = "{expedientes_lineas.pagado}=" & idd
-    Msg = DevuelveDesdeBD("concat(usuario,'|',fechacreacion,'|',coalesce(fechafinalizacion,''),'|')", "gestadministrativa", "id", CStr(idd))
-    cadselect = "ID " & Format(idd, "0000") & "    Usuario: " & RecuperaValor(Msg, 1) & "     Fecha: "
+    Msg = DevuelveDesdeBD("concat(usuario,'|',fechacreacion,'|',coalesce(fechafinalizacion,''),'|',contabilizada,'|')", "gestadministrativa", "id", CStr(idd))
+    cadselect = "ID " & Format(idd, "0000") & "   Usuario: " & RecuperaValor(Msg, 1) & "   Fecha: "
     cadselect = cadselect & Format(RecuperaValor(Msg, 2), "dd/mm/yyyy")
-    Msg = RecuperaValor(Msg, 3)
-    If Msg <> "" Then cadselect = cadselect & "     CERRADO: " & Msg
+    MsgErr = RecuperaValor(Msg, 3)
+    If MsgErr <> "" Then
+        cadselect = cadselect & "     CERRADO: " & MsgErr
+        If RecuperaValor(Msg, 4) = "1" Then cadselect = cadselect & " (Contab.)"
+    End If
     cadParam = cadParam & "pdh1=""" & cadselect & """|"
-
+    MsgErr = ""
 
     ImprimeGeneral
 End Sub
@@ -704,8 +716,10 @@ End Function
 
 Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
 Dim id As String
+Dim F As Date
 Dim GroupRow
 Dim B As Boolean
+
     'Es un agrupado
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
     If wndReportControl.SelectedRows.Count = 0 Then Exit Sub
@@ -745,40 +759,44 @@ Dim B As Boolean
         Exit Sub
     End If
     
+    CadenaDesdeOtroForm = ""
     If Button.Index = 1 Then
-        Msg = "¿Seguro que desea cerrar el proceso?"
+        frmGestionAdmCierre.QueTasa = CLng(id)
+        frmGestionAdmCierre.Show vbModal
+        If CadenaDesdeOtroForm = "" Then Exit Sub
     Else
-        Msg = vbCrLf & "¿Seguro que desea contabilizar el proceso?"
-    End If
-    
-    If MsgBox(Msg, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
-    
-    
-    Conn.BeginTrans
-    If Button.Index = 1 Then
-        B = CerrarProceso(id)
-    Else
-        B = Contabilizar(id)
-    End If
-    If B Then
-        Conn.CommitTrans
-        MostrarDatos
+        'Lanzamos el frm para pedir fecha
+        ' Sin cancelar es que no quiere continuar
         
-        If Button.Index = 1 Then
-            MsgBox "Proceso cerrado correctamente.", vbInformation
+        frmMensajes.Opcion = 9
+        frmMensajes.Show vbModal
+        If CadenaDesdeOtroForm = "" Then Exit Sub
+        F = CDate(CadenaDesdeOtroForm)
+        
+    End If
+    
+    
+    
+    If Button.Index <> 1 Then
+        'Se cierra en el fomulario
+        'B = CerrarProceso(id)
+        Conn.BeginTrans
+        B = HacerProcesContabilizacionGestion(CLng(id), F)
+    
+        If B Then
+            Conn.CommitTrans
         Else
-        
+            Conn.RollbackTrans
         End If
     Else
-        Conn.RollbackTrans
+        B = True
     End If
+    
+    If B Then MostrarDatos
+    
 End Sub
 
 
-Private Function Contabilizar(id As String) As Boolean
-    MsgBox "En proceso", vbCritical
-    Contabilizar = False
-End Function
 
 Private Function CerrarProceso(id As String) As Boolean
     On Error GoTo eCerrarProceso
@@ -797,3 +815,152 @@ eCerrarProceso:
     MuestraError Err.Number, Err.Description
     
 End Function
+
+
+
+
+
+Private Function HacerProcesContabilizacionGestion(id As Long, Fecha As Date) As Boolean
+Dim ColApu As Collection
+Dim Aux As String
+Dim aux2 As String
+Dim CtaCajaBanco As String
+Dim ImporteParaCajaBanco As Currency
+Dim EsACaja As Boolean
+Dim usuario2 As String
+Dim Creacion As Date
+On Error GoTo eHacerProcesContabilizacionGestion
+    HacerProcesContabilizacionGestion = False
+    
+    
+       
+    
+        
+    'Iremos uno a uno cuadrando todos los movimientos
+    Set ColApu = New Collection
+    Set miRsAux = New ADODB.Recordset
+    
+    Aux = "Select usuario,llevados,importe,fechafinalizacion,pagoPorBanco,fechacreacion from gestadministrativa where id =" & id
+    miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    'no puede ser eof
+    EsACaja = miRsAux!pagoPorBanco = 0
+    usuario2 = miRsAux!Usuario
+    Creacion = miRsAux!fechacreacion
+    miRsAux.Close
+    
+    
+    'Si es a caja, no dejare meter con fecha anterior a cierre
+    If EsACaja Then
+        Aux = "Select max(feccaja) from caja_param WHERE usuario =" & DBSet(usuario2, "T")
+        miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+        Aux = ""
+        If Not miRsAux.EOF Then
+            If Not IsNull(miRsAux.Fields(0)) Then
+                If miRsAux.Fields(0) >= Fecha Then Err.Raise 513, , "Fecha cierre de caja(" & usuario2 & ") mayor fecha contabilizacion"
+            End If
+        End If
+        miRsAux.Close
+        
+    End If
+    ImporteParaCajaBanco = 0
+        '' Llevara
+        '       codmacta | docum | codconce | ampliaci | imported|importeH |
+    
+    Aux = "select pagado, l.numexped,l.anoexped,l.nomconce,l.numserie,e.codclien,l.importe ,l.codconce ,l.tiporegi,l.numlinea , l.codsitua,codmacta,codclien "
+    Aux = Aux & " from expedientes e,expedientes_lineas l,conceptos Where"
+    Aux = Aux & " pagado=" & id & " and e.tiporegi = L.tiporegi And e.numexped = L.numexped And e.anoexped = L.anoexped And"
+    Aux = Aux & " conceptos.codconce=l.codconce"
+
+    
+    miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    I = 0
+    aux2 = ""
+    While Not miRsAux.EOF
+        I = I + 1
+        
+        If IsNull(miRsAux!codmacta) Then Err.Raise 513, , "Cuenta nula para concepto: " & miRsAux!nomconce
+        
+        If EsACaja Then
+            
+        
+            'Meteremos en la caja del usuario. Guardamos los SQLs
+            'usuario,feccaja,tipomovi,tiporegi,numserie,numdocum,anoexped,importe,ampliacion,codmacta,numlinea
+            Aux = "(" & DBSet(usuario2, "T") & ",'" & Format(Fecha, "yyyy-mm-dd") & " " & Format(Now, "hh:mm:") & Format(I, "00") & "',1," 'pago:1
+            Aux = Aux & DBSet(miRsAux!TipoRegi, "T") & "," & DBSet(miRsAux!numSerie, "T") & "," & DBSet(miRsAux!numexped, "T") & "," & DBSet(miRsAux!anoexped, "N")
+            Aux = Aux & "," & DBSet(miRsAux!Importe, "N") & "," & DBSet(miRsAux!nomconce, "T") & ",'" & miRsAux!codmacta & "'," & miRsAux!numlinea & ")"
+            
+            
+        Else
+            'Va a banco,. directamente a contabilidad
+            ImporteParaCajaBanco = ImporteParaCajaBanco + miRsAux!Importe
+            
+            
+            '   col: 'codmacta | docum | codconce | ampliaci | imported|importeH |ctacontrpar|
+            
+            aux2 = DevuelveCuentaContableCliente(False, CStr(miRsAux!CodClien))
+            Aux = miRsAux!numSerie & Format(miRsAux!numexped, "0000") & "/" & miRsAux!anoexped - 2000
+            
+            '   col: 'codmacta | docum | codconce |
+            Aux = aux2 & "|" & Aux & "|1|"
+            aux2 = DevuelveDesdeBD("nomclien", "clientes", "codclien", miRsAux!CodClien)
+            '   ampliaci
+            Aux = Aux & aux2 & "|"
+            ' imported|importeH |ctacontrpar|
+            Aux = Aux & miRsAux!Importe & "|" & "|" & vParam.CtaBanco & "|"
+    
+        End If
+        ColApu.Add Aux
+        
+        
+        miRsAux.MoveNext
+    Wend
+    miRsAux.Close
+    
+    If ColApu.Count = 0 Then Err.Raise 513, , "No se han encontrado lineas"
+    'Cuadre de /banco
+    
+    
+    
+    If EsACaja Then
+        'Directamente metemos el pago desde la caja
+
+        Aux = ""
+        For I = 1 To ColApu.Count
+            Aux = Aux & ", " & ColApu(I)
+        Next
+        Aux = Mid(Aux, 2)
+        Aux = "INSERT INTO caja (usuario,feccaja,tipomovi,tiporegi,numserie,numdocum,anoexped,importe,ampliacion,codmacta,numlinea) VALUES " & Aux
+        Conn.Execute Aux
+        
+    Else
+    
+        
+        aux2 = "Gestion administrativa " & Format(id, "0000") & "  F" & Format(Creacion, "dd/mm/yyyy hh:nn")
+        Aux = "GA: " & id & "-" & Format(ColApu.Count, "00")
+        Aux = vParam.CtaBanco & "|" & Aux & "|1|" & aux2 & "||"
+        ' imported|importeH |ctacontrpar|
+        Aux = Aux & Format(ImporteParaCajaBanco, FormatoImporte) & "|" & "|"
+        ColApu.Add Aux
+        
+        Aux = "Gestion administrativa " & Format(id, "0000") & "  Fecha " & Format(Creacion, "dd/mm/yyyy hh:nn") & vbCrLf
+        Aux = Aux & "Usuario gestion:" & usuario2 & "   Tasas: " & Format(ColApu.Count, "00") & vbCrLf
+        Aux = Aux & "Usuario actual :" & vUsu.Login
+        If Not CrearApunteDesdeColeccion(Fecha, Aux, ColApu) Then Err.Raise 513, , "Crear apunte en contabilidad"
+        
+        
+    End If
+    
+    Aux = "UPDATE expedientes_lineas SET codsitua = 3 WHERE pagado=" & id
+    Conn.Execute Aux
+    
+    Aux = "UPDATE gestadministrativa SET contabilizada = 1 WHERE id=" & id
+    Conn.Execute Aux
+    
+    
+    HacerProcesContabilizacionGestion = True
+eHacerProcesContabilizacionGestion:
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    Set miRsAux = Nothing
+    Set ColApu = Nothing
+End Function
+

@@ -873,6 +873,7 @@ Public Const ID_IntegraciónContable = 405
 Public Const ID_EstadisticaClientes = 501
 Public Const ID_EstadisticaConceptos = 502
 Public Const ID_Gráficamensual = 503
+Public Const ID_LisatadoFacturas = 504
 
 Public Const ID_Licencia_Usuario_Final_txt = 2001
 Public Const ID_Licencia_Usuario_Final_web = 2002

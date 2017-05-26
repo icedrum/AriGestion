@@ -57,8 +57,8 @@ Begin VB.Form frmCliente
       TabIndex        =   82
       Tag             =   "cuota|clientes_cuotas|"
       Top             =   6840
-      Width           =   6855
-      _ExtentX        =   12091
+      Width           =   6975
+      _ExtentX        =   12303
       _ExtentY        =   2566
       View            =   3
       LabelEdit       =   1
@@ -70,7 +70,7 @@ Begin VB.Form frmCliente
       BackColor       =   -2147483643
       BorderStyle     =   1
       Appearance      =   1
-      NumItems        =   3
+      NumItems        =   4
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Descripcion"
          Object.Width           =   7212
@@ -85,6 +85,11 @@ Begin VB.Form frmCliente
          SubItemIndex    =   2
          Text            =   "Importe"
          Object.Width           =   1965
+      EndProperty
+      BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+         SubItemIndex    =   3
+         Text            =   "I"
+         Object.Width           =   635
       EndProperty
    End
    Begin MSComctlLib.ListView lwFiscal 
@@ -93,8 +98,8 @@ Begin VB.Form frmCliente
       TabIndex        =   83
       Tag             =   "cuota|clientes_cuotas|"
       Top             =   8520
-      Width           =   6855
-      _ExtentX        =   12091
+      Width           =   6975
+      _ExtentX        =   12303
       _ExtentY        =   2566
       View            =   3
       LabelEdit       =   1
@@ -106,7 +111,7 @@ Begin VB.Form frmCliente
       BackColor       =   -2147483643
       BorderStyle     =   1
       Appearance      =   1
-      NumItems        =   3
+      NumItems        =   4
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Descripcion"
          Object.Width           =   7212
@@ -121,6 +126,11 @@ Begin VB.Form frmCliente
          SubItemIndex    =   2
          Text            =   "Importe"
          Object.Width           =   1965
+      EndProperty
+      BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+         SubItemIndex    =   3
+         Text            =   "I"
+         Object.Width           =   635
       EndProperty
    End
    Begin VB.TextBox Text1 
@@ -317,8 +327,8 @@ Begin VB.Form frmCliente
       TabIndex        =   59
       Tag             =   "cuota|clientes_cuotas|"
       Top             =   5160
-      Width           =   6855
-      _ExtentX        =   12091
+      Width           =   6975
+      _ExtentX        =   12303
       _ExtentY        =   2566
       View            =   3
       LabelEdit       =   1
@@ -330,7 +340,7 @@ Begin VB.Form frmCliente
       BackColor       =   -2147483643
       BorderStyle     =   1
       Appearance      =   1
-      NumItems        =   3
+      NumItems        =   4
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Descripcion"
          Object.Width           =   7212
@@ -345,6 +355,11 @@ Begin VB.Form frmCliente
          SubItemIndex    =   2
          Text            =   "Importe"
          Object.Width           =   1965
+      EndProperty
+      BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+         SubItemIndex    =   3
+         Text            =   "I"
+         Object.Width           =   635
       EndProperty
    End
    Begin VB.Frame FramCuto 
@@ -1442,14 +1457,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim SQL As String
+    Dim Sql As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            SQL = " codclien = " & Text1(4).Text & ""
-            Data1.Recordset.Find SQL
+            Sql = " codclien = " & Text1(4).Text & ""
+            Data1.Recordset.Find Sql
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -1839,6 +1854,24 @@ End Sub
 
 
 
+Private Sub Form_Resize()
+Dim W As Integer
+    On Error GoTo eResize
+    W = Me.Width
+    If Screen.Width < Me.Width Then
+        W = Screen.Width
+      
+    End If
+'      W = 17000
+'    Me.Width = 17000
+    
+    W = W - Me.wndReportControl.Left - 120
+    If W > 200 Then Me.wndReportControl.Width = W
+    
+eResize:
+    If Err.Number <> 0 Then Err.Clear
+End Sub
+
 Private Sub Form_Unload(Cancel As Integer)
     CheckValueGuardar Me.Name, Me.chkVistaPrevia.Value
 End Sub
@@ -1880,6 +1913,18 @@ Private Sub imgppal_Click(Index As Integer)
     frmF.Show vbModal
     If CadB <> "" Then Text1(Index + 16).Text = CadB
     
+End Sub
+
+Private Sub lwCuotas_DblClick()
+    DblClickListview lwCuotas
+End Sub
+
+Private Sub lwFiscal_DblClick()
+    DblClickListview lwFiscal
+End Sub
+
+Private Sub lwlaboral_DblClick()
+    DblClickListview lwlaboral
 End Sub
 
 Private Sub mnBuscar_Click()
@@ -1967,7 +2012,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
     Dim Valor As Currency
-    Dim SQL As String
+    Dim Sql As String
     Dim mTag As CTag
     Dim I As Integer
     Dim Sql2 As String
@@ -2005,7 +2050,7 @@ Private Sub Text1_LostFocus(Index As Integer)
             
                 If Text1(3).Text <> "" And Text1(6).Text <> "" And Text1(0).Text <> "" And Text1(22).Text <> "" And Text1(21).Text <> "" Then
                     ' comprobamos si es correcto
-                    SQL = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(22).Text, "0000") & Format(Text1(21).Text, "0000")
+                    Sql = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(22).Text, "0000") & Format(Text1(21).Text, "0000")
                 End If
             Else
                 If Mid(Text1(Index).Text, 1, 2) = "ES" Then
@@ -2014,12 +2059,12 @@ Private Sub Text1_LostFocus(Index As Integer)
             End If
             
             If Text1(2).Text <> "" And Text1(3).Text <> "" And Text1(6).Text <> "" And Text1(0).Text <> "" And Text1(22).Text <> "" And Text1(21).Text <> "" Then
-                SQL = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(22).Text, "0000") & Format(Text1(21).Text, "0000")
+                Sql = Format(Text1(3).Text, "0000") & Format(Text1(6).Text, "0000") & Format(Text1(0).Text, "0000") & Format(Text1(22).Text, "0000") & Format(Text1(21).Text, "0000")
         
                 Sql2 = CStr(Mid(Text1(2).Text, 1, 2))
-                If DevuelveIBAN2(CStr(Sql2), SQL, SQL) Then
-                    If Mid(Text1(2).Text, 3, 2) <> SQL Then
-                        MsgBox "Codigo IBAN distinto del calculado [" & Sql2 & SQL & "]", vbExclamation
+                If DevuelveIBAN2(CStr(Sql2), Sql, Sql) Then
+                    If Mid(Text1(2).Text, 3, 2) <> Sql Then
+                        MsgBox "Codigo IBAN distinto del calculado [" & Sql2 & Sql & "]", vbExclamation
                     End If
                 End If
             End If
@@ -2162,12 +2207,12 @@ End Sub
 Private Sub PonerCampos()
     Dim I As Integer
     Dim mTag As CTag
-    Dim SQL As String
+    Dim Sql As String
     If Data1.Recordset.EOF Then Exit Sub
     PonerCamposForma Me, Data1
     
-    SQL = "ariconta" & vParam.Numconta
-    Text2(2).Text = DevuelveDesdeBD("nomforpa", SQL & ".formapago", "codforpa", Text1(8).Text)
+    Sql = "ariconta" & vParam.Numconta
+    Text2(2).Text = DevuelveDesdeBD("nomforpa", Sql & ".formapago", "codforpa", Text1(8).Text)
     
     
     ComboBoxMarkup.ListIndex = -1
@@ -2351,7 +2396,7 @@ End Sub
 
 Private Function DatosOK() As Boolean
 Dim B As Boolean
-Dim SQL As String
+Dim Sql As String
 Dim RC2 As String
 
     
@@ -2362,30 +2407,41 @@ Dim RC2 As String
     'Comprobamos  si existe
     If Modo = 3 Then
         If ExisteCP(Text1(4)) Then B = False
+        
+        'La longitud del codigo NO puede ser superior a 5, ya que cuando concatena codclien con raizcuentas no puede exceder de 9 que es el `plan gneral contable
+        Sql = Val(Text1(4).Text)
+        If Len(Sql) > 5 Then
+            MsgBox "Maximo codigo cliente: 99999", vbExclamation
+            Exit Function
+        End If
+        
     End If
     If Not B Then Exit Function
+    
+    
+    
     
 
     'Comprobamos el CCC
     If Text1(2).Text <> "" Then
-         SQL = Text1(3).Text & Text1(6).Text & Text1(0).Text & Text1(22).Text & Text1(21).Text
-         If Len(SQL) <> 20 Then
+         Sql = Text1(3).Text & Text1(6).Text & Text1(0).Text & Text1(22).Text & Text1(21).Text
+         If Len(Sql) <> 20 Then
              MsgBox "Longitud cuenta bancaria incorrecta", vbExclamation
              Exit Function
          End If
 
         'Compruebo EL IBAN
         'Meto el CC
-        RC2 = SQL
-        SQL = ""
-        If Me.Text1(2).Text <> "" Then SQL = Mid(Text1(2).Text, 1, 2)
+        RC2 = Sql
+        Sql = ""
+        If Me.Text1(2).Text <> "" Then Sql = Mid(Text1(2).Text, 1, 2)
 
-        If DevuelveIBAN2(SQL, RC2, RC2) Then
+        If DevuelveIBAN2(Sql, RC2, RC2) Then
             If Me.Text1(2).Text = "" Then
                 If MsgBox("Poner IBAN ?", vbQuestion + vbYesNo) = vbYes Then Me.Text1(2).Text = RC2
             Else
                 If Mid(Text1(2).Text, 3, 2) <> RC2 Then
-                    RC2 = "Calculado : " & SQL & RC2
+                    RC2 = "Calculado : " & Sql & RC2
                     RC2 = "Introducido: " & Me.Text1(2).Text & vbCrLf & RC2 & vbCrLf
                     RC2 = "Error en codigo IBAN" & vbCrLf & RC2 & "Continuar?"
                     If MsgBox(RC2, vbQuestion + vbYesNo) = vbNo Then Exit Function
@@ -2645,35 +2701,41 @@ End Sub
 
 
 Private Sub CargarCutoasLaborFiscal(Tipo As Byte, ByRef Lw As ListView)
-Dim SQL As String
+Dim Sql As String
     Set miRsAux = New ADODB.Recordset
     If Tipo = 0 Then
-        SQL = "clientes_cuotas  "
+        Sql = "clientes_cuotas  "
     Else
         If Tipo = 1 Then
-            SQL = "clientes_laboral"
+            Sql = "clientes_laboral"
         Else
-            SQL = "clientes_fiscal"
+            Sql = "clientes_fiscal"
         End If
     End If
-    lblIndicador.Caption = SQL
+    lblIndicador.Caption = Sql
     lblIndicador.Refresh
     Lw.ListItems.Clear
-    SQL = "SELECT numlinea,conceptos.codconce,nomconce,importe,fecultfac FROM " & SQL & " tabla,conceptos WHERE codclien =" & Me.Data1.Recordset!CodClien
-    SQL = SQL & " AND tabla.codconce = conceptos.codconce  ORDER BY numlinea"
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "SELECT numlinea,conceptos.codconce,nomconce,importe,fecultfac,inactivo FROM " & Sql & " tabla,conceptos WHERE codclien =" & Me.Data1.Recordset!CodClien
+    Sql = Sql & " AND tabla.codconce = conceptos.codconce  ORDER BY numlinea"
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     I = 0
     While Not miRsAux.EOF
         I = I + 1
         Lw.ListItems.Add , "C" & miRsAux!numlinea, miRsAux!nomconce
         If IsNull(miRsAux!fecultfac) Then
-            SQL = " "
+            Sql = " "
         Else
-            SQL = Format(miRsAux!fecultfac, "dd/mm/yy")
+            Sql = Format(miRsAux!fecultfac, "dd/mm/yy")
         End If
-        Lw.ListItems(I).SubItems(1) = SQL
+        Lw.ListItems(I).SubItems(1) = Sql
         Lw.ListItems(I).SubItems(2) = Format(DBLet(miRsAux!Importe, "N"), FormatoImporte)
         
+        If miRsAux!inactivo = 1 Then
+            Lw.ListItems(I).SubItems(3) = "*"
+            Lw.ListItems(I).ForeColor = vbRed
+        Else
+            Lw.ListItems(I).SubItems(3) = " "
+        End If
         miRsAux.MoveNext
     Wend
     miRsAux.Close
@@ -2911,7 +2973,7 @@ Dim Cad As String
         Cad = Cad & " from clientes_historial where codclien=" & Data1.Recordset!CodClien
         Cad = Cad & " ORDER BY fechahora desc"
     
-        K = 5 'para las pruebas de icono. Borrar si eso
+        k = 5 'para las pruebas de icono. Borrar si eso
     ElseIf Option1(1).Value Then
         Cad = "select e.numexped,e.anoexped,fecexped,nomsitua,sum(coalesce(importe,0)) importe"
         Cad = Cad & " ,0 importancia,e.tiporegi"
@@ -2935,7 +2997,7 @@ Dim Cad As String
         '--------------------------------
         
         Cad = "select if(now()>fecvenci,0,1) importancia,concat(numserie,'-',right(concat('00000000',numfactu),8)) quefactura,"
-        Cad = Cad & " numorden,fecfactu,fecvenci,ImpVenci - coalesce(gastos, 0) - coalesce(impcobro, 0) as pendiente ,nomforpa,"
+        Cad = Cad & " numorden,fecfactu,fecvenci,ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0) as pendiente ,nomforpa,"
         Cad = Cad & "numserie,numfactu,tipoformapago,cobros.codforpa "
         
         Cad = Cad & " from ariconta" & vParam.Numconta & ".cobros,ariconta" & vParam.Numconta & ".formapago "
@@ -3088,20 +3150,20 @@ Dim C As String
 
         Record.AddItem CStr(miRsAux!nomsitua)
         Record.AddItem Format(miRsAux!Importe, FormatoImporte)
-        Record.AddItem miRsAux!tiporegi & "|" & miRsAux!numexped & "|" & miRsAux!anoexped & "|"
+        Record.AddItem miRsAux!TipoRegi & "|" & miRsAux!numexped & "|" & miRsAux!anoexped & "|"
     
     
     ElseIf Me.Option1(2).Value Then
         Record.AddItem ""
         'numserie,nomregis,factcli.numfactu,fecfactu,totfaccl
-        Record.AddItem miRsAux!numserie & Format(miRsAux!NumFactu, "0000000")
+        Record.AddItem miRsAux!numSerie & Format(miRsAux!NumFactu, "0000000")
         Set Item = Record.AddItem("")
         GetDate Item, DatePart("w", miRsAux!Fecfactu), DatePart("d", miRsAux!Fecfactu), DatePart("m", miRsAux!Fecfactu), DatePart("yyyy", miRsAux!Fecfactu)
         
 
         Record.AddItem Format(miRsAux!totfaccl, FormatoImporte)
 
-        Record.AddItem CStr(miRsAux!numserie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|")
+        Record.AddItem CStr(miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|")
     
             
         
@@ -3119,7 +3181,7 @@ Dim C As String
         'Cobros
         Set Item = Record.AddItem("")
         Item.Caption = DBLet(miRsAux!quefactura, "T")
-        Item.Value = CStr(miRsAux!numserie & ":" & miRsAux!NumFactu & ":" & miRsAux!numorden & ":")
+        Item.Value = CStr(miRsAux!numSerie & ":" & miRsAux!NumFactu & ":" & miRsAux!Numorden & ":")
         
         
         Set Item = Record.AddItem("")
@@ -3144,7 +3206,7 @@ Dim C As String
         
         
         
-        Record.AddItem CStr(miRsAux!numserie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!numorden)
+        Record.AddItem CStr(miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!Numorden)
     End If
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
     Record.PreviewText = "ID: " & Data1.Recordset!CodClien
@@ -3254,14 +3316,31 @@ Public Sub GetDate(ByVal Item As ReportRecordItem, Optional Week = -1, Optional 
 End Sub
 
 Private Sub wndReportControl_RowDblClick(ByVal Row As XtremeReportControl.IReportRow, ByVal Item As XtremeReportControl.IReportRecordItem)
-    
+Dim Auxi As String
     If Me.Option1(3).Value Then
         AccionReportControl Row.Record(3).Caption
     ElseIf Me.Option1(4).Value Then
         'Cobro factura por caja
         If Row.Record(5).Value <> 0 Then
-            MsgBox "Solo se permiten cobros sobre efectivo", vbExclamation
-            Exit Sub
+            CadB = "Sólo se permiten cobros sobre efectivo." & vbCrLf & vbCrLf & "¿Desea cambiar la forma de pago?"
+            If MsgBox(CadB, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+                        
+            CadB = Replace(CStr(Row.Record(2).Value), ":", "|")
+            Auxi = "numserie= " & DBSet(RecuperaValor(CadB, 1), "T")
+            Auxi = Auxi & " AND numfactu = " & RecuperaValor(CadB, 2)
+            Auxi = Auxi & " AND numorden = " & RecuperaValor(CadB, 3)
+            Auxi = Auxi & " AND fecfactu = " & DBSet(Row.Record(3).Caption, "F")
+            CadB = DevuelveDesdeBD("codrem", "ariconta" & vParam.Numconta & ".cobros", Auxi & " AND 1", "1")
+            If CadB <> "" Then
+                MsgBox "Pertenece a una remesa: " & CadB, vbExclamation
+                Exit Sub
+            End If
+            
+            CadB = "UPDATE ariconta" & vParam.Numconta & ".cobros set codforpa = 1 " & " WHERE " & Auxi
+            If Not Ejecuta(CadB) Then Exit Sub
+            
+            
+            
         End If
         
         'nº Vto
@@ -3283,6 +3362,7 @@ Private Sub AccionReportControl(Parametros As String)
     
     
     If Val(Data1.Recordset!situclien) > 0 Then
+        
         CadB = "baja"
         If Val(Data1.Recordset!situclien) = 9 Then CadB = "bloqueado"
         CadB = "Situacion cliente: " & CadB
@@ -3324,4 +3404,54 @@ Private Sub AccionReportControl(Parametros As String)
     End If
     CargaDatos
     Screen.MousePointer = vbDefault
+End Sub
+
+
+Private Sub DblClickListview(ByRef Lw As ListView)
+Dim Sql As String
+Dim Cad As String
+
+    If Lw.ListItems.Count = 0 Then Exit Sub
+    If Lw.SelectedItem Is Nothing Then Exit Sub
+    
+    
+    Cad = "Va a pasar a    "
+    If Lw.SelectedItem.SubItems(3) = "*" Then
+        Cad = Cad & "ACTIVO"
+    Else
+        Cad = Cad & "INACTIVO"
+    End If
+    Cad = Cad & "     el concepto de  "
+    
+    If Lw.Name = "lwCuotas" Then
+        Cad = Cad & "cuota"
+    Else
+        If Lw.Name = "lwlaboral" Then
+            Cad = Cad & "laboral"
+        Else
+            Cad = Cad & "fiscal"
+        End If
+    End If
+    Cad = Cad & ": " & vbCrLf & vbCrLf
+    Cad = Cad & "    -" & Lw.SelectedItem.Text & vbCrLf
+    
+
+    If MsgBox(Cad, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+    
+    If Lw.Name = "lwCuotas" Then
+        Cad = "clientes_cuotas"
+        I = 0
+    Else
+        If Lw.Name = "lwlaboral" Then
+            Cad = "clientes_laboral"
+            I = 1
+        Else
+            Cad = "clientes_fiscal"
+            I = 2
+        End If
+    End If
+    Cad = "UPDATE " & Cad & " SET inactivo =" & IIf(Lw.SelectedItem.SubItems(3) = "*", "0", "1")
+    Cad = Cad & " WHERE codclien =" & Data1.Recordset!CodClien
+    Cad = Cad & " AND numlinea =" & Mid(Lw.SelectedItem.Key, 2)
+    If Ejecuta(Cad) Then CargarCutoasLaborFiscal CByte(I), Lw
 End Sub

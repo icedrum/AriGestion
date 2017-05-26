@@ -15,7 +15,7 @@ Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Option Explicit
 
-Private Const AccionesRegistradas = 8
+Private Const AccionesRegistradas = 10
 'ACCIONES DISPONIBLES
 '
 '   1- Modificar factura
@@ -29,10 +29,15 @@ Private Const AccionesRegistradas = 8
 
 '   8.- Expediente. Borrar cobro a cuenta
 
+'   9.- Gestion stock
+'   10.- Facturacion periodica
+
+'Asignar maximo valor para Private Const AccionesRegistradas (ARRIBA)
+
 Private mvarDatosDescripcion As String
 Private mvarDatosAntes As String   'Para grabar cosas antes y desp
 Private mvarDatosDespues As String   'Para grabar cosas antes y desp
-Dim SQL As String
+Dim Sql As String
 
 
 Public Property Let DatosDescripcion(ByVal vData As String)
@@ -80,15 +85,15 @@ Public Function Insertar(Accion As Byte, ByRef ElUsuario As Usuario, Descripcion
     On Error GoTo EI
     Insertar = False
     
-    SQL = "insert into `acciones` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
-    SQL = SQL & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
-    SQL = SQL & DevNombreSQL(ElUsuario.PC) & "',"
+    Sql = "insert into `acciones` (`fecha`,`accion`,`usuario`,`pc`,`descripcion`) values ( "
+    Sql = Sql & " now()," & Accion & " ,'" & DevNombreSQL(ElUsuario.Login) & "','"
+    Sql = Sql & DevNombreSQL(ElUsuario.PC) & "',"
     If Descripcion = "" Then
-        SQL = SQL & "NULL)"
+        Sql = Sql & "NULL)"
     Else
-        SQL = SQL & DBSet(Descripcion, "T") & ")"
+        Sql = Sql & DBSet(Descripcion, "T") & ")"
     End If
-    Conn.Execute SQL
+    Conn.Execute Sql
     
     
     Insertar = True
@@ -123,7 +128,8 @@ Dim C As String
         C = "Exp. eliminar pago"
     Case 9
         C = "Quitar gestion stock"
-    
+    Case 10
+        C = "Facturacion periodica"
     End Select
     DimeAccion = C
 End Function
@@ -134,8 +140,8 @@ Dim I As Integer
 
  On Error GoTo EDevuelveAcciones
     For I = 1 To AccionesRegistradas
-        SQL = I & "|" & DimeAccion(I) & "|"
-        ListaAcciones.Add SQL
+        Sql = I & "|" & DimeAccion(I) & "|"
+        ListaAcciones.Add Sql
     Next I
     
     DevuelveAcciones = True
@@ -174,9 +180,9 @@ Dim Rs As ADODB.Recordset
     F = DateAdd("d", -1, F)
     
     
-    SQL = "Select * from acciones where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
-    SQL = "INSERT INTO acciones_old " & SQL
-    Conn.Execute SQL
+    Sql = "Select * from acciones where fecha < '" & Format(F, "yyyy-mm-dd") & "' "
+    Sql = "INSERT INTO acciones_old " & Sql
+    Conn.Execute Sql
     Conn.Execute "DELETE from acciones where fecha <'" & Format(F, "yyyy-mm-dd") & "'"
         
     
@@ -186,9 +192,9 @@ Dim Rs As ADODB.Recordset
     
     Exit Sub
 EVolcar:
-    SQL = "Error volcado datos acciones: " & vbCrLf & Err.Description
-    SQL = SQL & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
-    MsgBox SQL, vbExclamation
+    Sql = "Error volcado datos acciones: " & vbCrLf & Err.Description
+    Sql = Sql & vbCrLf & vbCrLf & "El programa continuará." & vbCrLf & vbCrLf & "Avise a soporte técnico."
+    MsgBox Sql, vbExclamation
     Err.Clear
     Set Rs = Nothing
 End Sub

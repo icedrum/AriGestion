@@ -557,19 +557,19 @@ End Sub
 Public Sub AyudaIVA(frmBas As frmBasico, Optional CodActual As String, Optional cWhere As String)
 
     frmBas.CadenaTots = "S|txtAux(0)|T|Código|870|;S|txtAux(1)|T|Descripción|5230|;"
-    frmBas.CadenaConsulta = "SELECT codigiva,concat(replace(nombriva,'(',''),' ',format(porceiva,2)) descr"
+    frmBas.CadenaConsulta = "SELECT codigiva,concat(replace(nombriva,'(',''),' ',format(porceiva,2)) nombriva"
     frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM ariconta" & vParam.Numconta & ".tiposiva"
     frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE (1=1) "
     If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
     frmBas.Tag1 = "Código|T|N|||tiposiva|codigiva||S|"
-    frmBas.Tag2 = "Descripción|T|N|||tiposiva|desc|||"
+    frmBas.Tag2 = "Descripción|T|N|||tiposiva|nombriva|||"
     
     frmBas.Maxlen1 = 4
     frmBas.Maxlen2 = 30
     
     frmBas.tabla = "ariconta" & vParam.Numconta & ".tiposiva"
     frmBas.CampoCP = "codigiva"
-    frmBas.Caption = "Formas de pago"
+    frmBas.Caption = "Tipos de IVA"
     frmBas.DeConsulta = True
     frmBas.DatosADevolverBusqueda = "0|1|"
     frmBas.CodigoActual = 0
@@ -577,6 +577,32 @@ Public Sub AyudaIVA(frmBas As frmBasico, Optional CodActual As String, Optional 
     frmBas.Show vbModal
     
 End Sub
+
+
+Public Sub AyudaCtasContabilidad(frmBas As frmBasico, Optional CodActual As String, Optional cWhere As String)
+
+    frmBas.CadenaTots = "S|txtAux(0)|T|Código|1470|;S|txtAux(1)|T|Descripción|4630|;"
+    frmBas.CadenaConsulta = "SELECT codmacta,nommacta "
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " FROM ariconta" & vParam.Numconta & ".cuentas"
+    frmBas.CadenaConsulta = frmBas.CadenaConsulta & " WHERE apudirec='S' "
+    If cWhere <> "" Then frmBas.CadenaConsulta = frmBas.CadenaConsulta & " and " & cWhere
+    frmBas.Tag1 = "Código|T|N|||cuentas|codmacta||S|"
+    frmBas.Tag2 = "Descripción|T|N|||cuentas|nommacta|||"
+    
+    frmBas.Maxlen1 = 10
+    frmBas.Maxlen2 = 30
+    
+    frmBas.tabla = "ariconta" & vParam.Numconta & ".cuentas"
+    frmBas.CampoCP = "codmacta"
+    frmBas.Caption = "Cuentas contables"
+    frmBas.DeConsulta = True
+    frmBas.DatosADevolverBusqueda = "0|1|"
+    frmBas.CodigoActual = 0
+    If CodActual <> "" Then frmBas.CodigoActual = CodActual
+    frmBas.Show vbModal
+    
+End Sub
+
 
 
 

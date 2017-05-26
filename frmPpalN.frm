@@ -1081,7 +1081,7 @@ Private Sub LoadIcons()
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
         1, 1, ID_PagodeTasas, 1, ID_Caja, 1, 1, ID_FacturasEmitidas, 1, 1, ID_PrevisionFacturacion, 1, 1, 1, 1, _
         1, 1, 1, ID_PrevisionFacturacion, 1, ID_IntegraciónContable, 1, 1, ID_EstadisticaClientes, 1, 1, 1, 1, 1, 1, _
-        1, 1, ID_EstadisticaConceptos, 1, 1, ID_Gráficamensual, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
+        1, 1, ID_EstadisticaConceptos, 1, 1, ID_Gráficamensual, ID_LisatadoFacturas, 1, 1, 1, 1, 1, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, 1, 1)
     
      'ID_Empresa , ID_Parámetros, ID_Contadores , ID_Usuarios , ID_Informes , ID_Clientes , ID_ConceptosFacturas ,
@@ -1837,7 +1837,8 @@ Private Sub AbrirFormularios(Accion As Long)
     Case ID_Empresa
         frmempresa.Show vbModal
     Case ID_Parámetros
-        frmClienteAcciones.Show vbModal
+    
+        'frmClienteAcciones.Show vbModal
     Case ID_Contadores
         frmContadores.Show vbModal
     
@@ -1870,6 +1871,18 @@ Private Sub AbrirFormularios(Accion As Long)
         
     Case ID_PrevisionFacturacion
         frmPrevisionFacturacion.Show vbModal
+        
+    Case ID_IntegraciónContable
+        frmMensajes.Opcion = 8
+        frmMensajes.Show vbModal
+        
+    Case ID_EstadisticaConceptos
+       frmConceptosListEsta.Show vbModal
+       
+    Case ID_LisatadoFacturas
+        frmFacturasList2.EsListado = True
+        frmFacturasList2.DatosFactura = ""
+        frmFacturasList2.Show vbModal
     End Select
 
 End Sub

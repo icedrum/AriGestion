@@ -32,6 +32,7 @@ Begin VB.Form frmShortcutBar2
       Height          =   855
       Left            =   0
       Picture         =   "frmShortcutBar.frx":0000
+      Stretch         =   -1  'True
       Top             =   0
       Width           =   2505
    End

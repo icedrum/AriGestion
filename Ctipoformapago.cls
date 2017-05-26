@@ -347,7 +347,7 @@ End Property
 Public Function Leer(vIdtipoformapago As Integer) As Byte
     On Error GoTo Err3
 
-    SQL = "SELECT * FROM tipofpago"
+    SQL = "SELECT * FROM ariconta" & vParam.Numconta & ".tipofpago"
     SQL = SQL & " WHERE "
     SQL = SQL & " tipoformapago = " & vIdtipoformapago
     Rs.Open SQL, Conn, , , adCmdText

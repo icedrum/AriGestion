@@ -28,6 +28,25 @@ Begin VB.Form frmPrevisionFacturacion
       TabIndex        =   7
       Top             =   0
       Width           =   16215
+      Begin VB.CommandButton cmdEliminar 
+         Enabled         =   0   'False
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   435
+         Left            =   14520
+         Picture         =   "frmPrevisionFacturacion.frx":0000
+         Style           =   1  'Graphical
+         TabIndex        =   16
+         Top             =   360
+         Width           =   495
+      End
       Begin VB.TextBox Text1 
          BeginProperty Font 
             Name            =   "Verdana"
@@ -97,9 +116,9 @@ Begin VB.Form frmPrevisionFacturacion
          EndProperty
          Height          =   330
          Index           =   3
-         ItemData        =   "frmPrevisionFacturacion.frx":0000
+         ItemData        =   "frmPrevisionFacturacion.frx":0A02
          Left            =   7080
-         List            =   "frmPrevisionFacturacion.frx":0002
+         List            =   "frmPrevisionFacturacion.frx":0A04
          Style           =   2  'Dropdown List
          TabIndex        =   3
          Top             =   480
@@ -117,9 +136,9 @@ Begin VB.Form frmPrevisionFacturacion
          EndProperty
          Height          =   330
          Index           =   2
-         ItemData        =   "frmPrevisionFacturacion.frx":0004
+         ItemData        =   "frmPrevisionFacturacion.frx":0A06
          Left            =   240
-         List            =   "frmPrevisionFacturacion.frx":0014
+         List            =   "frmPrevisionFacturacion.frx":0A16
          Style           =   2  'Dropdown List
          TabIndex        =   0
          Top             =   480
@@ -154,9 +173,9 @@ Begin VB.Form frmPrevisionFacturacion
          EndProperty
          Height          =   330
          Index           =   1
-         ItemData        =   "frmPrevisionFacturacion.frx":004D
+         ItemData        =   "frmPrevisionFacturacion.frx":0A4F
          Left            =   5040
-         List            =   "frmPrevisionFacturacion.frx":005E
+         List            =   "frmPrevisionFacturacion.frx":0A60
          Style           =   2  'Dropdown List
          TabIndex        =   2
          Top             =   480
@@ -174,9 +193,9 @@ Begin VB.Form frmPrevisionFacturacion
          EndProperty
          Height          =   330
          Index           =   0
-         ItemData        =   "frmPrevisionFacturacion.frx":0089
+         ItemData        =   "frmPrevisionFacturacion.frx":0A8B
          Left            =   2640
-         List            =   "frmPrevisionFacturacion.frx":0096
+         List            =   "frmPrevisionFacturacion.frx":0A98
          Style           =   2  'Dropdown List
          TabIndex        =   1
          Top             =   480
@@ -203,7 +222,7 @@ Begin VB.Form frmPrevisionFacturacion
          Height          =   240
          Index           =   0
          Left            =   10800
-         Picture         =   "frmPrevisionFacturacion.frx":00B2
+         Picture         =   "frmPrevisionFacturacion.frx":0AB4
          Top             =   180
          Width           =   240
       End
@@ -319,6 +338,8 @@ Dim CargandoDatos As Boolean
 Dim AmpliacionesFacturacion As String
 Dim ctacontabanco As String   'cuenta bancaria en contabilidad 572...
 
+Dim ValoresQuitados As String
+
 '************************************************************************************************************************
 '************************************************************************************************************************
 '************************************************************************************************************************
@@ -406,8 +427,12 @@ Dim F As Date
     C = C & " t.codclien=clientes.codclien and  periodicidad = " & Combo1(1).ListIndex '0 Men, 1 Trim  2 Semes 3 anual
     I = Combo1(1).ItemData(Combo1(1).ListIndex)
     F = CDate(Text1(1).Text) 'fercha facturacion
-    F = DateAdd("m", -I, F)
-    C = C & " and (fecultfac is null or fecultfac <=" & DBSet(F, "F") & ")"
+    
+    'Jose. NO QUIERE esto ya que puede que no haya pasado un mes
+    'F = DateAdd("m", -I, F)
+    'C = C & " and (fecultfac is null or fecultfac <=" & DBSet(F, "F") & ")"
+    C = C & " AND situclien=0 " 'clientes activos
+    C = C & " AND Inactivo=0" 'las cuotas pueden estar inactivas para el cliente
     If Combo1(3).ListIndex > 0 Then
         'Lleva filtro
         C = C & " AND t.codconce= " & Combo1(3).ItemData(Combo1(3).ListIndex)
@@ -523,12 +548,6 @@ Dim Aux As String
 End Sub
 
 Private Sub MostrarDatos()
-Dim Importe As Currency
-Dim Total As Currency
-Dim GroupRow As XtremeReportControl.ReportGroupRow
-
-
-
     If Me.Combo1(0).ListIndex < 0 Then Exit Sub
     If Me.Combo1(1).ListIndex < 0 Then Exit Sub
     If Text1(1).Text = "" Then Exit Sub
@@ -539,27 +558,49 @@ Dim GroupRow As XtremeReportControl.ReportGroupRow
     
     
     Screen.MousePointer = vbHourglass
+    ValoresQuitados = ""
     If Combo1(2).Tag <> Combo1(2).ListIndex Then
         Combo1(2).Tag = Combo1(2).ListIndex
         CreateReportControl
     End If
     populateInbox
     wndReportControl.Populate
+
+    CalculoDatos
+End Sub
+
+Private Sub CalculoDatos()
+Dim Importe As Currency
+Dim Total As Currency
+Dim GroupRow As XtremeReportControl.ReportGroupRow
+Dim Registros As Long
+
+
     
     
     Total = 0
     Importe = 0
+    Registros = 0
     For I = Me.wndReportControl.Rows.Count - 1 To 0 Step -1
         If wndReportControl.Rows(I).GroupRow Then
             'Es la del grupo
             'Debug.Print ""
             Set GroupRow = wndReportControl.Rows(I)
-            GroupRow.GroupCaption = GroupRow.GroupCaption & "    " & Format(Importe, FormatoImporte) & "€"
+            
+            J = InStr(1, GroupRow.GroupCaption, " ->")
+            If J = 0 Then
+                Msg = GroupRow.GroupCaption
+            Else
+                Msg = Mid(GroupRow.GroupCaption, 1, J - 1)
+            End If
+            GroupRow.GroupCaption = Msg & " ->" & Format(Importe, FormatoImporte) & "€" & "    Reg: " & Registros
             Importe = 0
+            Registros = 0
         Else
             'Debug.Print wndReportControl.Rows(I).Record.Item(7).Value
             Importe = Importe + wndReportControl.Rows(I).Record.Item(8).Value
             Total = Total + wndReportControl.Rows(I).Record.Item(8).Value
+            Registros = Registros + 1
         End If
     Next I
     
@@ -568,7 +609,7 @@ Dim GroupRow As XtremeReportControl.ReportGroupRow
     Else
         txtTotal.Text = Format(Total, FormatoImporte)
     End If
-    
+    Me.cmdEliminar.Enabled = Total > 0
     
     CargandoDatos = False
     Screen.MousePointer = vbDefault
@@ -579,6 +620,38 @@ End Sub
 
 
 
+
+Private Sub cmdEliminar_Click()
+    On Error GoTo ecmdEliminar_Click
+    Msg = ""
+    For I = Me.wndReportControl.Rows.Count - 1 To 0 Step -1
+        If Not wndReportControl.Rows(I).GroupRow Then
+            If wndReportControl.Rows(I).Selected Then
+                Msg = Msg & "X"
+            End If
+        End If
+    Next I
+    
+    If Msg <> "" Then
+        If MsgBox("Va a quitar de la facturacion " & Len(Msg) & " registros. ¿Continuar?", vbQuestion + vbYesNoCancel) = vbYes Then
+            For I = Me.wndReportControl.Rows.Count - 1 To 0 Step -1
+                If Not wndReportControl.Rows(I).GroupRow Then
+                    If wndReportControl.Rows(I).Selected Then
+                        ValoresQuitados = ValoresQuitados & wndReportControl.Rows(I).Record(2).Caption & " " & wndReportControl.Rows(I).Record(3).Caption & vbCrLf
+                        wndReportControl.RemoveRowEx wndReportControl.Rows(I)
+                    End If
+                End If
+            Next I
+        End If
+        wndReportControl.Populate
+        CalculoDatos
+    End If
+    
+    
+    
+ecmdEliminar_Click:
+    Err.Clear
+End Sub
 
 Private Sub cmdVerdatos_Click()
     MostrarDatos
@@ -619,6 +692,9 @@ End Sub
 
 Private Sub cmdFacturar_Click()
 Dim F2 As Date
+Dim ParaElLog As String
+
+
     'Algunas comprobaciones
     If Text1(1).Text = "" Then Exit Sub
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
@@ -691,10 +767,13 @@ Dim F2 As Date
     Msg = "Facturacion: " & AmpliacionesFacturacion & vbCrLf & vbCrLf
     Msg = Msg & "Fecha: " & Text1(1).Text & vbCrLf
     Msg = Msg & "Nºfacturas: " & Me.wndReportControl.Rows.Count & vbCrLf
-    Msg = Msg & "Total: " & txtTotal.Text & vbCrLf & vbCrLf & "¿Continuar?"
+    Msg = Msg & "Total: " & txtTotal.Text & vbCrLf
     
+    ParaElLog = Msg
+    ParaElLog = ParaElLog & "TIPO: " & Combo1(0).Text & Combo1(2).Text & vbCrLf
+    If Combo1(3).ListIndex > 0 Then ParaElLog = ParaElLog & "Filtro: " & Combo1(3).Text
     
-    
+        
     'Metemos la observacione que sera Fecha periodo desde-hasta
     AmpliacionesFacturacion = AmpliacionesFacturacion & "|"
     F2 = CDate(Text1(1).Text)
@@ -708,13 +787,19 @@ Dim F2 As Date
     
     
     
-    If MsgBox(Msg, vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    If MsgBox(Msg & vbCrLf & "¿Continuar?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
     
     If BloqueoManual(Me.Name, "1") Then
         Screen.MousePointer = vbHourglass
         
         
         If HacerFacturacion Then
+            
+            'LOG
+            Msg = ParaElLog
+            If ValoresQuitados <> "" Then Msg = Msg & "Clientes quitados: " & vbCrLf & ValoresQuitados
+            vLog.Insertar 10, vUsu, Msg
+            'Cerrar
             Unload Me
         Else
             MostrarDatos
@@ -753,7 +838,7 @@ End Sub
 Private Sub Form_Resize()
 On Error Resume Next
     Frame1.Width = Me.Width - 240
-    wndReportControl.Move 60, Me.Frame1.Height + 120, Me.Width - 320, Me.Height - Me.Frame1.Height - 120
+    wndReportControl.Move 60, Me.Frame1.Height + 120, Me.Width - 320, Me.Height - Me.Frame1.Height - 510
     
     Err.Clear
 End Sub
@@ -939,7 +1024,7 @@ Dim EsUNaCuota As Boolean
     '`totivas`,`totrecargo`,`totfaccl`,`retfaccl`,`trefaccl`
     ImporIVA = Round((Bases * IVA) / 100, 2)
     ImporRecar = Round((Bases * IvaRecar) / 100, 2)
-    Cad = Cad & DBSet(ImporIVA, "N") & "," & DBSet(ImporIVA, "N") & "," & DBSet(ImporIVA + ImporIVA + Bases, "N") & ",NULL,NULL,"
+    Cad = Cad & DBSet(ImporIVA, "N") & "," & DBSet(ImporRecar, "N") & "," & DBSet(ImporIVA + ImporRecar + Bases, "N") & ",NULL,NULL,"
     'cuereten`,`tiporeten`,`intconta`,`usuario`,`fecha`) values ("
     Cad = Cad & "NULL,0,0," & DBSet(vUsu.Login, "T") & "," & DBSet(Now, "FH") & ")"
     Conn.Execute Cad
@@ -953,7 +1038,7 @@ Dim EsUNaCuota As Boolean
     Cad = Cad & wndReportControl.Rows(I).Record(4).Caption & "," & DBSet(wndReportControl.Rows(I).Record(5).Caption, "T") & ","
     'Amplicacion, cantidad,precio,importe  AmpliacionesFacturacion
     Cad = Cad & DBSet(RecuperaValor(AmpliacionesFacturacion, 2), "T")
-    Cad = Cad & ",1," & DBSet(Bases, "T") & "," & DBSet(Bases, "T") & ","
+    Cad = Cad & ",1," & DBSet(Bases, "N") & "," & DBSet(Bases, "N") & ","
     'codigiva,porciva,porcrec,impoiva,imporec,aplicret
     Cad = Cad & IVA_Anterior & "," & DBSet(IVA, "N") & "," & DBSet(IvaRecar, "N") & "," & DBSet(ImporIVA, "N") & "," & DBSet(ImporRecar, "N") & "," & "0)"
     Conn.Execute Cad
@@ -967,7 +1052,7 @@ Dim EsUNaCuota As Boolean
     Cad = Cad & DBSet(IVA, "N") & "," & DBSet(IvaRecar, "N") & "," & DBSet(ImporIVA, "N") & "," & DBSet(ImporRecar, "N") & ")"
     Conn.Execute Cad
     
-    Cad = "UPDATE contadores SET numfactu = " & rsContador!NumFactu + 1 & " WHERE tiporegi = " & rsContador!tiporegi
+    Cad = "UPDATE contadores SET numfactu = " & rsContador!NumFactu + 1 & " WHERE tiporegi = " & rsContador!TipoRegi
     Conn.Execute Cad
     
     'Grabamos la ultima fecha de factura en las clientes_tabla
@@ -984,7 +1069,7 @@ Dim EsUNaCuota As Boolean
     Cad = "SELECT codclien, codforpa ," & rsContador!NumFactu + 1 & " NumFactu ,"
     Cad = Cad & DBSet(Text1(1).Text, "F") & " FecFactu , " & DBSet(rsContador!serfactur, "T") & " as numserie,"
     Cad = Cad & "NomClien ,DomClien,licencia,PobClien ,codposta ,ProClien ,NIFClien ,codpais ,IBAN, "
-    Cad = Cad & DBSet(ImporIVA + ImporIVA + Bases, "N") & " as totfaccl"
+    Cad = Cad & DBSet(ImporIVA + ImporRecar + Bases, "N") & " as totfaccl"
     Cad = Cad & " from clientes where codclien=" & Me.wndReportControl.Rows(I).Record(2).Caption
     miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     

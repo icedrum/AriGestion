@@ -276,7 +276,7 @@ Dim TextFont
         .Buttons(9).Enabled = True
         
         'Ocultamos
-        .Buttons(9).Visible = False
+        '.Buttons(9).Visible = False
         .Buttons(5).Visible = False
         .Buttons(6).Visible = False
         
@@ -315,7 +315,7 @@ End Sub
 Private Sub Form_Resize()
 On Error Resume Next
     Frame1.Width = Me.Width - 240
-    wndReportControl.Move 60, Me.Frame1.Height + 120, Me.Width - 320, Me.Height - Me.Frame1.Height - 120
+    wndReportControl.Move 60, Me.Frame1.Height + 120, Me.Width - 320, Me.Height - Me.Frame1.Height - 480
     
     Me.Text1.Move Frame1.Width - Text1.Width - 640
     Me.Text2.Move Text1.Left - Text2.Width - 120
@@ -341,12 +341,16 @@ Public Sub CreateReportControlCaja()
     'order it is added to the collection.  (Icons are added after the records near the bottom of the Form_Load)
     Column.Icon = COLUMN_IMPORTANCE_ICON
     
-    Set Column = wndReportControl.Columns.Add(2, "Fecha", 70, True)
-    Set Column = wndReportControl.Columns.Add(3, "Origen", 70, True)
-    Set Column = wndReportControl.Columns.Add(4, "Ampliacion", 200, True)
-    Set Column = wndReportControl.Columns.Add(5, "Importe", 65, True)
+    Set Column = wndReportControl.Columns.Add(2, "Fecha", 90, True)
+    Set Column = wndReportControl.Columns.Add(3, "Origen", 60, True)
+    'Febrero 17
+    'Cuenta contable
+    Set Column = wndReportControl.Columns.Add(4, "Destino", 110, True)
+    
+    Set Column = wndReportControl.Columns.Add(5, "Ampliacion", 150, True)
+    Set Column = wndReportControl.Columns.Add(6, "Importe", 55, True)
     Column.Alignment = xtpAlignmentRight
-    Set Column = wndReportControl.Columns.Add(6, "Sal", 15, True)
+    Set Column = wndReportControl.Columns.Add(7, "Sal", 15, True)
     Column.ToolTip = "Salida"
     Column.Alignment = xtpAlignmentRight
 End Sub
@@ -421,6 +425,7 @@ Dim EsFactura As Boolean
         Record.AddItem ("")
         Record.AddItem ("")
         Record.AddItem ("")
+        Record.AddItem ("")
         Set Item = Record.AddItem("TOTAL")
         Item.Bold = True
         
@@ -452,9 +457,27 @@ Dim EsFactura As Boolean
     ElseIf miRsAux!tipomovi = 1 Then
         'PAGO
         Origen = 7
+        
+        
+        'Gestion administrativa
+        If Not IsNull(miRsAux!TipoRegi) Then
+            If miRsAux!TipoRegi = 0 And DBLet(miRsAux!numSerie, "T") <> "" Then
+                'Falria revisar ya que he aadido el numlinea mas adelante
+                Aux = "EXP " & Format(miRsAux!Numdocum, "00000") & "/" & Right(CStr(miRsAux!anoexped), 2)
+                'ClavePRimaria = "numexped =" & miRsAux!Numdocum & " AND tiporegi =" & miRsAux!TipoRegi
+                'ClavePRimaria = ClavePRimaria & " AND anoexped=" & miRsAux!anoexped
+                EsFactura = False
+            End If
+        End If
+        
+        
+        
+        
+        
+        
     Else
         'Cobro
-        If IsNull(miRsAux!tiporegi) Then
+        If IsNull(miRsAux!TipoRegi) Then
             'Es un cobro "manual"
             Origen = 6
         Else
@@ -463,11 +486,11 @@ Dim EsFactura As Boolean
             
             'El expediente puede estar factura, y el cobro haberse realizado sobre la factura
             EsFactura = True
-            If miRsAux!tiporegi = 0 Then
-                If miRsAux!numserie = "1" Then
+            If miRsAux!TipoRegi = 0 Then
+                If miRsAux!numSerie = "1" Then
                     'Falria revisar ya que he aadido el numlinea mas adelante
-                    Aux = "EXP " & Format(miRsAux!numdocum, "00000") & "/" & Right(CStr(miRsAux!anoexped), 2)
-                    ClavePRimaria = "numexped =" & miRsAux!numdocum & " AND tiporegi =" & miRsAux!tiporegi
+                    Aux = "EXP " & Format(miRsAux!Numdocum, "00000") & "/" & Right(CStr(miRsAux!anoexped), 2)
+                    ClavePRimaria = "numexped =" & miRsAux!Numdocum & " AND tiporegi =" & miRsAux!TipoRegi
                     ClavePRimaria = ClavePRimaria & " AND anoexped=" & miRsAux!anoexped
                     EsFactura = False
                 End If
@@ -475,7 +498,7 @@ Dim EsFactura As Boolean
             
             
             If EsFactura Then
-                Aux = miRsAux!numserie & Format(miRsAux!numdocum, "00000")
+                Aux = miRsAux!numSerie & Format(miRsAux!Numdocum, "00000")
                 ClavePRimaria = "XXXXXX"
             End If
             
@@ -509,13 +532,23 @@ Dim EsFactura As Boolean
 
     Set Item = Record.AddItem("")
     
-    Set Item = Record.AddItem(Format(miRsAux!Feccaja, "dd/mm/yyyy hh:nn:ss"))
-    Item.Caption = Format(miRsAux!Feccaja, "dd/mm/yyyy hh:nn")
+    Set Item = Record.AddItem(Format(miRsAux!feccaja, "dd/mm/yyyy hh:nn:ss"))
+    Item.Caption = Format(miRsAux!feccaja, "dd/mm/yyyy hh:nn")
     
     'Origen del pago
     Set Item = Record.AddItem(Aux)
     Item.Tag = ClavePRimaria
      
+     
+    'DEstino
+    Aux = DBLet(miRsAux!codmacta, "T")
+    Msg = " "
+    If Aux <> "" Then
+        Msg = DevuelveDesdeBD("nommacta", "ariconta" & vParam.Numconta & ".cuentas", "codmacta", Aux, "T")
+        If Msg = "" Then Msg = "NO encontado"
+    End If
+    Set Item = Record.AddItem(Msg)
+    Item.Tag = Aux
      
      
     Record.AddItem DBLet(miRsAux!Ampliacion, "T")
@@ -556,7 +589,7 @@ Private Sub HacerToolBar(indice As Integer)
 Dim B As Boolean
 Dim GroupRow
     B = False
-    If indice <> 1 And indice <> 8 Then
+    If indice <> 1 And indice < 8 Then
         'Si esta "cerrado" ya no puedo hacer nada
         
         If Me.wndReportControl.Records.Count = 0 Then Exit Sub
@@ -583,19 +616,46 @@ Dim GroupRow
     Case 2
         
         CadenaDesdeOtroForm = ""
-        Msg = wndReportControl.SelectedRows(0).Record(2).Value & "|" & wndReportControl.SelectedRows(0).Record(4).Caption
-        Msg = Msg & "|" & wndReportControl.SelectedRows(0).Record(5).Caption & "|"
-        If wndReportControl.SelectedRows(0).Record(6).Caption = "*" Then Msg = Msg & "1"
+        Msg = wndReportControl.SelectedRows(0).Record(2).Value & "|" & wndReportControl.SelectedRows(0).Record(5).Caption
+        Msg = Msg & "|" & Abs(wndReportControl.SelectedRows(0).Record(6).Caption) & "|"
+        If wndReportControl.SelectedRows(0).Record(7).Caption = "*" Then Msg = Msg & "1"
         Msg = Msg & "|"
+        'Codmacta|nommacta
+        Msg = Msg & wndReportControl.SelectedRows(0).Record(4).Tag & "|" & Trim(wndReportControl.SelectedRows(0).Record(4).Value) & "|"
         frmMensajes.Parametros = Combo1.Text & "|" & Msg
         frmMensajes.Opcion = 4
         frmMensajes.Show vbModal
         If CadenaDesdeOtroForm <> "" Then B = True
     Case 3
         
+        'Eliminaremos el movimiento
+        If wndReportControl.SelectedRows(0).Record(7).Caption = "*" Then
+            Msg = "Salida"
+        Else
+            Msg = "Entrada"
+        End If
+        Msg = "Tipo: " & Msg & "   €" & Abs(wndReportControl.SelectedRows(0).Record(6).Caption) & vbCrLf
+        Msg = "Caja: " & Combo1.Text & "  Fecha: " & wndReportControl.SelectedRows(0).Record(2).Value & vbCrLf & Msg
+        Msg = Msg & "Ampliacion: " & wndReportControl.SelectedRows(0).Record(5).Caption & vbCrLf
+        Msg = Msg & "Cuenta: " & wndReportControl.SelectedRows(0).Record(4).Tag & "  " & Trim(wndReportControl.SelectedRows(0).Record(4).Value) & vbCrLf
+        
+        If MsgBox("Va a eliminar el dato de caja: " & vbCrLf & vbCrLf & Msg & vbCrLf & "¿Continuar?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+                
+        MsgErr = DBSet(wndReportControl.SelectedRows(0).Record(2).Value, "FH")
+        MsgErr = "DELETE FROM caja WHERE usuario = " & DBSet(Combo1.Text, "T") & " AND feccaja=" & MsgErr
+        If Ejecuta(MsgErr) Then
+            B = True
+            vLog.Insertar 7, vUsu, Msg
+        End If
+        
     Case 8
         
         ImprimirProceso
+    Case 9
+        If Combo1.ListIndex < 0 Then Exit Sub
+        frmMensajes.Opcion = 10
+        frmMensajes.Parametros = Me.Combo1.Text
+        frmMensajes.Show vbModal
     End Select
     If B Then MostrarDatos
 End Sub
@@ -615,6 +675,7 @@ Private Sub ImprimirProceso()
         Text2.Text = ""
         Msg = ""
         Importe = 0
+        cadFormula = "1 = 1"
     Else
 
         If Not PonerDesdeHasta("caja.feccaja", "FH", Text2, Nothing, Nothing, Nothing, Msg) Then Exit Sub
@@ -664,7 +725,7 @@ Private Sub Toolbar2_ButtonClick(ByVal Button As MSComctlLib.Button)
     
     
     
-    cadFormula = Combo1.Text & "|" & wndReportControl.Records(I).Item(5).Caption & "|"
+    cadFormula = Combo1.Text & "|" & wndReportControl.Records(I).Item(6).Caption & "|"
     
     CadenaDesdeOtroForm = ""
     frmMensajes.Parametros = cadFormula
@@ -761,6 +822,9 @@ Dim aux2 As String
 Dim CtaCaja As String
 Dim FechaCierre As Date
 Dim ImporteParaCaja As Currency
+Dim Serie As String
+Dim FechaFactura As String
+
 
 
 On Error GoTo eHacerProcesoCierreCaja
@@ -785,10 +849,11 @@ On Error GoTo eHacerProcesoCierreCaja
     'Iremos uno a uno cuadrando todos los movimientos
     Set ColApu = New Collection
     ImporteParaCaja = 0
+    
         '' Llevara
         '       codmacta | docum | codconce | ampliaci | imported|importeH |
     For I = 0 To Me.wndReportControl.Rows.Count - 2 'El ultimo no se procesa
-        ImporteParaCaja = ImporteParaCaja + ImporteFormateado(wndReportControl.Rows(I).Record(5).Caption)
+        ImporteParaCaja = ImporteParaCaja + ImporteFormateado(wndReportControl.Rows(I).Record(6).Caption)
 
         
         'Origen = 7  Pago
@@ -797,7 +862,7 @@ On Error GoTo eHacerProcesoCierreCaja
         If wndReportControl.Rows(I).Record(0).Icon = 7 Then
             'PAGO
              Aux = vParam.CtaGastosCaja & "|C:" & Combo1.Text & "|2|" & wndReportControl.Rows(I).Record(4).Caption & "|"
-             Aux = Aux & Replace(wndReportControl.Rows(I).Record(5).Caption, "-", "") & "|" & "|" & CtaCaja & "|"
+             Aux = Aux & Replace(wndReportControl.Rows(I).Record(6).Caption, "-", "") & "|" & "|" & CtaCaja & "|"
              
         ElseIf wndReportControl.Rows(I).Record(0).Icon = 4 Then
             'Factura expediente
@@ -814,13 +879,31 @@ On Error GoTo eHacerProcesoCierreCaja
                 '       codmacta | docum | codconce | ampliaci | imported|importeH |
                 Aux = Replace(wndReportControl.Rows(I).Record(3).Caption, "XP ", "")
                 Aux = aux2 & "|" & Aux & "|1|EXP pago a cuenta " & Mid(wndReportControl.Rows(I).Record(2).Caption, 1, 10) & " "
-                Aux = Aux & "||" & wndReportControl.Rows(I).Record(5).Caption & "|" & CtaCaja & "|"
+                Aux = Aux & "||" & wndReportControl.Rows(I).Record(6).Caption & "|" & CtaCaja & "|"
             Else
                 '       codmacta | docum | codconce | ampliaci | imported|importeH |
                 
-                Stop
-                'Es una factura
                 
+                'Es una factura
+                Serie = Mid(wndReportControl.Rows(I).Record(3).Caption, 1, 3)
+                Aux = "numserie= '" & Serie & "' and numfactu= " & Mid(wndReportControl.Rows(I).Record(3).Caption, 4)
+                Aux = Aux & " AND 1"
+                FechaFactura = "fecfactu"
+                Aux = DevuelveDesdeBD("codclien", "factcli", Aux, "1", "N", FechaFactura)
+                
+                aux2 = DevuelveCuentaContableCliente(Serie = "CUO", Val(Aux))
+                If aux2 = "" Then Err.Raise 513, "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
+                
+                Aux = wndReportControl.Rows(I).Record(3).Caption
+                Aux = aux2 & "|" & Aux & "|1|Factura " & wndReportControl.Rows(I).Record(3).Caption & "|"
+                If ImporteFormateado(wndReportControl.Rows(I).Record(6).Caption) > 0 Then
+                    aux2 = "|" & wndReportControl.Rows(I).Record(6).Caption
+                Else
+                    aux2 = Replace(wndReportControl.Rows(I).Record(6).Caption, "-", "") & "|"
+                End If
+                Aux = Aux & aux2 & "|" & CtaCaja & "|"
+                
+                Aux = Aux & Serie & "|" & Mid(wndReportControl.Rows(I).Record(3).Caption, 4) & "|" & FechaFactura & "|"
             End If
             
             
@@ -830,8 +913,16 @@ On Error GoTo eHacerProcesoCierreCaja
             'MANUAL
            
             '       codmacta | docum | codconce | ampliaci | imported|importeH |
-            Aux = vParam.CtaIngresosCaja & "|C:" & Combo1.Text & "|1|" & wndReportControl.Rows(I).Record(4).Caption & "|"
-            Aux = Aux & "|" & wndReportControl.Rows(I).Record(5).Caption & "|" & CtaCaja & "|"
+            If wndReportControl.Rows(I).Record(4).Tag <> "" Then
+                aux2 = wndReportControl.Rows(I).Record(4).Tag
+            Else
+                aux2 = vParam.CtaIngresosCaja
+            End If
+            Aux = aux2 & "|C:" & Combo1.Text & "|1|"
+            aux2 = wndReportControl.Rows(I).Record(5).Caption
+            aux2 = Mid(aux2 & " " & wndReportControl.Rows(I).Record(4).Caption, 1, 50)
+            Aux = Aux & aux2 & "|"
+            Aux = Aux & "|" & wndReportControl.Rows(I).Record(6).Caption & "|" & CtaCaja & "|"
         End If
         ColApu.Add Aux
         
@@ -842,8 +933,21 @@ On Error GoTo eHacerProcesoCierreCaja
     Aux = Aux & Format(ImporteParaCaja, FormatoImporte) & "|" & "|" & "|"
     ColApu.Add Aux
         
+    'Si llevamos a banco, metermeos dos lineas mas
+    ImporteParaCaja = RecuperaValor(CadenaDesdeOtroForm, 2)
+    If ImporteParaCaja <> 0 Then
+    
+        aux2 = "Sale caja " & Combo1.Text & " a banco "
+        Aux = CtaCaja & "|C:" & Combo1.Text & "|1|" & aux2 & "|"
+        Aux = Aux & "|" & Format(ImporteParaCaja, FormatoImporte) & "|" & vParam.CtaBanco & "|"
+        ColApu.Add Aux
+            
         
-        
+        aux2 = "Sale caja " & Combo1.Text & " a banco "
+        Aux = vParam.CtaBanco & "|C:" & Combo1.Text & "|1|" & aux2 & "|"
+        Aux = Aux & Format(ImporteParaCaja, FormatoImporte) & "|" & "|" & CtaCaja & "|"
+        ColApu.Add Aux
+    End If
         
     'NO LLEVAMOS A BANCO   NO LLEVAMPS
 '''''

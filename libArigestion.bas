@@ -36,6 +36,9 @@ End Function
 'En cada guardar el importe vencido
 Public Function TieneCobrosPendientes(IdCliente As Long, ByRef Cad As String) As Boolean
 Dim Aux As String
+
+On Error GoTo eTieneCobrosPendientes
+
     TieneCobrosPendientes = False
     Aux = "  codmacta IN ('" & DevuelveCuentaContableCliente(True, CStr(IdCliente))
     Aux = Aux & " ','" & DevuelveCuentaContableCliente(False, CStr(IdCliente)) & "')"
@@ -46,7 +49,9 @@ Dim Aux As String
     End If
     If Cad <> "" Then TieneCobrosPendientes = True
 
-
+    Exit Function
+eTieneCobrosPendientes:
+    Err.Clear
    
 End Function
 
@@ -109,7 +114,7 @@ End Function
 
 
 
-Public Function NumeroFactura_y_Fecha_OK(Serie As String, NumFac As Long, FecFac As Date) As Boolean
+Public Function NumeroFactura_y_Fecha_OK(Serie As String, numFac As Long, FecFac As Date) As Boolean
 Dim Cad As String
 Dim RN As ADODB.Recordset
 Dim Maxi As Long
@@ -127,7 +132,7 @@ Dim Maxi As Long
             Else
                 Maxi = DBLet(RN.Fields(1), "N")
                 If Maxi > 0 Then
-                    If Maxi > NumFac Then Cad = "Hay una factura mayor para la serie seleccionada (" & Maxi & ")"
+                    If Maxi > numFac Then Cad = "Hay una factura mayor para la serie seleccionada (" & Maxi & ")"
                 End If
             End If
         End If

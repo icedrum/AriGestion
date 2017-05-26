@@ -367,17 +367,17 @@ End Sub
 
 Private Sub cmdSearch_Click()
 Dim Cad1 As String
-Dim Cad2 As String
+Dim cad2 As String
 
-    Cad2 = ""
+    cad2 = ""
     J = 0
     For I = 0 To 4
         Me.txtSearchBar(I).Text = Trim(Me.txtSearchBar(I).Text)
         If Me.txtSearchBar(I).Text <> "" Then
-            If SeparaCampoBusqueda(IIf(I = 0 Or I = 4, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
-                If J > 0 Then Cad2 = Cad2 & " AND  "
+            If SeparaCampoBusqueda(IIf(I = 0, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
+                If J > 0 Then cad2 = cad2 & " AND  "
                 J = J + 1
-                Cad2 = Cad2 & Cad1
+                cad2 = cad2 & Cad1
             End If
         
         End If
@@ -394,7 +394,7 @@ Dim Cad2 As String
     
     
     
-    CargaDatos Cad2, False
+    CargaDatos cad2, False
     
     
     On Error Resume Next
@@ -430,7 +430,7 @@ End Sub
 
 Private Sub HacerPrimeravez()
     On Error Resume Next
-    txtSearchBar(1).SetFocus
+    txtSearchBar(4).SetFocus
     Err.Clear
 End Sub
 
@@ -516,9 +516,9 @@ Private Sub SituaBusquedas()
     J = 1100
     For I = 0 To 4
         Me.txtSearchBar(I).Left = J + (6 * I)
-        K = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
-        txtSearchBar(I).Width = K - 60
-        J = J + K
+        k = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
+        txtSearchBar(I).Width = k - 60
+        J = J + k
         
         'Me.txtSearchBar(I).Text = I
     Next
@@ -618,7 +618,7 @@ End Sub
 
 
 'Cuando modifiquemos o insertemos, pondremos el SQL entero
-Public Sub CargaDatos(ByVal SQL As String, EsTodoSQL As Boolean)
+Public Sub CargaDatos(ByVal Sql As String, EsTodoSQL As Boolean)
 Dim Aux  As String
 Dim Inicial As Integer
 Dim N As Integer
@@ -642,15 +642,15 @@ Dim T1 As Single
     If EsTodoSQL Then
         Stop
     Else
-        If SQL <> "" Then SQL = " WHERE " & SQL
+        If Sql <> "" Then Sql = " WHERE " & Sql
             
-        SQL = " FROM clientes" & SQL
-        SQL = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio " & SQL
+        Sql = " FROM clientes" & Sql
+        Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio,situclien " & Sql
         
-        SQL = SQL & " ORDER BY codclien"
+        Sql = Sql & " ORDER BY codclien"
     End If
     
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Inicial = 0
     Clientes = ""
     T1 = Timer
@@ -659,7 +659,7 @@ Dim T1 As Single
         Clientes = Clientes & ", " & miRsAux!CodClien
         N = N + 1
         If N > 40 Then
-            SQL = "1"
+            Sql = "1"
             
             If Timer - T1 > 0.75 Then
                 V = Not V
@@ -675,29 +675,29 @@ Dim T1 As Single
             PonerIconosRs Inicial, Me.wndReportControl.Rows.Count - 1
                     
             
-            SQL = "2"
+            Sql = "2"
             'Haremos ahora el poplate
             wndReportControl.Populate
             
             'Movemos variables
-            SQL = "3  " & Inicial + N
+            Sql = "3  " & Inicial + N
             Inicial = Inicial + N - 1
             Clientes = ""
             N = 0
             
-            SQL = "4  " & Inicial
+            Sql = "4  " & Inicial
             
         End If
         miRsAux.MoveNext
     Wend
     miRsAux.Close
         
-    SQL = "N>0"
+    Sql = "N>0"
     If N > 0 Then
         wndReportControl.Populate
         
         
-        SQL = "Iconos last"
+        Sql = "Iconos last"
         PonerIconosRs Inicial, Me.wndReportControl.Rows.Count - 1
     
         'Haremos ahora el poplate
@@ -710,14 +710,14 @@ Dim T1 As Single
     End If
     
     
-    SQL = "Tool butt"
+    Sql = "Tool butt"
     Me.Toolbar1.Buttons(2).Enabled = wndReportControl.Records.Count > 0
     Me.Toolbar1.Buttons(3).Enabled = wndReportControl.Records.Count > 0
     
     
     
 eCargaDatos:
-    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, SQL
+    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description, Sql
     
     
     
@@ -771,7 +771,7 @@ Private Sub AddRecord2()
 Dim Record As ReportRecord
 Dim Socio As Boolean
 Dim OtroIcono As Boolean
-
+Dim NoActivo As Boolean
 
     On Error GoTo eAddRecord2
 
@@ -783,10 +783,17 @@ Dim OtroIcono As Boolean
     'Socio
     Set Item = Record.AddItem("")
     Socio = miRsAux!esSocio
+    NoActivo = DBLet(miRsAux!situclien, "N")
+    
     Item.SortPriority = IIf(Socio, 1, 0)
 
-    Item.Icon = IIf(Socio, RECORD_UNREAD_MAIL_ICON, -1)
-       
+    
+    If NoActivo Then
+        Item.Icon = 7
+    Else
+        Item.Icon = IIf(Socio, RECORD_UNREAD_MAIL_ICON, -1)
+        
+    End If
     'Cuota
     Set Item = Record.AddItem("")
     OtroIcono = False
@@ -809,7 +816,9 @@ Dim OtroIcono As Boolean
     ' '  codclien,nomclien,nifclien,matricula,licencia,essocio "
     Set Item = Record.AddItem(CStr(miRsAux!CodClien))
     Item.Value = CLng(miRsAux!CodClien)
-    Record.AddItem DBLet(miRsAux!NomClien, "T")
+    Set Item = Record.AddItem(DBLet(miRsAux!NomClien, "T"))
+    If NoActivo Then Item.ForeColor = vbRed
+    
     Record.AddItem CStr(miRsAux!NIFClien)
     Record.AddItem CStr(DBLet(miRsAux!Matricula, "T"))
     
@@ -1068,7 +1077,7 @@ End Sub
 
 Private Sub AbrirCliente(ByVal Row As XtremeReportControl.IReportRow)
 Dim Leer As Boolean
-Dim SQL As String
+Dim Sql As String
     
     Screen.MousePointer = vbHourglass
     If Row Is Nothing Then
@@ -1092,9 +1101,9 @@ Dim SQL As String
     
     Set miRsAux = New ADODB.Recordset
     Screen.MousePointer = vbHourglass
-    SQL = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio "
-    SQL = SQL & " FROM clientes  where codclien=" & CadenaDesdeOtroForm
-    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio "
+    Sql = Sql & " FROM clientes  where codclien=" & CadenaDesdeOtroForm
+    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If Not miRsAux.EOF Then
         
         If Row Is Nothing Then

@@ -712,14 +712,14 @@ End Sub
 ' Buscamos por el codigo, que estara en un text u  otro
 ' Normalmente el text(0)
 Private Function SituarData1() As Boolean
-    Dim SQL As String
+    Dim Sql As String
     On Error GoTo ESituarData1
             'Actualizamos el recordset
             Data1.Refresh
             '#### A mano.
             'El sql para que se situe en el registro en especial es el siguiente
-            SQL = " id = " & Text1(0).Text & ""
-            Data1.Recordset.Find SQL
+            Sql = " id = " & Text1(0).Text & ""
+            Data1.Recordset.Find Sql
             If Data1.Recordset.EOF Then GoTo ESituarData1
             SituarData1 = True
         Exit Function
@@ -1140,7 +1140,7 @@ End Sub
 '----------------------------------------------------------------
 Private Sub Text1_LostFocus(Index As Integer)
     Dim I As Integer
-    Dim SQL As String
+    Dim Sql As String
     Dim mTag As CTag
     
     If Not PerderFocoGnral(Text1(Index), Modo) Then Exit Sub
@@ -1248,7 +1248,7 @@ End Sub
 Private Sub PonerCampos()
     Dim I As Integer
     Dim mTag As CTag
-    Dim SQL As String
+    Dim Sql As String
     If Data1.Recordset.EOF Then Exit Sub
     PonerCamposForma Me, Data1
     Modo = 3
@@ -1285,10 +1285,10 @@ Private Sub PonerModo(Kmodo As Integer)
     'Ponemos visible, si es formulario de busqueda, el boton regresar cuando hay datos
     If Modo < 3 Then
         If DatosADevolverBusqueda <> "" Then
-            cmdRegresar.Visible = B Or Modo = 0
-            cmdRegresar.Cancel = True
+            CmdRegresar.Visible = B Or Modo = 0
+            CmdRegresar.Cancel = True
         Else
-            cmdRegresar.Visible = False
+            CmdRegresar.Visible = False
         End If
     End If
     'Modo insertar o modificar
@@ -1367,13 +1367,13 @@ End Function
 'El SQL es propio de cada tabla
 Private Sub SugerirCodigoSiguiente()
 
-    Dim SQL As String
+    Dim Sql As String
     Dim Rs As ADODB.Recordset
 
-    SQL = "Select Max(id) from " & NombreTabla
+    Sql = "Select Max(id) from " & NombreTabla
     Text1(0).Text = 1
     Set Rs = New ADODB.Recordset
-    Rs.Open SQL, Conn, , , adCmdText
+    Rs.Open Sql, Conn, , , adCmdText
     If Not Rs.EOF Then
         If Not IsNull(Rs.Fields(0)) Then
             Text1(0).Text = Rs.Fields(0) + 1
