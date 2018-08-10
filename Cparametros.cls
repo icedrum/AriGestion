@@ -28,12 +28,14 @@ Private mvarRaizcuotas As String
 Private mvarRaiztasas As String
 Private mvarIvaexento As Integer
 Private mvarCtaBanco As String
-
+Private mvarCtaBanco2 As String
 'CAJA
 Private mvarCtaCaja As String
 Private mvarCtaGastosCaja As String
 Private mvarCtaIngresosCaja As String
 
+'Marzo 2018
+Private mvarCajaConceptoTarjetaCredito As Integer
 
 
 Private SQL As String  'Para la sentencia
@@ -113,6 +115,12 @@ End Property
 Public Property Get CtaBanco() As String
      CtaBanco = mvarCtaBanco
 End Property
+Public Property Get CtaBanco2() As String
+     CtaBanco2 = mvarCtaBanco2
+End Property
+
+
+
 Public Property Get CtaCaja() As String
      CtaCaja = mvarCtaCaja
 End Property
@@ -122,6 +130,12 @@ End Property
 Public Property Get CtaIngresosCaja() As String
      CtaIngresosCaja = mvarCtaIngresosCaja
 End Property
+
+Public Property Get CajaConceptoTarjetaCredito() As Integer
+     CajaConceptoTarjetaCredito = mvarCajaConceptoTarjetaCredito
+End Property
+
+
 
 '****   LEER  ***
 Public Function Leer() As Byte
@@ -144,6 +158,7 @@ Public Function Leer() As Byte
             mvarIvaexento = DBLet(Rs!Ivaexento, "N")
 
             mvarCtaBanco = DBLet(Rs!CtaBanco, "T")
+            mvarCtaBanco2 = DBLet(Rs!CtaBanco2, "T")
             
             
             'CAJA
@@ -151,7 +166,7 @@ Public Function Leer() As Byte
             mvarCtaGastosCaja = DBLet(Rs!CtaGastosCaja, "T")
             mvarCtaIngresosCaja = DBLet(Rs!ctaingrescaja, "T")
 
-            
+            mvarCajaConceptoTarjetaCredito = Rs!conceptoCajaCredito
             
             
             

@@ -862,11 +862,16 @@ Public Const ID_Contadores = 103
 Public Const ID_Usuarios = 104
 Public Const ID_Informes = 105
 Public Const ID_AccionesRealizadas = 106
+Public Const ID_CajaConceptos = 107
+
+
+
 Public Const ID_Clientes = 201
 Public Const ID_ConceptosFacturas = 202
 Public Const ID_Expedientes = 301
 Public Const ID_PagodeTasas = 302
 Public Const ID_Caja = 303
+
 Public Const ID_FacturasEmitidas = 401
 Public Const ID_PrevisionFacturacion = 402
 Public Const ID_IntegraciónContable = 405

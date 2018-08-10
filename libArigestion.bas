@@ -42,8 +42,8 @@ On Error GoTo eTieneCobrosPendientes
     TieneCobrosPendientes = False
     Aux = "  codmacta IN ('" & DevuelveCuentaContableCliente(True, CStr(IdCliente))
     Aux = Aux & " ','" & DevuelveCuentaContableCliente(False, CStr(IdCliente)) & "')"
-    Aux = Aux & " AND (ImpVenci - coalesce(gastos, 0) - coalesce(impcobro, 0)) <> 0 and now()>fecvenci AND 1"
-    Cad = DevuelveDesdeBD("sum(ImpVenci - coalesce(gastos, 0) - coalesce(impcobro, 0))", "ariconta" & vParam.Numconta & ".cobros", Aux, "1")
+    Aux = Aux & " AND (ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0)) <> 0 and now()>fecvenci AND 1"
+    Cad = DevuelveDesdeBD("sum(ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0))", "ariconta" & vParam.Numconta & ".cobros", Aux, "1")
     If Cad <> "" Then
         If CCur(Cad) = 0 Then Cad = ""
     End If

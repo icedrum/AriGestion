@@ -202,6 +202,33 @@ Begin VB.Form frmcolClientes
          Appearance      =   12
          UseVisualStyle  =   0   'False
       End
+      Begin XtremeSuiteControls.FlatEdit txtSearchBar 
+         Height          =   420
+         Index           =   5
+         Left            =   12720
+         TabIndex        =   13
+         Tag             =   "telefono"
+         Top             =   150
+         Width           =   1980
+         _Version        =   1114114
+         _ExtentX        =   3492
+         _ExtentY        =   741
+         _StockProps     =   77
+         ForeColor       =   4473924
+         BackColor       =   16777215
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         BackColor       =   16777215
+         Appearance      =   12
+         UseVisualStyle  =   0   'False
+      End
    End
    Begin VB.Frame FrameAux 
       BeginProperty Font 
@@ -329,9 +356,9 @@ Dim PrimeraVez As Boolean
 
 
 
-Dim iconArray(0 To 9) As Long
-Dim RowExpanded(0 To 49) As Boolean
-Dim RowVisible(0 To 49) As Boolean
+'Dim iconArray(0 To 9) As Long
+'Dim RowExpanded(0 To 49) As Boolean
+'Dim RowVisible(0 To 49) As Boolean
 Dim MaxRowIndex As Long
 Dim fntBold As StdFont
 Dim fntStrike As StdFont
@@ -345,7 +372,7 @@ Dim Clientes As String
 
 
 Private Sub VerTodos()
-    For I = 0 To 4
+    For I = 0 To 5
         txtSearchBar(I).Text = ""
     Next
     CargaDatos "", False
@@ -355,7 +382,33 @@ End Sub
 
 
 
+Private Sub PonerModoUsuarioGnral(Modo As Byte, aplicacion As String)
+Dim Rs As ADODB.Recordset
+Dim Cad As String
+    
+    On Error Resume Next
 
+    Cad = "select ver, creareliminar, modificar, imprimir, especial from menus_usuarios where aplicacion = " & DBSet(aplicacion, "T")
+    Cad = Cad & " and codigo = " & ID_Clientes & " and codusu = " & DBSet(vUsu.id, "N")
+    
+    Set Rs = New ADODB.Recordset
+    Rs.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    
+    If Not Rs.EOF Then
+        Toolbar1.Buttons(1).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(2).Enabled = DBLet(Rs!Modificar, "N") And (Modo = 2)
+        Toolbar1.Buttons(3).Enabled = DBLet(Rs!creareliminar, "N") And (Modo = 2)
+        
+        Toolbar1.Buttons(5).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
+        Toolbar1.Buttons(6).Enabled = DBLet(Rs!Ver, "N") And (Modo = 0 Or Modo = 2)
+        
+        Toolbar1.Buttons(8).Enabled = DBLet(Rs!Imprimir, "N") And (Modo = 0 Or Modo = 2)
+    End If
+    
+    Rs.Close
+    Set Rs = Nothing
+    
+End Sub
 
 
 
@@ -371,7 +424,7 @@ Dim cad2 As String
 
     cad2 = ""
     J = 0
-    For I = 0 To 4
+    For I = 0 To 5
         Me.txtSearchBar(I).Text = Trim(Me.txtSearchBar(I).Text)
         If Me.txtSearchBar(I).Text <> "" Then
             If SeparaCampoBusqueda(IIf(I = 0, "N", "T"), txtSearchBar(I).Tag, txtSearchBar(I).Text, Cad1) = 0 Then
@@ -401,7 +454,7 @@ Dim cad2 As String
      If wndReportControl.SelectedRows.Count > 0 Then
         wndReportControl.SetFocus
     Else
-         For I = 0 To 4
+         For I = 0 To 5
             If txtSearchBar(I).Text <> "" Then
                 txtSearchBar(I).SetFocus
                 Exit For
@@ -419,6 +472,7 @@ Private Sub Form_Activate()
 
     If PrimeraVez Then
         PrimeraVez = False
+        PonerModoUsuarioGnral 2, "arigestion"
         Me.Refresh
         DoEvents
         CargaDatos "", False
@@ -514,7 +568,7 @@ Private Sub SituaBusquedas()
 
     On Error Resume Next
     J = 1100
-    For I = 0 To 4
+    For I = 0 To 5
         Me.txtSearchBar(I).Left = J + (6 * I)
         k = (Me.wndReportControl.Columns(I + 4).Width * 15) - 30
         txtSearchBar(I).Width = k - 60
@@ -575,7 +629,7 @@ Public Sub CreateReportControl()
     Set Column = wndReportControl.Columns.Add(6, "DNI", 60, True)
     Set Column = wndReportControl.Columns.Add(7, "Matricula", 55, True)
     Set Column = wndReportControl.Columns.Add(8, "Licencia", 55, True)
-    
+    Set Column = wndReportControl.Columns.Add(9, "Telefono", 55, True)
     
 
     wndReportControl.PaintManager.MaxPreviewLines = 1
@@ -645,7 +699,7 @@ Dim T1 As Single
         If Sql <> "" Then Sql = " WHERE " & Sql
             
         Sql = " FROM clientes" & Sql
-        Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio,situclien " & Sql
+        Sql = "SELECT codclien,nomclien,nifclien,matricula,licencia,essocio,situclien,telefono " & Sql
         
         Sql = Sql & " ORDER BY codclien"
     End If
@@ -711,8 +765,8 @@ Dim T1 As Single
     
     
     Sql = "Tool butt"
-    Me.Toolbar1.Buttons(2).Enabled = wndReportControl.Records.Count > 0
-    Me.Toolbar1.Buttons(3).Enabled = wndReportControl.Records.Count > 0
+    'Me.Toolbar1.Buttons(2).Enabled = wndReportControl.Records.Count > 0
+    'Me.Toolbar1.Buttons(3).Enabled = wndReportControl.Records.Count > 0
     
     
     
@@ -823,7 +877,10 @@ Dim NoActivo As Boolean
     Record.AddItem CStr(DBLet(miRsAux!Matricula, "T"))
     
     Set Item = Record.AddItem(DBLet(miRsAux!licencia, "T"))
-    Item.Value = CLng(DBLet(miRsAux!licencia, "N"))
+    If Val(DBLet(miRsAux!licencia, "N")) > 0 Then Item.Value = CLng(DBLet(miRsAux!licencia, "N"))
+    
+    
+    Record.AddItem DBLet(miRsAux!telefono, "T") & " "
     
     
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
@@ -1126,4 +1183,7 @@ Dim Sql As String
     Set miRsAux = Nothing
     Screen.MousePointer = vbDefault
 End Sub
+
+
+
 

@@ -25,43 +25,460 @@ Begin VB.Form frmMensajes
    ScaleWidth      =   16440
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Frame FrameImpHcoCierres 
-      Height          =   6015
-      Left            =   360
-      TabIndex        =   159
-      Top             =   2640
+   Begin VB.Frame FramepagoFra 
+      Height          =   4215
+      Left            =   3360
+      TabIndex        =   98
+      Top             =   120
       Visible         =   0   'False
-      Width           =   8295
-      Begin VB.CommandButton cmdImprCierre 
-         Caption         =   "Imprimir"
+      Width           =   8055
+      Begin VB.CommandButton cmdTarjetaCredito 
+         Height          =   495
+         Left            =   240
+         Picture         =   "frmMensajes.frx":000C
+         Style           =   1  'Graphical
+         TabIndex        =   180
+         ToolTipText     =   "TARJETA DE CREDITO"
+         Top             =   3360
+         Width           =   615
+      End
+      Begin VB.CheckBox chkQuitarGastos 
+         Caption         =   "Quitar gastos"
+         Height          =   240
+         Left            =   1800
+         TabIndex        =   173
+         Top             =   2880
+         Visible         =   0   'False
+         Width           =   1695
+      End
+      Begin VB.TextBox txtCaja 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   12
+         Left            =   1800
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   171
+         Top             =   2340
+         Width           =   1515
+      End
+      Begin VB.TextBox txtCaja 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   11
+         Left            =   6120
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   110
+         Top             =   1080
+         Width           =   1755
+      End
+      Begin VB.TextBox txtCaja 
+         Alignment       =   1  'Right Justify
+         Height          =   360
+         Index           =   10
+         Left            =   6360
+         MaxLength       =   30
+         TabIndex        =   100
+         Top             =   2340
+         Width           =   1515
+      End
+      Begin VB.CommandButton cmdCobroFactura 
+         Caption         =   "&Aceptar"
          Height          =   375
-         Index           =   0
+         Index           =   1
          Left            =   4920
-         TabIndex        =   163
-         Top             =   5280
+         TabIndex        =   101
+         Top             =   3480
          Width           =   1335
       End
-      Begin VB.CommandButton cmdImprCierre 
+      Begin VB.TextBox txtCaja 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   9
+         Left            =   1800
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   106
+         Top             =   1680
+         Width           =   1755
+      End
+      Begin VB.TextBox txtCaja 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   8
+         Left            =   6360
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   105
+         Top             =   1680
+         Width           =   1515
+      End
+      Begin VB.TextBox txtFecha 
+         Height          =   360
+         Index           =   5
+         Left            =   2640
+         MaxLength       =   30
+         TabIndex        =   99
+         Text            =   "commor"
+         Top             =   1080
+         Width           =   2475
+      End
+      Begin VB.CommandButton cmdCobroFactura 
+         Caption         =   "Cancelar"
+         Height          =   375
+         Index           =   0
+         Left            =   6480
+         TabIndex        =   102
+         Top             =   3480
+         Width           =   1335
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Lleva gastos"
+         Height          =   240
+         Index           =   38
+         Left            =   240
+         TabIndex        =   172
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   2400
+         Width           =   1395
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Usuario"
+         Height          =   240
+         Index           =   22
+         Left            =   5280
+         TabIndex        =   111
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   1155
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "Importe cobrado"
+         Height          =   240
+         Index           =   21
+         Left            =   4080
+         TabIndex        =   109
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   2400
+         Width           =   1635
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Factura"
+         Height          =   240
+         Index           =   20
+         Left            =   240
+         TabIndex        =   108
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1680
+         Width           =   1395
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Importe pendiente"
+         Height          =   240
+         Index           =   19
+         Left            =   4080
+         TabIndex        =   107
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1680
+         Width           =   2055
+      End
+      Begin VB.Image imgppal 
+         Height          =   240
+         Index           =   5
+         Left            =   2280
+         Picture         =   "frmMensajes.frx":0316
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   240
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Fecha / hora pago"
+         Height          =   240
+         Index           =   18
+         Left            =   240
+         TabIndex        =   104
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   1995
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Pago factura por caja"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   375
+         Index           =   6
+         Left            =   1800
+         TabIndex        =   103
+         Top             =   360
+         Width           =   4095
+      End
+   End
+   Begin VB.Frame FrameCaja 
+      Height          =   4935
+      Left            =   3480
+      TabIndex        =   69
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   8055
+      Begin VB.ComboBox cboConceptosCaja 
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   12
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   390
+         Left            =   1680
+         Style           =   2  'Dropdown List
+         TabIndex        =   71
+         Top             =   2280
+         Width           =   6015
+      End
+      Begin VB.OptionButton optConceCaja 
+         Caption         =   "Introduccion manual cuenta"
+         Height          =   375
+         Index           =   1
+         Left            =   4200
+         TabIndex        =   170
+         Top             =   1740
+         Width           =   3375
+      End
+      Begin VB.OptionButton optConceCaja 
+         Caption         =   "Conceptos caja"
+         Height          =   375
+         Index           =   0
+         Left            =   1560
+         TabIndex        =   169
+         Top             =   1740
+         Value           =   -1  'True
+         Width           =   2055
+      End
+      Begin VB.TextBox txtCodmacta 
+         Height          =   360
+         Index           =   0
+         Left            =   1560
+         MaxLength       =   30
+         TabIndex        =   72
+         Top             =   2280
+         Width           =   1875
+      End
+      Begin VB.TextBox txtCodmactaDes 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   0
+         Left            =   3600
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   140
+         Top             =   2280
+         Width           =   4035
+      End
+      Begin VB.TextBox txtCaja 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   3
+         Left            =   5160
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   82
+         Top             =   1080
+         Width           =   2475
+      End
+      Begin VB.CheckBox chkCaja 
+         Caption         =   "Salida"
+         Height          =   240
+         Left            =   3360
+         TabIndex        =   75
+         Top             =   3840
+         Width           =   1095
+      End
+      Begin VB.TextBox txtCaja 
+         Alignment       =   1  'Right Justify
+         Height          =   360
+         Index           =   2
+         Left            =   1560
+         MaxLength       =   30
+         TabIndex        =   74
+         Top             =   3720
+         Width           =   1395
+      End
+      Begin VB.TextBox txtCaja 
+         Height          =   360
+         Index           =   1
+         Left            =   1560
+         MaxLength       =   30
+         TabIndex        =   73
+         Top             =   3000
+         Width           =   6075
+      End
+      Begin VB.TextBox txtCaja 
+         BackColor       =   &H80000018&
+         Height          =   360
+         Index           =   0
+         Left            =   1560
+         Locked          =   -1  'True
+         MaxLength       =   30
+         TabIndex        =   70
+         Top             =   1080
+         Width           =   2475
+      End
+      Begin VB.CommandButton cmdCaja 
+         Caption         =   "&Aceptar"
+         Height          =   375
+         Index           =   0
+         Left            =   5040
+         TabIndex        =   76
+         Top             =   4320
+         Width           =   1335
+      End
+      Begin VB.CommandButton cmdCaja 
          Caption         =   "Cancelar"
          Height          =   375
          Index           =   1
          Left            =   6480
-         TabIndex        =   160
-         Top             =   5280
+         TabIndex        =   77
+         Top             =   4320
          Width           =   1335
       End
-      Begin MSComctlLib.ListView ListView7 
-         Height          =   3615
-         Left            =   120
-         TabIndex        =   161
+      Begin VB.Image imgFecCaja 
+         Height          =   240
+         Index           =   0
+         Left            =   1200
+         Picture         =   "frmMensajes.frx":03A1
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   240
+      End
+      Begin VB.Image imgCodmacta 
+         Height          =   240
+         Index           =   0
+         Left            =   1320
+         Top             =   2280
+         Width           =   240
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Usuario"
+         Height          =   240
+         Index           =   12
+         Left            =   4320
+         TabIndex        =   83
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   1395
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Importe"
+         Height          =   240
+         Index           =   11
+         Left            =   240
+         TabIndex        =   81
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   3720
+         Width           =   1395
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Concepto"
+         Height          =   240
+         Index           =   10
+         Left            =   240
+         TabIndex        =   80
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   3000
+         Width           =   1395
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Fecha"
+         Height          =   240
+         Index           =   9
+         Left            =   240
+         TabIndex        =   79
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1080
+         Width           =   1395
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Movimiento de caja"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00972E0B&
+         Height          =   375
+         Index           =   4
+         Left            =   2400
+         TabIndex        =   78
+         Top             =   240
+         Width           =   3150
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Cta conta."
+         Height          =   240
+         Index           =   31
+         Left            =   240
+         TabIndex        =   141
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1800
+         Width           =   1395
+      End
+   End
+   Begin VB.Frame FrameCompensacion 
+      Height          =   5175
+      Left            =   2280
+      TabIndex        =   174
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   8895
+      Begin VB.CommandButton cmdCompensa 
+         Caption         =   "&Aceptar"
+         Height          =   375
+         Index           =   0
+         Left            =   5640
+         TabIndex        =   178
+         Top             =   4680
+         Width           =   1335
+      End
+      Begin VB.CommandButton cmdCompensa 
+         Caption         =   "Cancelar"
+         Height          =   375
+         Index           =   1
+         Left            =   7200
+         TabIndex        =   176
+         Top             =   4680
+         Width           =   1335
+      End
+      Begin MSComctlLib.ListView ListView8 
+         Height          =   2895
+         Left            =   240
+         TabIndex        =   177
          Top             =   1440
-         Width           =   7815
-         _ExtentX        =   13785
-         _ExtentY        =   6376
+         Width           =   8295
+         _ExtentX        =   14631
+         _ExtentY        =   5106
          View            =   3
          LabelEdit       =   1
          LabelWrap       =   -1  'True
-         HideSelection   =   0   'False
+         HideSelection   =   -1  'True
+         Checkboxes      =   -1  'True
          FullRowSelect   =   -1  'True
          _Version        =   393217
          ForeColor       =   -2147483640
@@ -70,32 +487,54 @@ Begin VB.Form frmMensajes
          Appearance      =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Verdana"
-            Size            =   11.25
+            Size            =   9
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         NumItems        =   3
+         NumItems        =   5
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Text            =   "Fecha"
-            Object.Width           =   7056
+            Text            =   "Tipo"
+            Object.Width           =   1764
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Alignment       =   1
             SubItemIndex    =   1
-            Text            =   "Importe"
+            Text            =   "Fecha"
             Object.Width           =   2293
          EndProperty
          BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   2
-            Text            =   "FechaCierreAnterior"
-            Object.Width           =   0
+            Text            =   "Numero"
+            Object.Width           =   2293
+         EndProperty
+         BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   3
+            Text            =   "Observaciones"
+            Object.Width           =   5539
+         EndProperty
+         BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   4
+            Text            =   "Total"
+            Object.Width           =   2540
          EndProperty
       End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "Fecha expediente"
+         ForeColor       =   &H00000080&
+         Height          =   240
+         Index           =   39
+         Left            =   240
+         TabIndex        =   179
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   960
+         Width           =   7995
+      End
       Begin VB.Label Label7 
-         Caption         =   "C"
+         Caption         =   "Compensar  cobros / abonos"
          BeginProperty Font 
             Name            =   "Tahoma"
             Size            =   20.25
@@ -107,24 +546,24 @@ Begin VB.Form frmMensajes
          EndProperty
          ForeColor       =   &H00972E0B&
          Height          =   495
-         Index           =   11
+         Index           =   12
          Left            =   240
-         TabIndex        =   162
+         TabIndex        =   175
          Top             =   360
-         Width           =   7170
+         Width           =   7890
       End
    End
    Begin VB.Frame FrameAbono 
       Height          =   6615
       Left            =   2880
-      TabIndex        =   147
+      TabIndex        =   148
       Top             =   960
       Visible         =   0   'False
       Width           =   8775
       Begin VB.TextBox Text2 
          Height          =   375
          Left            =   1200
-         TabIndex        =   149
+         TabIndex        =   150
          Text            =   "Text2"
          Top             =   1680
          Width           =   7095
@@ -134,7 +573,7 @@ Begin VB.Form frmMensajes
          Index           =   2
          Left            =   1200
          MaxLength       =   30
-         TabIndex        =   150
+         TabIndex        =   151
          Top             =   2160
          Width           =   1035
       End
@@ -145,7 +584,7 @@ Begin VB.Form frmMensajes
          Left            =   2280
          Locked          =   -1  'True
          MaxLength       =   30
-         TabIndex        =   155
+         TabIndex        =   156
          Top             =   2160
          Width           =   5955
       End
@@ -154,7 +593,7 @@ Begin VB.Form frmMensajes
          Index           =   10
          Left            =   2160
          MaxLength       =   30
-         TabIndex        =   148
+         TabIndex        =   149
          Top             =   1200
          Width           =   1515
       End
@@ -163,7 +602,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   0
          Left            =   5760
-         TabIndex        =   152
+         TabIndex        =   153
          Top             =   6000
          Width           =   1335
       End
@@ -172,14 +611,14 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   1
          Left            =   7200
-         TabIndex        =   151
+         TabIndex        =   152
          Top             =   6000
          Width           =   1335
       End
       Begin MSComctlLib.ListView ListView6 
          Height          =   2895
          Left            =   240
-         TabIndex        =   157
+         TabIndex        =   158
          Top             =   2880
          Width           =   8295
          _ExtentX        =   14631
@@ -237,7 +676,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   35
          Left            =   240
-         TabIndex        =   158
+         TabIndex        =   159
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1680
          Width           =   660
@@ -248,7 +687,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   34
          Left            =   240
-         TabIndex        =   156
+         TabIndex        =   157
          ToolTipText     =   "Fecha alta asociado"
          Top             =   2220
          Width           =   675
@@ -264,7 +703,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   10
          Left            =   1800
-         Picture         =   "frmMensajes.frx":000C
+         Picture         =   "frmMensajes.frx":042C
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   240
@@ -284,7 +723,7 @@ Begin VB.Form frmMensajes
          Height          =   495
          Index           =   10
          Left            =   2520
-         TabIndex        =   154
+         TabIndex        =   155
          Top             =   360
          Width           =   3525
       End
@@ -294,264 +733,10 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   33
          Left            =   240
-         TabIndex        =   153
+         TabIndex        =   154
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   1395
-      End
-   End
-   Begin VB.Frame FrameCaja 
-      Height          =   4575
-      Left            =   3480
-      TabIndex        =   69
-      Top             =   1800
-      Visible         =   0   'False
-      Width           =   8055
-      Begin VB.TextBox txtCodmacta 
-         Height          =   360
-         Index           =   0
-         Left            =   1560
-         MaxLength       =   30
-         TabIndex        =   71
-         Top             =   1800
-         Width           =   1875
-      End
-      Begin VB.TextBox txtCodmactaDes 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   0
-         Left            =   3600
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   139
-         Top             =   1800
-         Width           =   4035
-      End
-      Begin VB.TextBox txtCaja 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   3
-         Left            =   5160
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   81
-         Top             =   1080
-         Width           =   2475
-      End
-      Begin VB.CheckBox chkCaja 
-         Caption         =   "Salida"
-         Height          =   240
-         Left            =   3360
-         TabIndex        =   74
-         Top             =   3480
-         Width           =   1095
-      End
-      Begin VB.TextBox txtCaja 
-         Alignment       =   1  'Right Justify
-         Height          =   360
-         Index           =   2
-         Left            =   1560
-         MaxLength       =   30
-         TabIndex        =   73
-         Top             =   3360
-         Width           =   1395
-      End
-      Begin VB.TextBox txtCaja 
-         Height          =   360
-         Index           =   1
-         Left            =   1560
-         MaxLength       =   30
-         TabIndex        =   72
-         Top             =   2640
-         Width           =   6075
-      End
-      Begin VB.TextBox txtCaja 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   0
-         Left            =   1560
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   70
-         Top             =   1080
-         Width           =   2475
-      End
-      Begin VB.CommandButton cmdCaja 
-         Caption         =   "&Aceptar"
-         Height          =   375
-         Index           =   0
-         Left            =   5040
-         TabIndex        =   75
-         Top             =   3960
-         Width           =   1335
-      End
-      Begin VB.CommandButton cmdCaja 
-         Caption         =   "Cancelar"
-         Height          =   375
-         Index           =   1
-         Left            =   6480
-         TabIndex        =   76
-         Top             =   3960
-         Width           =   1335
-      End
-      Begin VB.Image imgFecCaja 
-         Height          =   240
-         Index           =   0
-         Left            =   1200
-         Picture         =   "frmMensajes.frx":0097
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1080
-         Width           =   240
-      End
-      Begin VB.Image imgCodmacta 
-         Height          =   240
-         Index           =   0
-         Left            =   1320
-         Top             =   1800
-         Width           =   240
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Usuario"
-         Height          =   240
-         Index           =   12
-         Left            =   4320
-         TabIndex        =   82
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1080
-         Width           =   1395
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Importe"
-         Height          =   240
-         Index           =   11
-         Left            =   240
-         TabIndex        =   80
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   3360
-         Width           =   1395
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Concepto"
-         Height          =   240
-         Index           =   10
-         Left            =   240
-         TabIndex        =   79
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   2640
-         Width           =   1395
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Fecha"
-         Height          =   240
-         Index           =   9
-         Left            =   240
-         TabIndex        =   78
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1080
-         Width           =   1395
-      End
-      Begin VB.Label Label7 
-         Caption         =   "Movimiento de caja"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00972E0B&
-         Height          =   375
-         Index           =   4
-         Left            =   2400
-         TabIndex        =   77
-         Top             =   240
-         Width           =   3150
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Cta conta."
-         Height          =   240
-         Index           =   31
-         Left            =   240
-         TabIndex        =   140
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1860
-         Width           =   1395
-      End
-   End
-   Begin VB.Frame FrameContabTasasAdm 
-      Height          =   2895
-      Left            =   3120
-      TabIndex        =   141
-      Top             =   4320
-      Visible         =   0   'False
-      Width           =   7815
-      Begin VB.CommandButton cmdContabTaasAdm 
-         Caption         =   "Contabilizar"
-         Height          =   480
-         Index           =   1
-         Left            =   4080
-         TabIndex        =   143
-         Top             =   2160
-         Width           =   1575
-      End
-      Begin VB.CommandButton cmdContabTaasAdm 
-         Caption         =   "Cancelar"
-         Height          =   480
-         Index           =   0
-         Left            =   5880
-         TabIndex        =   144
-         Top             =   2160
-         Width           =   1575
-      End
-      Begin VB.TextBox txtFecha 
-         Height          =   360
-         Index           =   9
-         Left            =   3240
-         MaxLength       =   30
-         TabIndex        =   142
-         Top             =   1140
-         Width           =   1515
-      End
-      Begin VB.Image imgppal 
-         Height          =   240
-         Index           =   9
-         Left            =   2880
-         Picture         =   "frmMensajes.frx":0122
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1200
-         Width           =   240
-      End
-      Begin VB.Label Label7 
-         Caption         =   "Contabilizar pago tasas administrativas"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   18
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00972E0B&
-         Height          =   495
-         Index           =   9
-         Left            =   360
-         TabIndex        =   146
-         Top             =   240
-         Width           =   7170
-      End
-      Begin VB.Label Label1 
-         AutoSize        =   -1  'True
-         Caption         =   "Fecha"
-         Height          =   240
-         Index           =   32
-         Left            =   2160
-         TabIndex        =   145
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1200
-         Width           =   600
       End
    End
    Begin VB.Frame FramePagostasas 
@@ -563,19 +748,28 @@ Begin VB.Form frmMensajes
       Width           =   16335
       Begin VB.Frame FramePreguntaTasa 
          BorderStyle     =   0  'None
-         Height          =   3615
+         Height          =   3975
          Left            =   4560
-         TabIndex        =   132
+         TabIndex        =   133
          Top             =   2880
          Visible         =   0   'False
          Width           =   6375
+         Begin VB.ComboBox cboBanco 
+            Height          =   360
+            Index           =   1
+            Left            =   1320
+            Style           =   2  'Dropdown List
+            TabIndex        =   168
+            Top             =   2520
+            Width           =   4335
+         End
          Begin VB.CommandButton cmdConfirmaTipoPagoTasa 
             Caption         =   "Cancelar"
             Height          =   495
             Index           =   0
             Left            =   4440
-            TabIndex        =   137
-            Top             =   2880
+            TabIndex        =   138
+            Top             =   3240
             Width           =   1455
          End
          Begin VB.CommandButton cmdConfirmaTipoPagoTasa 
@@ -583,8 +777,8 @@ Begin VB.Form frmMensajes
             Height          =   495
             Index           =   1
             Left            =   2760
-            TabIndex        =   136
-            Top             =   2880
+            TabIndex        =   137
+            Top             =   3240
             Width           =   1455
          End
          Begin VB.TextBox txtInforPagoTasa 
@@ -592,8 +786,8 @@ Begin VB.Form frmMensajes
             Left            =   360
             Locked          =   -1  'True
             MultiLine       =   -1  'True
-            TabIndex        =   135
-            Text            =   "frmMensajes.frx":01AD
+            TabIndex        =   136
+            Text            =   "frmMensajes.frx":04B7
             Top             =   360
             Width           =   5535
          End
@@ -602,8 +796,8 @@ Begin VB.Form frmMensajes
             Height          =   255
             Index           =   1
             Left            =   4200
-            TabIndex        =   134
-            Top             =   2280
+            TabIndex        =   135
+            Top             =   2040
             Width           =   1695
          End
          Begin VB.OptionButton optPagoTasas 
@@ -611,13 +805,24 @@ Begin VB.Form frmMensajes
             Height          =   255
             Index           =   0
             Left            =   2640
-            TabIndex        =   133
-            Top             =   2280
+            TabIndex        =   134
+            Top             =   2040
             Width           =   1335
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Banco"
+            Height          =   240
+            Index           =   37
+            Left            =   360
+            TabIndex        =   167
+            ToolTipText     =   "Fecha alta asociado"
+            Top             =   2565
+            Width           =   600
          End
          Begin VB.Shape Shape1 
             BorderWidth     =   3
-            Height          =   3375
+            Height          =   3735
             Left            =   120
             Top             =   120
             Width           =   6135
@@ -628,9 +833,9 @@ Begin VB.Form frmMensajes
             Height          =   240
             Index           =   30
             Left            =   360
-            TabIndex        =   138
+            TabIndex        =   139
             ToolTipText     =   "Fecha alta asociado"
-            Top             =   2280
+            Top             =   2040
             Width           =   1860
          End
       End
@@ -807,7 +1012,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   240
-         Picture         =   "frmMensajes.frx":01B3
+         Picture         =   "frmMensajes.frx":04BD
          Top             =   8160
          Width           =   240
       End
@@ -815,7 +1020,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   600
-         Picture         =   "frmMensajes.frx":02FD
+         Picture         =   "frmMensajes.frx":0607
          Top             =   8160
          Width           =   240
       End
@@ -882,7 +1087,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   3
          Left            =   1560
-         Picture         =   "frmMensajes.frx":0447
+         Picture         =   "frmMensajes.frx":0751
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1740
          Width           =   240
@@ -933,16 +1138,199 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   2
          Left            =   1560
-         Picture         =   "frmMensajes.frx":04D2
+         Picture         =   "frmMensajes.frx":07DC
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1320
          Width           =   240
       End
    End
+   Begin VB.Frame FrameContabTasasAdm 
+      Height          =   3255
+      Left            =   3120
+      TabIndex        =   142
+      Top             =   4320
+      Visible         =   0   'False
+      Width           =   7815
+      Begin VB.ComboBox cboBanco 
+         Height          =   360
+         Index           =   0
+         Left            =   3240
+         Style           =   2  'Dropdown List
+         TabIndex        =   166
+         Top             =   1800
+         Width           =   4335
+      End
+      Begin VB.CommandButton cmdContabTaasAdm 
+         Caption         =   "Contabilizar"
+         Height          =   480
+         Index           =   1
+         Left            =   3960
+         TabIndex        =   144
+         Top             =   2520
+         Width           =   1575
+      End
+      Begin VB.CommandButton cmdContabTaasAdm 
+         Caption         =   "Cancelar"
+         Height          =   480
+         Index           =   0
+         Left            =   5760
+         TabIndex        =   145
+         Top             =   2520
+         Width           =   1575
+      End
+      Begin VB.TextBox txtFecha 
+         Height          =   360
+         Index           =   9
+         Left            =   3240
+         MaxLength       =   30
+         TabIndex        =   143
+         Top             =   1140
+         Width           =   1515
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "Banco"
+         Height          =   240
+         Index           =   36
+         Left            =   2160
+         TabIndex        =   165
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1800
+         Width           =   600
+      End
+      Begin VB.Image imgppal 
+         Height          =   240
+         Index           =   9
+         Left            =   2880
+         Picture         =   "frmMensajes.frx":0867
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1200
+         Width           =   240
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Contabilizar pago tasas administrativas"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   18
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00972E0B&
+         Height          =   495
+         Index           =   9
+         Left            =   360
+         TabIndex        =   147
+         Top             =   240
+         Width           =   7170
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "Fecha"
+         Height          =   240
+         Index           =   32
+         Left            =   2160
+         TabIndex        =   146
+         ToolTipText     =   "Fecha alta asociado"
+         Top             =   1200
+         Width           =   600
+      End
+   End
+   Begin VB.Frame FrameImpHcoCierres 
+      Height          =   6015
+      Left            =   360
+      TabIndex        =   160
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   8295
+      Begin VB.CommandButton cmdImprCierre 
+         Caption         =   "Imprimir"
+         Height          =   375
+         Index           =   0
+         Left            =   4920
+         TabIndex        =   164
+         Top             =   5280
+         Width           =   1335
+      End
+      Begin VB.CommandButton cmdImprCierre 
+         Caption         =   "Cancelar"
+         Height          =   375
+         Index           =   1
+         Left            =   6480
+         TabIndex        =   161
+         Top             =   5280
+         Width           =   1335
+      End
+      Begin MSComctlLib.ListView ListView7 
+         Height          =   3615
+         Left            =   120
+         TabIndex        =   162
+         Top             =   1440
+         Width           =   7815
+         _ExtentX        =   13785
+         _ExtentY        =   6376
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   0   'False
+         FullRowSelect   =   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Verdana"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         NumItems        =   3
+         BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Text            =   "Fecha"
+            Object.Width           =   7056
+         EndProperty
+         BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            SubItemIndex    =   1
+            Text            =   "Importe"
+            Object.Width           =   2293
+         EndProperty
+         BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+            SubItemIndex    =   2
+            Text            =   "FechaCierreAnterior"
+            Object.Width           =   0
+         EndProperty
+      End
+      Begin VB.Label Label7 
+         Caption         =   "C"
+         BeginProperty Font 
+            Name            =   "Tahoma"
+            Size            =   20.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00972E0B&
+         Height          =   495
+         Index           =   11
+         Left            =   240
+         TabIndex        =   163
+         Top             =   360
+         Width           =   7170
+      End
+   End
    Begin VB.Frame FrameContabilizarFras 
       Height          =   3375
       Left            =   4080
-      TabIndex        =   121
+      TabIndex        =   122
       Top             =   2160
       Visible         =   0   'False
       Width           =   6615
@@ -951,7 +1339,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   1
          Left            =   3480
-         TabIndex        =   124
+         TabIndex        =   125
          Top             =   2640
          Width           =   1335
       End
@@ -960,7 +1348,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   0
          Left            =   5040
-         TabIndex        =   125
+         TabIndex        =   126
          Top             =   2640
          Width           =   1335
       End
@@ -969,7 +1357,7 @@ Begin VB.Form frmMensajes
          Index           =   8
          Left            =   4680
          MaxLength       =   30
-         TabIndex        =   123
+         TabIndex        =   124
          Text            =   "commor"
          Top             =   1320
          Width           =   1515
@@ -979,7 +1367,7 @@ Begin VB.Form frmMensajes
          Index           =   7
          Left            =   1560
          MaxLength       =   30
-         TabIndex        =   122
+         TabIndex        =   123
          Text            =   "commor"
          Top             =   1320
          Width           =   1515
@@ -988,7 +1376,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   29
          Left            =   360
-         TabIndex        =   130
+         TabIndex        =   131
          ToolTipText     =   "Fecha alta asociado"
          Top             =   2040
          Width           =   5760
@@ -1007,7 +1395,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   28
          Left            =   240
-         TabIndex        =   129
+         TabIndex        =   130
          ToolTipText     =   "Fecha alta asociado"
          Top             =   960
          Width           =   1875
@@ -1027,7 +1415,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   8
          Left            =   960
-         TabIndex        =   128
+         TabIndex        =   129
          Top             =   240
          Width           =   4935
       End
@@ -1036,7 +1424,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   27
          Left            =   3720
-         TabIndex        =   127
+         TabIndex        =   128
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1320
          Width           =   570
@@ -1045,7 +1433,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   8
          Left            =   4440
-         Picture         =   "frmMensajes.frx":055D
+         Picture         =   "frmMensajes.frx":08F2
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1320
          Width           =   240
@@ -1055,7 +1443,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   26
          Left            =   240
-         TabIndex        =   126
+         TabIndex        =   127
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1320
          Width           =   600
@@ -1064,7 +1452,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   7
          Left            =   1080
-         Picture         =   "frmMensajes.frx":05E8
+         Picture         =   "frmMensajes.frx":097D
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1320
          Width           =   240
@@ -1073,7 +1461,7 @@ Begin VB.Form frmMensajes
    Begin VB.Frame FrameCompraTasas 
       Height          =   3615
       Left            =   4200
-      TabIndex        =   111
+      TabIndex        =   112
       Top             =   240
       Visible         =   0   'False
       Width           =   8775
@@ -1082,7 +1470,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   1
          Left            =   5400
-         TabIndex        =   114
+         TabIndex        =   115
          Top             =   3000
          Width           =   1335
       End
@@ -1091,7 +1479,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   0
          Left            =   6960
-         TabIndex        =   115
+         TabIndex        =   116
          Top             =   3000
          Width           =   1335
       End
@@ -1100,7 +1488,7 @@ Begin VB.Form frmMensajes
          Index           =   1
          Left            =   2880
          MaxLength       =   30
-         TabIndex        =   113
+         TabIndex        =   114
          Top             =   2400
          Width           =   1035
       End
@@ -1111,7 +1499,7 @@ Begin VB.Form frmMensajes
          Left            =   2880
          Locked          =   -1  'True
          MaxLength       =   30
-         TabIndex        =   118
+         TabIndex        =   119
          Top             =   1800
          Width           =   5355
       End
@@ -1120,7 +1508,7 @@ Begin VB.Form frmMensajes
          Index           =   6
          Left            =   2880
          MaxLength       =   30
-         TabIndex        =   112
+         TabIndex        =   113
          Text            =   "commor"
          Top             =   1200
          Width           =   2475
@@ -1130,7 +1518,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   25
          Left            =   240
-         TabIndex        =   120
+         TabIndex        =   121
          ToolTipText     =   "Fecha alta asociado"
          Top             =   2400
          Width           =   1155
@@ -1140,7 +1528,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   24
          Left            =   240
-         TabIndex        =   119
+         TabIndex        =   120
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1800
          Width           =   2115
@@ -1160,7 +1548,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   7
          Left            =   2520
-         TabIndex        =   117
+         TabIndex        =   118
          Top             =   360
          Width           =   4095
       End
@@ -1169,7 +1557,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   23
          Left            =   240
-         TabIndex        =   116
+         TabIndex        =   117
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   2115
@@ -1178,7 +1566,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   6
          Left            =   2520
-         Picture         =   "frmMensajes.frx":0673
+         Picture         =   "frmMensajes.frx":0A08
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   240
@@ -1187,7 +1575,7 @@ Begin VB.Form frmMensajes
    Begin VB.Frame FrameCierreCaja 
       Height          =   5535
       Left            =   4680
-      TabIndex        =   83
+      TabIndex        =   84
       Top             =   240
       Visible         =   0   'False
       Width           =   6495
@@ -1197,7 +1585,7 @@ Begin VB.Form frmMensajes
          Index           =   7
          Left            =   2400
          MaxLength       =   30
-         TabIndex        =   85
+         TabIndex        =   86
          Top             =   3840
          Width           =   1515
       End
@@ -1209,7 +1597,7 @@ Begin VB.Form frmMensajes
          Left            =   2400
          Locked          =   -1  'True
          MaxLength       =   30
-         TabIndex        =   89
+         TabIndex        =   90
          Top             =   3240
          Width           =   1515
       End
@@ -1220,7 +1608,7 @@ Begin VB.Form frmMensajes
          Left            =   2400
          Locked          =   -1  'True
          MaxLength       =   30
-         TabIndex        =   93
+         TabIndex        =   94
          Top             =   2280
          Width           =   1515
       End
@@ -1229,7 +1617,7 @@ Begin VB.Form frmMensajes
          Index           =   4
          Left            =   2400
          MaxLength       =   30
-         TabIndex        =   84
+         TabIndex        =   85
          Text            =   "commor"
          Top             =   1200
          Width           =   2475
@@ -1239,7 +1627,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   1
          Left            =   3360
-         TabIndex        =   86
+         TabIndex        =   87
          Top             =   4800
          Width           =   1335
       End
@@ -1248,7 +1636,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   0
          Left            =   4920
-         TabIndex        =   87
+         TabIndex        =   88
          Top             =   4800
          Width           =   1335
       End
@@ -1259,7 +1647,7 @@ Begin VB.Form frmMensajes
          Left            =   2400
          Locked          =   -1  'True
          MaxLength       =   30
-         TabIndex        =   88
+         TabIndex        =   89
          Top             =   1680
          Width           =   2475
       End
@@ -1268,7 +1656,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   17
          Left            =   600
-         TabIndex        =   96
+         TabIndex        =   97
          ToolTipText     =   "Fecha alta asociado"
          Top             =   3960
          Width           =   1575
@@ -1286,7 +1674,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   14
          Left            =   600
-         TabIndex        =   95
+         TabIndex        =   96
          ToolTipText     =   "Fecha alta asociado"
          Top             =   3360
          Width           =   1575
@@ -1296,7 +1684,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   16
          Left            =   600
-         TabIndex        =   94
+         TabIndex        =   95
          ToolTipText     =   "Fecha alta asociado"
          Top             =   2400
          Width           =   1575
@@ -1306,7 +1694,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   15
          Left            =   600
-         TabIndex        =   92
+         TabIndex        =   93
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   1395
@@ -1315,7 +1703,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   4
          Left            =   2040
-         Picture         =   "frmMensajes.frx":06FE
+         Picture         =   "frmMensajes.frx":0A93
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1200
          Width           =   240
@@ -1335,7 +1723,7 @@ Begin VB.Form frmMensajes
          Height          =   375
          Index           =   5
          Left            =   2040
-         TabIndex        =   91
+         TabIndex        =   92
          Top             =   360
          Width           =   3150
       End
@@ -1344,168 +1732,10 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   13
          Left            =   600
-         TabIndex        =   90
+         TabIndex        =   91
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1800
          Width           =   1395
-      End
-   End
-   Begin VB.Frame FramepagoFra 
-      Height          =   3855
-      Left            =   3360
-      TabIndex        =   97
-      Top             =   120
-      Visible         =   0   'False
-      Width           =   7335
-      Begin VB.TextBox txtCaja 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   11
-         Left            =   1320
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   109
-         Top             =   2280
-         Width           =   1755
-      End
-      Begin VB.TextBox txtCaja 
-         Alignment       =   1  'Right Justify
-         Height          =   360
-         Index           =   10
-         Left            =   5520
-         MaxLength       =   30
-         TabIndex        =   99
-         Top             =   2280
-         Width           =   1515
-      End
-      Begin VB.CommandButton cmdCobroFactura 
-         Caption         =   "&Aceptar"
-         Height          =   375
-         Index           =   1
-         Left            =   4200
-         TabIndex        =   100
-         Top             =   3240
-         Width           =   1335
-      End
-      Begin VB.TextBox txtCaja 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   9
-         Left            =   1320
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   105
-         Top             =   1680
-         Width           =   1755
-      End
-      Begin VB.TextBox txtCaja 
-         BackColor       =   &H80000018&
-         Height          =   360
-         Index           =   8
-         Left            =   5520
-         Locked          =   -1  'True
-         MaxLength       =   30
-         TabIndex        =   104
-         Top             =   1680
-         Width           =   1515
-      End
-      Begin VB.TextBox txtFecha 
-         Height          =   360
-         Index           =   5
-         Left            =   2640
-         MaxLength       =   30
-         TabIndex        =   98
-         Text            =   "commor"
-         Top             =   1080
-         Width           =   2475
-      End
-      Begin VB.CommandButton cmdCobroFactura 
-         Caption         =   "Cancelar"
-         Height          =   375
-         Index           =   0
-         Left            =   5760
-         TabIndex        =   101
-         Top             =   3240
-         Width           =   1335
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Usuario"
-         Height          =   240
-         Index           =   22
-         Left            =   240
-         TabIndex        =   110
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   2280
-         Width           =   1395
-      End
-      Begin VB.Label Label1 
-         AutoSize        =   -1  'True
-         Caption         =   "Importe cobrado"
-         Height          =   240
-         Index           =   21
-         Left            =   3480
-         TabIndex        =   108
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   2400
-         Width           =   1635
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Factura"
-         Height          =   240
-         Index           =   20
-         Left            =   240
-         TabIndex        =   107
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1680
-         Width           =   1395
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Importe pendiente"
-         Height          =   240
-         Index           =   19
-         Left            =   3480
-         TabIndex        =   106
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1680
-         Width           =   2055
-      End
-      Begin VB.Image imgppal 
-         Height          =   240
-         Index           =   5
-         Left            =   2280
-         Picture         =   "frmMensajes.frx":0789
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1080
-         Width           =   240
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Fecha / hora pago"
-         Height          =   240
-         Index           =   18
-         Left            =   240
-         TabIndex        =   103
-         ToolTipText     =   "Fecha alta asociado"
-         Top             =   1080
-         Width           =   1995
-      End
-      Begin VB.Label Label7 
-         Caption         =   "Pago factura por caja"
-         BeginProperty Font 
-            Name            =   "Tahoma"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
-         Height          =   375
-         Index           =   6
-         Left            =   1800
-         TabIndex        =   102
-         Top             =   360
-         Width           =   4095
       End
    End
    Begin VB.Frame FrameCobros 
@@ -1519,7 +1749,7 @@ Begin VB.Form frmMensajes
          Caption         =   "Efectuar cobro"
          Height          =   495
          Left            =   360
-         TabIndex        =   131
+         TabIndex        =   132
          Top             =   6000
          Visible         =   0   'False
          Width           =   1815
@@ -1656,7 +1886,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   1680
-         Picture         =   "frmMensajes.frx":0814
+         Picture         =   "frmMensajes.frx":0B1E
          ToolTipText     =   "Fecha alta asociado"
          Top             =   1080
          Width           =   240
@@ -1722,7 +1952,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   2040
-         Picture         =   "frmMensajes.frx":089F
+         Picture         =   "frmMensajes.frx":0BA9
          ToolTipText     =   "Fecha alta asociado"
          Top             =   960
          Width           =   240
@@ -1800,7 +2030,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   0
          Left            =   4920
-         Picture         =   "frmMensajes.frx":092A
+         Picture         =   "frmMensajes.frx":0C34
          ToolTipText     =   "Quitar seleccion"
          Top             =   720
          Width           =   240
@@ -1809,7 +2039,7 @@ Begin VB.Form frmMensajes
          Height          =   240
          Index           =   1
          Left            =   4920
-         Picture         =   "frmMensajes.frx":0A74
+         Picture         =   "frmMensajes.frx":0D7E
          ToolTipText     =   "Todos"
          Top             =   1080
          Width           =   240
@@ -2388,6 +2618,9 @@ Public Opcion As Byte
      '27- Cobros de la factura
     
      '28- Factura abono
+     '29- Factura ABONO desde mto cliente. Ya viene el numero de factura, cliente....
+    
+    
     
     
 Public Parametros As String
@@ -2448,10 +2681,23 @@ Dim IT
     ListView2(Origen).ListItems.Remove indice
 End Sub
 
+Private Sub Check1_Click()
+
+End Sub
+
 Private Sub chkCaja_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
 End Sub
 
+
+Private Sub chkQuitarGastos_Click()
+    If chkQuitarGastos.Value Then
+       
+       txtCaja(10).Text = CCur(txtCaja(8).Tag) - CCur(txtCaja(12).Tag)
+    Else
+        txtCaja(10).Text = txtCaja(8).Text
+    End If
+End Sub
 
 Private Sub cmdAbono_Click(Index As Integer)
 Dim N As Integer
@@ -2491,7 +2737,7 @@ Dim N As Integer
         'Hacemos la pregunta
         Codigo = ListView6.ListItems(N).Text & " " & ListView6.ListItems(N).SubItems(2) & " fecha: " & ListView6.ListItems(N).SubItems(1)
         Codigo = Codigo & " de " & ListView6.ListItems(N).SubItems(4) & " €" & vbCrLf
-           
+        If ListView6.ListItems(N).Text = "CUO" Then Codigo = Codigo & vbCrLf & vbCrLf & "         *** CUOTA ***   " & vbCrLf & vbCrLf
         Codigo = "Va a realizar el abono de la factura : " & vbCrLf & Space(10) & Codigo & "¿Continuar?"
         If MsgBox(Codigo, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
@@ -2544,6 +2790,29 @@ Private Sub cmdCaja_Click(Index As Integer)
             MsgBox "Campos obligatorios", vbExclamation
             Exit Sub
         End If
+        
+        If Me.optConceCaja(1).Value Then
+            If Me.txtCodmacta(0).Text = "" Then
+                MsgBox "Debe especifiar la cuenta contable", vbExclamation
+                Exit Sub
+            End If
+        Else
+            'Pondremos en la cuenta y la contrapartida el el valor desde caja_conceptos
+            I = cboConceptosCaja.ItemData(cboConceptosCaja.ListIndex)
+            Sql = "caja_conceptos inner join ariconta" & vParam.Numconta & ".cuentas on caja_conceptos.codmacta=cuentas.codmacta"
+            cadParam = "nommacta"
+            Sql = DevuelveDesdeBD("caja_conceptos.codmacta", Sql, "codconcec", CStr(I), "N", cadParam)
+            If Sql = "" Then
+                MsgBox "Error obteniendo cuenta contable del concepto", vbExclamation
+                Exit Sub
+            End If
+            Me.txtCodmacta(0).Text = Sql
+            txtCodmactaDes(0).Text = cadParam
+            
+        End If
+        
+        
+        
         If Me.txtCodmacta(0).Text = "" Xor Me.txtCodmactaDes(0).Text = "" Then
             MsgBox "Error en cuenta contable", vbExclamation
             Exit Sub
@@ -2575,17 +2844,36 @@ Private Sub cmdCaja_Click(Index As Integer)
             Else
                 Msg = Msg & DBSet(Me.txtCodmacta(0).Text, "T")
             End If
+            
+             Msg = Msg & ", codconceC ="
+            If Me.optConceCaja(0).Value Then
+                Msg = Msg & cboConceptosCaja.ItemData(cboConceptosCaja.ListIndex)
+            Else
+                Msg = Msg & "-1"
+            End If
+            
+            
             Msg = Msg & " WHERE usuario = " & DBSet(txtCaja(3).Text, "T") & " AND feccaja=" & DBSet(txtCaja(0).Text, "FH")
             
         Else
+        
+        
+          
             'INSERTAR
-            Msg = "INSERT INTO caja(usuario,feccaja,tipomovi,importe,ampliacion,codmacta) VALUES (" & DBSet(txtCaja(3).Text, "T")
+            Msg = "INSERT INTO caja(usuario,feccaja,tipomovi,importe,ampliacion,codmacta,codconceC) VALUES (" & DBSet(txtCaja(3).Text, "T")
             Msg = Msg & "," & DBSet(txtCaja(0).Text, "FH") & "," & Abs(Me.chkCaja.Value)
             Msg = Msg & "," & DBSet(txtCaja(2).Text, "N") & "," & DBSet(txtCaja(1).Text, "T") & ","
             If Me.txtCodmacta(0).Text = "" Then
                 Msg = Msg & "NULL"
             Else
                 Msg = Msg & DBSet(Me.txtCodmacta(0).Text, "T")
+            End If
+            'codnce
+            Msg = Msg & ","
+            If Me.optConceCaja(0).Value Then
+                Msg = Msg & cboConceptosCaja.ItemData(cboConceptosCaja.ListIndex)
+            Else
+                Msg = Msg & "-1"
             End If
             Msg = Msg & ")"
         End If
@@ -2673,7 +2961,12 @@ Dim Hora As Date
     Unload Me
 End Sub
 
+
 Private Sub cmdCobroFactura_Click(Index As Integer)
+    BotonCobroFactura Index, False
+End Sub
+
+Private Sub BotonCobroFactura(Index As Integer, Credito As Boolean)
 
     If Index = 1 Then
         Sql = ""
@@ -2684,7 +2977,23 @@ Private Sub cmdCobroFactura_Click(Index As Integer)
             MsgBox Sql, vbExclamation
             Exit Sub
         End If
-        If Not FechaFacturaOK(CDate(txtFecha(5).Text)) Then Exit Sub
+        
+        Sql = ""
+        If CDate(txtFecha(5).Text) < vEmpresa.FechaInicioEjercicio Then
+            Sql = "Menor inicio ejercicios"
+        Else
+            If CDate(txtFecha(5).Text) > DateAdd("yyyy", 1, vEmpresa.FechaFinEjercicio) Then
+                Sql = "Menor fin ejercicios"
+            Else
+                If CDate(txtFecha(5).Text) < vEmpresa.FechaActivaConta Then Sql = "Menor fecha activa contabilidad"
+                
+            End If
+        End If
+        
+        If Sql <> "" Then
+            MsgBox Sql, vbExclamation
+            Exit Sub
+        End If
 
         'A partir de la fecha, vamos a ver la hora de cierre de caja.
         'Primero. NO pueden haber movimientos posteriores al cierre
@@ -2702,17 +3011,87 @@ Private Sub cmdCobroFactura_Click(Index As Integer)
             
 
         'DE momento NO admito cobros parciales
-        If txtCaja(8).Text <> txtCaja(10).Text Then
-            MsgBox "No aceptados cobors a cuenta", vbExclamation
+        Importe = ImporteFormateado(txtCaja(8).Text)
+        If Me.chkQuitarGastos.Value Then Importe = CCur(txtCaja(8).Tag) - CCur(txtCaja(12).Tag)
+        
+        Sql = Format(Importe, FormatoImporte)
+        
+        
+        If Sql <> txtCaja(10).Text Then
+            MsgBox "No aceptados cobros a cuenta", vbExclamation
             Exit Sub
         End If
-
-
-        If Not HacerCobroFactura Then Exit Sub
-
+        Sql = ""
+        If Credito Then
+            Sql = String(40, "*") & vbCrLf & vbCrLf
+            Sql = Sql & Space(15) & "Tarjeta de crédito" & vbCrLf & vbCrLf & Sql
+        End If
+        Sql = Sql & "¿Realizar cobro?"
+        If MsgBox(Sql, vbQuestion + vbYesNoCancel + vbDefaultButton2) <> vbYes Then Exit Sub
+        
+        
+        If Not HacerCobroFactura(Credito) Then Exit Sub
+            
+            
+        'Vamos a imprimir la factura pq lleva la fecha de pago puesta
+        Sql = " {factcli.numserie}  = " & DBSet(RecuperaValor(CampoOrden, 1), "T") & " AND {factcli.numfactu} =" & RecuperaValor(CampoOrden, 2)
+        Sql = Sql & "  AND {factcli.fecfactu} = Date(" & Format(RecuperaValor(Parametros, 4), "yyyy,mm,dd") & ") "
+        
+        cadNomRPT = "rFactura.rpt"
+        cadFormula = Sql
+        cadParam = ""
+        numParam = 0
+        conSubRPT = False
+                
+        ImprimeGeneral
+                
     End If
     Unload Me
 
+End Sub
+
+Private Sub cmdCompensa_Click(Index As Integer)
+Dim B As Boolean
+    If Index = 0 Then
+        Sql = ""
+        Importe = 0
+        For I = 1 To Me.ListView8.ListItems.Count
+            If Me.ListView8.ListItems(I).Checked Then
+                Importe = ImporteFormateado(ListView8.ListItems(I).SubItems(4)) + Importe
+                Sql = Sql & "X"
+            End If
+        Next
+        
+        
+        If Len(Sql) <= 1 Then
+            MsgBox "Seleccione al menos dos vencimientos", vbExclamation
+            Exit Sub
+        End If
+        
+        If Importe <> 0 Then
+            MsgBox "La compensacion no da como resultado CERO", vbExclamation
+            Exit Sub
+        End If
+        
+        
+        'OK vamos a realizar la compensacion
+        If MsgBox("Realizar la compensacion?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
+        
+        Screen.MousePointer = vbHourglass
+        Conn.BeginTrans
+        B = RealizaCompensacion
+        Screen.MousePointer = vbDefault
+        If B Then
+            Conn.CommitTrans
+            
+        Else
+            Conn.RollbackTrans
+            Exit Sub
+        End If
+        
+        
+    End If
+    Unload Me
 End Sub
 
 Private Sub cmdCompraTasas_Click(Index As Integer)
@@ -2833,6 +3212,11 @@ Dim Aux As String
       
         miRsAux.Close
         Set miRsAux = Nothing
+        If I = 0 Then
+            MsgBox "Ninguna factura a contabilizar", vbExclamation
+            Exit Sub
+        End If
+        
         Aux = I
         If I > 1 Then Aux = "las " & I
         Aux = "Va a contabilizar " & Aux & " facturas. ¿Continuar?"
@@ -2878,10 +3262,23 @@ Private Sub cmdContabTaasAdm_Click(Index As Integer)
         If MsgBox("Desea contabilizar con fecha: " & txtFecha(9).Text & "?", vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
         
         CadenaDesdeOtroForm = txtFecha(9).Text
-    
+        If Me.cboBanco(0).Visible Then CadenaDesdeOtroForm = CadenaDesdeOtroForm & "|" & Me.cboBanco(0).ListIndex + 1
+        CadenaDesdeOtroForm = CadenaDesdeOtroForm & "|"
     End If
     Unload Me
 End Sub
+
+
+Private Sub CargaComboBancos(indice As Integer)
+    
+    cboBanco(indice).Clear
+    cboBanco(indice).AddItem DevuelveDesdeBD("nommacta", "ariconta" & vParam.Numconta & ".cuentas", "codmacta", vParam.CtaBanco, "T")
+    If vParam.CtaBanco2 <> "" Then
+        cboBanco(indice).AddItem DevuelveDesdeBD("nommacta", "ariconta" & vParam.Numconta & ".cuentas", "codmacta", vParam.CtaBanco2, "T")
+    End If
+    cboBanco(indice).ListIndex = 0
+End Sub
+
 
 Private Sub cmdEfectuarCobro_Click()
 Dim Cad As String
@@ -2909,7 +3306,7 @@ Dim Cad As String
         Set miRsAux = Nothing
     Else
         
-        frmTESParciales.Vto = miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!Numorden & "|"
+        frmTESParciales.Vto = miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!numorden & "|"
         Cad = ""
         If Not IsNull(miRsAux!Gastos) Then Cad = Cad & Format(miRsAux!Gastos, FormatoImporte)
         Cad = Cad & "|"
@@ -2984,6 +3381,14 @@ Private Sub cmdpagoTasas_Click(Index As Integer)
         Sql = "1"
         If Parametros <> "" Then
             Sql = DevuelveDesdeBD("pagoPorBanco", "gestadministrativa", "id", Parametros)
+            
+            If Sql = "1" Then
+                'Pago por banco
+                Sql = DevuelveDesdeBD("QueBanco", "gestadministrativa", "id", Parametros)
+                Me.cboBanco(1).ListIndex = 0
+                If Val(Sql) > 1 Then Me.cboBanco(1).ListIndex = 1
+                Sql = "1"
+            End If
         End If
         Me.optPagoTasas(CInt(Sql)).Value = True
                 
@@ -3027,6 +3432,10 @@ End Sub
 
 Private Sub CmdSalir_Click()
     Unload Me
+End Sub
+
+Private Sub cmdTarjetaCredito_Click()
+    BotonCobroFactura 1, True
 End Sub
 
 Private Sub cmdVerdatos_Click()
@@ -3092,20 +3501,28 @@ Private Sub Form_Activate()
             txtCaja(5).Text = RecuperaValor(Parametros, 2)
         
         Case 6
+            
+        
             Me.txtFecha(5).Text = Format(Now, "dd/mm/yyyy hh:nn:ss")
             txtCaja(8).Text = RecuperaValor(Parametros, 5)   'pendeinte
+            txtCaja(8).Tag = ImporteFormateado(txtCaja(8).Text)
             txtCaja(9).Text = RecuperaValor(Parametros, 2)   'factura
             txtCaja(10).Text = RecuperaValor(Parametros, 5)  'cobrado
             txtCaja(11).Text = RecuperaValor(Parametros, 1)  'usuar
             PonFoco txtCaja(10)
+            PonerGastosVto
+        
+            
+        
         
         Case 7
             Me.txtTasas(0).Text = RecuperaValor(Parametros, 1)   'factura
             Me.txtFecha(6).Text = Format(Now, "dd/mm/yyyy hh:nn:ss")
             Me.txtTasas(1).Text = ""  '
             
-
-
+        Case 9
+            
+            
         Case 10
              cargaCierresDeCaja
 
@@ -3121,9 +3538,23 @@ Private Sub Form_Activate()
         Case 27
             CargaCobrosFactura
             
-        Case 28
+        Case 28, 29
         
             txtFecha(10).Text = Format(Now, "dd/mm/yyyy")
+            
+            If Opcion = 29 Then
+
+                
+                imgCli(2).Enabled = False
+                txtCliente(2).Enabled = False
+                txtCliente(2).Text = Format(RecuperaValor(CadenaDesdeOtroForm, 1), "0000")
+                Me.txtClienteDes(2).Text = RecuperaValor(CadenaDesdeOtroForm, 2)
+                CargaFacturasCliente True
+            End If
+            PonFoco txtFecha(10)
+            CadenaDesdeOtroForm = ""
+       Case 30
+            CargaCobrosAbonos
        End Select
     End If
     Screen.MousePointer = vbDefault
@@ -3166,6 +3597,7 @@ Dim H As Long
     FrameContabilizarFras.Visible = False
     FrameAbono.Visible = False
     FrameImpHcoCierres.Visible = False
+    FrameCompensacion.Visible = False
     Limpiar Me
     Select Case Opcion
     Case 1
@@ -3192,9 +3624,11 @@ Dim H As Long
         FramePagostasas.Left = 0
         CargaIMG 0
         CargaIMG 1
-    
+        CargaComboBancos 1
     Case 4
-         
+        CargarComboConceptos
+        PonerVisibleConceptosCaja True
+        
         Caption = "Caja"
         PonerFrameVisible Me.FrameCaja, W, H
         Me.txtCaja(3).Text = RecuperaValor(Parametros, 1)
@@ -3210,6 +3644,21 @@ Dim H As Long
             Me.chkCaja.Value = IIf(RecuperaValor(Parametros, 5) = "1", 1, 0)
             Me.txtCodmacta(0).Text = RecuperaValor(Parametros, 6)
             Me.txtCodmactaDes(0).Text = RecuperaValor(Parametros, 7)
+            Sql = RecuperaValor(Parametros, 8)
+            If Sql <> "-1" Then
+                
+                'Conceptos caja
+                For I = 0 To Me.cboConceptosCaja.ListCount - 1
+                    If cboConceptosCaja.ItemData(I) = Sql Then
+                        cboConceptosCaja.ListIndex = I
+                        Exit For
+                    End If
+                Next
+                If I >= Me.cboConceptosCaja.ListCount Then MsgBox "No se ha encontrado el concepto de caja: " & Sql, vbExclamation
+            Else
+                PonerVisibleConceptosCaja False
+                Me.optConceCaja(1).Value = True
+            End If
         Else
             txtCaja(0).Text = Format(Now, "dd/mm/yyyy hh:nn")
             Parametros = ""
@@ -3249,8 +3698,11 @@ Dim H As Long
         PonerFrameVisible FrameContabTasasAdm, W, H
         Caption = "Contabilizar"
         cmdContabTaasAdm(0).Cancel = True
-   
-   
+        If CadenaDesdeOtroForm <> "NO" Then CargaComboBancos 0
+        Me.cboBanco(0).Visible = CadenaDesdeOtroForm <> "NO"
+        Label1(36).Visible = CadenaDesdeOtroForm <> "NO"
+        If CadenaDesdeOtroForm <> "NO" Then cboBanco(0).ListIndex = Val(CadenaDesdeOtroForm) - 1
+        CadenaDesdeOtroForm = ""
     Case 10
         PonerFrameVisible FrameImpHcoCierres, W, H
         Caption = "Historico caja"
@@ -3290,11 +3742,21 @@ Dim H As Long
         
         PonerFrameVisible FrameCobros, W, H
         
-    Case 28
+    Case 28, 29
         
         Me.Caption = "Facturas de abono"
         PonerFrameVisible FrameAbono, W, H
         CargaIMG 2
+        
+        cmdAbono(1).Cancel = True
+    
+    Case 30
+        Caption = "Compensa"
+        PonerFrameVisible FrameCompensacion, W, H
+        Me.cmdCompensa(1).Cancel = True
+        
+        Me.Label1(39).Caption = RecuperaValor(Parametros, 1) & " - " & RecuperaValor(Parametros, 2)
+        
     End Select
     
     Me.Width = W + 120
@@ -3499,6 +3961,24 @@ Private Sub ListView1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader
             ListView1.SortOrder = lvwAscending
         End If
     End If
+End Sub
+
+Private Sub optConceCaja_Click(Index As Integer)
+    PonerVisibleConceptosCaja Index = 0
+End Sub
+
+Private Sub PonerVisibleConceptosCaja(Visible As Boolean)
+    cboConceptosCaja.Visible = Visible
+    cboConceptosCaja.Left = txtCodmacta(0).Left
+    imgCodmacta(0).Visible = Not Visible
+    txtCodmacta(0).Visible = Not Visible
+    txtCodmactaDes(0).Visible = Not Visible
+End Sub
+
+
+Private Sub optPagoTasas_Click(Index As Integer)
+    Me.cboBanco(1).Visible = Index = 1
+    Label1(37).Visible = Index = 1
 End Sub
 
 Private Sub TreeView1_NodeCheck(ByVal Node As MSComctlLib.Node)
@@ -4024,15 +4504,23 @@ Private Function GenerarTasas() As Boolean
         
         Sql = "UPDATE gestadministrativa SET llevados = " & J & ", importe=" & DBSet(Importe, "N")
         Sql = Sql & ", pagoPorBanco =" & IIf(Me.optPagoTasas(1).Value, 1, 0)
+        Sql = Sql & ", queBanco= 0"
+        If Me.optPagoTasas(1).Value Then Sql = Sql & Me.cboBanco(1).ListIndex + 1
+        
         Sql = Sql & " WHERE id =" & Codigo
         CadenaDesdeOtroForm = "OK"
     Else
         Codigo = DevuelveDesdeBD("max(id)", "gestadministrativa", "1", "1")
         Codigo = Val(Codigo) + 1
         CadenaDesdeOtroForm = Codigo
-        Sql = "INSERT INTO gestadministrativa(id,usuario,fechacreacion,llevados,importe,pagoPorBanco) VALUES (" & Codigo
+        Sql = "INSERT INTO gestadministrativa(id,usuario,fechacreacion,llevados,importe,pagoPorBanco,quebanco) VALUES (" & Codigo
         Sql = Sql & "," & DBSet(vUsu.Login, "T") & "," & DBSet(Now, "FH") & "," & J & "," & DBSet(Importe, "N")
-        Sql = Sql & "," & IIf(Me.optPagoTasas(1).Value, 1, 0) & ")"
+        Sql = Sql & "," & IIf(Me.optPagoTasas(1).Value, 1, 0) & ","
+        If optPagoTasas(1).Value Then
+            Sql = Sql & cboBanco(1).ListIndex + 1 & ")"    'Sera el quebanco 1.Ppal  2 Segundo en parametros
+        Else
+            Sql = Sql & "0)"   'CAJA
+        End If
     End If
     Conn.Execute Sql
     
@@ -4068,14 +4556,14 @@ End Function
 '------------------------------------------------------------------------------------------------------------------------
 '------------------------------------------------------------------------------------------------------------------------
 '------------------------------------------------------------------------------------------------------------------------
-Private Function HacerCobroFactura() As Boolean
+Private Function HacerCobroFactura(Credito As Boolean) As Boolean
 
     
     'Transaccion
     Screen.MousePointer = vbHourglass
     HacerCobroFactura = False
     Conn.BeginTrans
-    If RealizarCobro Then
+    If RealizarCobro(Credito) Then   'Credito: TARJETA CREDITO
         Conn.CommitTrans
         HacerCobroFactura = True
     Else
@@ -4084,7 +4572,7 @@ Private Function HacerCobroFactura() As Boolean
     Screen.MousePointer = vbDefault
 End Function
 
-Private Function RealizarCobro() As Boolean
+Private Function RealizarCobro(Credito As Boolean) As Boolean
 Dim Cobrado As Currency
 
     On Error GoTo eRealizarCobro
@@ -4101,16 +4589,25 @@ Dim Cobrado As Currency
     miRsAux.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'NO PUEDE SER EOF
     Cobrado = DBLet(miRsAux!impcobro, "N")
-    Importe = miRsAux!ImpVenci + DBLet(miRsAux!Gastos, "N")
+    Importe = miRsAux!ImpVenci
+    If Not (Me.chkQuitarGastos.Value = 1) Then Importe = Importe + DBLet(miRsAux!Gastos, "N")
     
     
     If Cobrado + ImporteFormateado(Me.txtCaja(10).Text) > Importe Then Err.Raise 513, "Cobrado mas de lo que tiene pendiente"
     
     Importe = ImporteFormateado(txtCaja(10).Text)  'lo que vamos a cobrar ahora
     Cobrado = Cobrado + ImporteFormateado(Me.txtCaja(10).Text)   'lo que habia mas lo de ahora
-    
+     
     Codigo = "UPDATE ariconta" & vParam.Numconta & ".cobros SET "
     Codigo = Codigo & " fecultco = " & DBSet(txtFecha(5), "F") & ", impcobro = " & DBSet(Cobrado, "N")
+    'Si ponia a NULL los gastos
+    If Me.chkQuitarGastos.Value = 1 Then Codigo = Codigo & " ,gastos = NULL"
+    
+    'observaciones
+    Referencia = " Caja: " & txtCaja(11).Text & "     Fecha/hora: " & txtFecha(5).Text & IIf(Credito, "     TARJETA CREDITO", "")
+    Referencia = Replace(Referencia, "'", "")
+    Codigo = Codigo & " , observa=trim(concat(coalesce(observa,''),' " & Referencia & "'))"
+    
     Codigo = Codigo & " WHERE " & Sql
     Conn.Execute Codigo
     miRsAux.Close
@@ -4122,16 +4619,62 @@ Dim Cobrado As Currency
     
     
     'Ya hemos actualizado en cobros. Ahora metemos en caja
-    Codigo = "INSERT INTO caja(usuario,feccaja,tipomovi,tiporegi,numserie,numdocum,anoexped,numlinea,importe,ampliacion) VALUES ("
+    Codigo = "INSERT INTO caja(usuario,feccaja,tipomovi,tiporegi,numserie,numdocum,anoexped,numlinea,importe,ampliacion,codconcec) VALUES ("
     Codigo = Codigo & DBSet(txtCaja(11).Text, "T") & "," & DBSet(txtFecha(5).Text, "FH") & ",0," & DBSet(miRsAux!TipoRegi, "N")
     Sql = RecuperaValor(Parametros, 4)
     Sql = Year(CDate(Sql))
     Codigo = Codigo & "," & DBSet(miRsAux!serfactur, "T") & "," & DBSet(RecuperaValor(CampoOrden, 2), "T") & "," & DBSet(Sql, "N")
     Sql = RecuperaValor(Parametros, 6)
-    Codigo = Codigo & "," & DBSet(RecuperaValor(CampoOrden, 3), "N") & "," & DBSet(Importe, "T") & "," & DBSet(Sql, "T") & ")"
+    Codigo = Codigo & "," & DBSet(RecuperaValor(CampoOrden, 3), "N") & "," & DBSet(Importe, "N") & "," & DBSet(Sql, "T") & ",-1)"
     Conn.Execute Codigo
     
+    
+    
+    
+    
+    
+    'Si es tarjeta de credito, entonces hacemos el apunte de salida, un segundo mas tarde
+    If Credito Then
+        Codigo = "INSERT INTO caja(usuario,feccaja,tipomovi,tiporegi,numserie,numdocum,anoexped,numlinea,importe,ampliacion,codmacta,codconcec) VALUES ("
+        Codigo = Codigo & DBSet(txtCaja(11).Text, "T") & "," & DBSet(DateAdd("s", 1, CDate(txtFecha(5).Text)), "FH") & ",1,null,null,null,null,1"
+        Sql = RecuperaValor(Parametros, 2)
+        Sql = "TAR.CRED:" & Sql & " " & RecuperaValor(Parametros, 6)
+        Sql = Mid(Sql, 1, 50)
+        Codigo = Codigo & "," & DBSet(Importe, "N") & "," & DBSet(Sql, "T")
+        
+        Sql = DevuelveDesdeBD("codmacta", "caja_conceptos", "CodConceC", vParam.CajaConceptoTarjetaCredito)
+        If Sql = "" Then Err.Raise 513, , "Error obteniendo concepot TARJETA: " & vParam.CajaConceptoTarjetaCredito
+        Codigo = Codigo & "," & DBSet(Sql, "T") & "," & vParam.CajaConceptoTarjetaCredito & ")"
+        Conn.Execute Codigo
+        
+    End If
+    
+    
+    
+    
+    
+    
+    
+    
     miRsAux.Close
+    
+    'Marzo 18
+    'Updateamos el campo `FecPago` de factcli
+    
+    Sql = " numserie = " & DBSet(RecuperaValor(CampoOrden, 1), "T") & " AND numfactu =" & RecuperaValor(CampoOrden, 2)
+    Sql = Sql & " AND fecfactu =" & DBSet(RecuperaValor(Parametros, 4), "F")
+    Codigo = "UPDATE factcli SET FecPago = " & DBSet(txtFecha(5).Text, "FH") & " WHERE " & Sql
+    Conn.Execute Codigo
+    
+    
+    If Me.chkQuitarGastos.Value = 1 Then
+        Codigo = "Factura: " & txtCaja(9).Text & vbCrLf
+        Codigo = Codigo & "Pendiente: " & txtCaja(8).Text & " (Gastos " & txtCaja(12).Text & ")"
+        Codigo = Codigo & vbCrLf & "Pagado: " & Me.txtCaja(10).Text & IIf(Credito, "     TARJETA CREDITO", "")
+        vLog.Insertar 11, vUsu, Codigo
+    
+    End If
+    
     RealizarCobro = True
     
 eRealizarCobro:
@@ -4148,6 +4691,16 @@ Private Sub CargaFacturasCliente(Enlaza As Boolean)
     Set miRsAux = New ADODB.Recordset
     Codigo = "select numserie,numfactu,fecfactu,observa,totfaccl from factcli WHERE CODCLIEN=" & Me.txtCliente(2).Text & " AND numserie <>'FRT'"
     Codigo = Codigo & " AND RectSer is null"
+    
+    'Estamos en mto clientes. Vamos a rectificar una factura /abono
+    If Me.Opcion = 29 Then
+        
+        'Ejmplo parametros: FAC|1|29/01/2018|
+        Codigo = Codigo & " AND numserie =" & DBSet(RecuperaValor(Parametros, 1), "T")
+        Codigo = Codigo & " AND numfactu =" & DBSet(RecuperaValor(Parametros, 2), "N")
+        Codigo = Codigo & " AND fecfactu =" & DBSet(RecuperaValor(Parametros, 3), "F")
+        
+    End If
     Codigo = Codigo & " order by fecfactu desc, numserie,numfactu "
     miRsAux.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     I = 0
@@ -4158,10 +4711,17 @@ Private Sub CargaFacturasCliente(Enlaza As Boolean)
         ListView6.ListItems(I).SubItems(2) = Format(miRsAux!NumFactu, "000000")
         ListView6.ListItems(I).SubItems(3) = DBLet(miRsAux!observa, "T")
         ListView6.ListItems(I).SubItems(4) = Format(miRsAux!totfaccl, FormatoImporte)
-               
+           
         miRsAux.MoveNext
     Wend
     miRsAux.Close
+    If Opcion = 29 Then
+        
+        If I > 0 Then
+            ListView6.ListItems(1).Selected = True
+            ListView6.ListItems(1).Checked = True
+        End If
+    End If
     Set miRsAux = Nothing
 End Sub
 
@@ -4170,6 +4730,8 @@ End Sub
 
 Private Function CrearFacturaAbono() As Boolean
 Dim Obser As String
+Dim EsCuota As Boolean
+Dim txtaux As String
 
 On Error GoTo eCrearFacturaAbono
 
@@ -4182,20 +4744,27 @@ On Error GoTo eCrearFacturaAbono
     CampoOrden = CampoOrden & " AND fecfactu  =" & DBSet(ListView6.ListItems(I).SubItems(1), "F")
                 
                     
-                
-    Referencia = "FRT"
+    'LAS CUOTAS no generan FRT, generan CUO con importe negativo
+    If ListView6.ListItems(I).Text = "CUO" Then
+        Referencia = "CUO"
+        txtaux = "Abono de la cuota: "
+    Else
+        txtaux = "Rectifica a la factura: "
+        Referencia = "FRT"
+    End If
     Sql = "numfactu"
     Codigo = DevuelveDesdeBD("numfactu", "contadores", "serfactur", Referencia, "T")
     If Codigo = "" Then Err.Raise 513, , "No existe contador abonos"
     Codigo = Val(Codigo) + 1
     CadenaDesdeOtroForm = Referencia & "|" & Codigo & "|" & txtFecha(10).Text & "|"
-        
+       
     'Cabecera
     
     Obser = Trim(Text2.Text)
     If Obser <> "" Then Obser = Obser & vbCrLf
-    Obser = Obser & "Rectifica a la factura: "
-    Obser = Obser & ListView6.ListItems(I).Text & " " & ListView6.ListItems(I).SubItems(2)
+    
+    Obser = Obser & txtaux
+    Obser = Obser & ListView6.ListItems(I).Text & ListView6.ListItems(I).SubItems(2)
     Obser = Obser & " de fecha " & ListView6.ListItems(I).SubItems(1)
     
     'numserie,numfactu,fecfactu,codclien,codforpa,numexped,fecexped,observa,totbases,totbasesret,totivas,totrecargo,totfaccl,retfaccl,
@@ -4209,10 +4778,14 @@ On Error GoTo eCrearFacturaAbono
     Sql = Sql & " from factcli WHERE " & CampoOrden
     Conn.Execute Sql
     
+    EsCuota = False
+    If ListView6.ListItems(I).Text = "CUO" Then EsCuota = True
+    
+    
     'Lineas
-    Sql = "INSERT INTO factcli_lineas(numserie,numfactu,fecfactu,numlinea,codconce,nomconce,ampliaci,cantidad,precio,codigiva,porciva,porcrec,impoiva,imporec,aplicret)"
+    Sql = "INSERT INTO factcli_lineas(numserie,numfactu,fecfactu,numlinea,codconce,nomconce,ampliaci,cantidad,precio,importe,codigiva,porciva,porcrec,impoiva,imporec,aplicret)"
     Sql = Sql & " select " & DBSet(Referencia, "T") & "," & Codigo & "," & DBSet(txtFecha(10).Text, "F")
-    Sql = Sql & ",numlinea,codconce,nomconce,ampliaci,-cantidad,precio,codigiva,porciva,porcrec,-impoiva,-imporec,aplicret"
+    Sql = Sql & ",numlinea,codconce,nomconce,ampliaci,-cantidad,precio,-importe,codigiva,porciva,porcrec,-impoiva,-imporec,aplicret"
     Sql = Sql & " FROM factcli_lineas WHERE " & CampoOrden
     Conn.Execute Sql
     
@@ -4235,7 +4808,7 @@ On Error GoTo eCrearFacturaAbono
     Sql = "licencia,PobClien ,codposta ,ProClien ,NIFClien ,codpais ,IBAN ,totfaccl " & Sql
     Sql = "SELECT factcli.codclien, factcli.codforpa ,numserie,NumFactu ,FecFactu ,NomClien ,DomClien," & Sql
     miRsAux.Open Sql, Conn, adOpenKeyset, adCmdText
-    If Not InsertarEnTesoreria(False, miRsAux, vParam.CtaBanco, "", Msg, 0) Then Err.Raise 513, , "Creando cobro en tesoreria" & vbCrLf & Msg
+    If Not InsertarEnTesoreria(EsCuota, miRsAux, vParam.CtaBanco, "", Msg, 0) Then Err.Raise 513, , "Creando cobro en tesoreria" & vbCrLf & Msg
     
     miRsAux.Close
     Set miRsAux = Nothing
@@ -4299,7 +4872,7 @@ Dim F2 As Date
     
     'rpt
     cadFormula = Year(F) & "," & Month(F) & "," & Day(F) & "," & Hour(F) & "," & Minute(F) & "," & Second(F)
-    cadFormula = "{caja.feccaja} <=  DateTime (" & cadFormula & ")"
+    cadFormula = "({caja.feccaja} <=  DateTime (" & cadFormula & "))"
     'select
     Msg = "feccaja < " & DBSet(F, "FH")
     Msg = Msg & " AND usuario=" & DBSet(Parametros, "T") & " AND 1 "
@@ -4311,11 +4884,11 @@ Dim F2 As Date
     If Aux <> "" Then
         F2 = CDate(Aux)
         Aux = Year(F2) & "," & Month(F2) & "," & Day(F2) & "," & Hour(F2) & "," & Minute(F2) & "," & Second(F2)
-        cadFormula = cadFormula & " AND {caja.feccaja} >  DateTime (" & Aux & " )"
+        cadFormula = cadFormula & " AND ({caja.feccaja} >  DateTime (" & Aux & " ))"
         Aux = Format(F2, "dd/mm/yyyy hh:mm:ss")
     End If
     
-    cadParam = cadParam & "|ImporteIncial=" & CCur(Importe) & "|"
+    cadParam = cadParam & "|ImporteIncial=" & TransformaComasPuntos(CCur(Importe)) & "|"
     cadParam = cadParam & "|UltimoCierre= """ & Aux & """|"
     numParam = numParam + 2
     cadFormula = cadFormula & " AND {caja.usuario}= """ & Parametros & """"
@@ -4323,3 +4896,217 @@ Dim F2 As Date
     
 End Sub
 
+
+
+Private Sub CargarComboConceptos()
+    Me.cboConceptosCaja.Clear
+    Sql = "caja_conceptos inner join ariconta" & vParam.Numconta & ".cuentas on caja_conceptos.codmacta=cuentas.codmacta "
+    CargaComboTabla cboConceptosCaja, "codconcec", "nomconcec", Sql, " ORDER BY codconcec"
+    If cboConceptosCaja.ListCount > 0 Then cboConceptosCaja.ListIndex = 0
+End Sub
+
+
+
+
+Private Sub PonerGastosVto()
+On Error GoTo ePonerGastosVto
+    Set miRsAux = New ADODB.Recordset
+    txtCaja(12).Text = ""
+    chkQuitarGastos.Visible = False
+    Errores = "Separando datos factura"
+    CampoOrden = RecuperaValor(Parametros, 3)
+    CampoOrden = Replace(CampoOrden, ":", "|")
+    
+    Sql = " numserie = " & DBSet(RecuperaValor(CampoOrden, 1), "T") & " AND numfactu =" & RecuperaValor(CampoOrden, 2)
+    Sql = Sql & " AND numorden=" & RecuperaValor(CampoOrden, 3) & " AND fecfactu =" & DBSet(RecuperaValor(Parametros, 4), "F")
+    Codigo = "SELECT gastos FROM ariconta" & vParam.Numconta & ".cobros WHERE " & Sql
+    miRsAux.Open Codigo, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Not miRsAux.EOF Then
+        If Not IsNull(miRsAux!Gastos) Then
+            If miRsAux!Gastos > 0 Then
+                txtCaja(12).Text = Format(miRsAux!Gastos, FormatoImporte)
+                txtCaja(12).ForeColor = vbRed
+                txtCaja(12).FontBold = True
+                txtCaja(12).Tag = miRsAux!Gastos
+                ' de momento , hay un btono para quitar los gastos       chkQuitarGastos.Visible = True
+            End If
+        End If
+    End If
+    miRsAux.Close
+    
+ePonerGastosVto:
+    If Err.Number <> 0 Then MuestraError Err.Number, Errores & vbCrLf & Err.Description
+    Set miRsAux = Nothing
+    
+End Sub
+
+
+
+Private Sub CargaCobrosAbonos()
+Dim Cad As String
+On Error GoTo eCargaCobrosAbonos
+
+    
+    Me.ListView8.ListItems.Clear
+    Sql = RecuperaValor(Parametros, 1)
+    Set miRsAux = New ADODB.Recordset
+    Cad = "select if(now()>fecvenci,2,0) vencido "
+    Cad = Cad & " ,numorden,fecfactu,fecvenci,ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0) as pendiente ,nomforpa,"
+    Cad = Cad & "numserie,numfactu,tipoformapago,cobros.codforpa, if(coalesce(gastos,0)>0,2,0) importancia,codmacta,tipforpa "
+    
+    Cad = Cad & " from ariconta" & vParam.Numconta & ".cobros,ariconta" & vParam.Numconta & ".formapago "
+    Cad = Cad & " ,ariconta" & vParam.Numconta & ".tipofpago "
+    Cad = Cad & " where codmacta IN ('" & DevuelveCuentaContableCliente(True, Sql)
+    Cad = Cad & " ','" & DevuelveCuentaContableCliente(False, Sql) & "')"
+    Cad = Cad & " AND cobros.codforpa=formapago.codforpa and tipofpago.tipoformapago = formapago.tipforpa AND "
+    Cad = Cad & " ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0) <> 0"
+    Cad = Cad & " ORDER BY fecvenci desc"
+    
+    
+    
+    miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    
+    I = 0
+    While Not miRsAux.EOF
+        I = I + 1
+        ListView8.ListItems.Add , , miRsAux!numSerie
+        ListView8.ListItems(I).SubItems(1) = Format(miRsAux!Fecfactu, "dd/mm/yyyy")
+        ListView8.ListItems(I).SubItems(2) = Format(miRsAux!NumFactu, "0000000")
+        ListView8.ListItems(I).SubItems(3) = miRsAux!nomforpa
+        ListView8.ListItems(I).SubItems(4) = Format(miRsAux!pendiente, FormatoImporte)
+        ListView8.ListItems(I).Tag = miRsAux!numorden & "|" & miRsAux!TipForpa & "|" & miRsAux!codmacta & "|"
+               
+        
+        miRsAux.MoveNext
+    Wend
+    
+    
+    miRsAux.Close
+    
+eCargaCobrosAbonos:
+    If Err.Number <> 0 Then MuestraError Err.Number, Errores & vbCrLf & Err.Description
+    Set miRsAux = Nothing
+    
+End Sub
+
+
+
+
+Private Function RealizaCompensacion() As Boolean
+Dim ColApu As Collection
+Dim FP As Ctipoformapago
+
+On Error GoTo eRealizaCompensacion
+    RealizaCompensacion = False
+
+
+    Set ColApu = New Collection
+    
+    'select condecli,conhacli from formapago,tipofpago where formapago.tipforpa=tipoformapago
+   
+    For I = 1 To Me.ListView8.ListItems.Count
+        
+
+        'codmacta | docum | codconce | ampliaci | imported|importeH |ctacontrpar|
+        ' numseri| numfaccl fecfac numorden forpa
+          
+        Codigo = ""
+        With ListView8.ListItems(I)
+            If .Checked Then
+                NE = RecuperaValor(.Tag, 2) 'Forma de pago
+                Ok = 0
+                If FP Is Nothing Then
+                    Set FP = New Ctipoformapago
+                    Ok = 1
+                Else
+                    If FP.tipoformapago <> NE Then Ok = 1
+                End If
+                
+                If Ok = 1 Then
+                    If FP.Leer(NE) = 1 Then Err.Raise 513, , "Tipo forma pago incorrecto."
+                End If
+                    
+        
+                
+                Codigo = RecuperaValor(.Tag, 3) & "|" & .Text & .SubItems(2) & "|"
+                If CCur(.SubItems(4)) < 0 Then
+                    'Abono, va al debe
+                    Codigo = Codigo & FP.condecli & "|Compen. gestion " & .Text & .SubItems(2) & "|" & Abs(.SubItems(4)) & "|"
+                Else
+                    'Al haber
+                    Codigo = Codigo & FP.conhacli & "|Compen gestion " & .Text & .SubItems(2) & "||" & .SubItems(4)
+                End If
+                '                   ctra  y datos del cobro
+                Codigo = Codigo & "||" & .Text & "|" & .SubItems(2) & "|" & .SubItems(1) & "|"
+        
+            End If
+        End With
+        
+        If Codigo <> "" Then ColApu.Add Codigo
+
+    Next I
+
+    Sql = "Compensacion cliente gestion: " & Label1(39).Caption
+    Sql = Sql & "Usuario gestion:" & vUsu.Login & "   Vtos: " & Format(ColApu.Count, "00")
+    If Not CrearApunteDesdeColeccion(Now, Sql, ColApu) Then Err.Raise 513, , "Crear apunte en contabilidad"
+
+    
+    
+    
+    
+    'Los cobros los damos como cobrados
+    Set ColApu = Nothing
+    Set ColApu = New Collection
+    Referencia = ""
+    For I = 1 To Me.ListView8.ListItems.Count
+    
+        With ListView8.ListItems(I)
+            If .Checked Then
+                'fecultco  impcobro situacion  codusu observa
+                Sql = "UPDATE ariconta" & vParam.Numconta & ".cobros SET fecultco = " & DBSet(Now, "F")
+                Sql = Sql & ", impcobro =" & DBSet(.SubItems(4), "N")
+                Sql = Sql & ", situacion=1, codusu = " & vUsu.id & ", Observa =@#@# "
+                Sql = Sql & " WHERE numserie =" & DBSet(.Text, "T")
+                Sql = Sql & " AND numfactu =" & DBSet(.SubItems(2), "N")
+                Sql = Sql & " AND fecfactu =" & DBSet(.SubItems(1), "F")
+                Sql = Sql & " AND numorden =" & DBSet(RecuperaValor(.Tag, 1), "N")
+                ColApu.Add Sql
+                
+                
+                Referencia = Referencia & .Text & .SubItems(2) & " de " & .SubItems(1) & "-" & RecuperaValor(.Tag, 1) & "     " & .SubItems(4) & "€" & vbCrLf
+                
+
+            End If
+        End With
+    Next I
+
+    Sql = DBSet(Referencia, "T")
+    For I = 1 To ColApu.Count
+        
+        Codigo = ColApu.Item(I)
+        Codigo = Replace(Codigo, "@#@#", Sql)
+        Conn.Execute Codigo
+    Next
+
+
+    'LOG
+    Sql = "Cliente: " & Label1(39).Caption & vbCrLf
+    Sql = Sql & Referencia
+    vLog.Insertar 12, vUsu, Sql
+    
+    
+    Referencia = ""
+    Codigo = ""
+    
+    
+    
+    RealizaCompensacion = True
+    
+    
+    Exit Function
+eRealizaCompensacion:
+    MuestraError Err.Number, Err.Description
+    Set ColApu = Nothing
+    Referencia = ""
+    Codigo = ""
+End Function

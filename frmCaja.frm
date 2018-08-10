@@ -379,7 +379,9 @@ Dim F As Date
 
     wndReportControl.Records.DeleteAll
   
-    C = "Select * from caja where usuario = " & DBSet(Combo1.Text, "T")
+    C = "Select caja.*,nomconcec from caja left join caja_conceptos on caja.codconcec=caja_conceptos.codconcec"
+    
+    C = C & " where usuario = " & DBSet(Combo1.Text, "T")
     'Si ha habido un cierre de caja
     If Text2.Text <> "" Then C = C & " AND feccaja >" & DBSet(Text2.Text, "FH")
     C = C & " order by feccaja asc"
@@ -410,8 +412,11 @@ Dim Origen As Byte
 Dim Aux As String
 Dim ClavePRimaria As String
 Dim EsFactura As Boolean
-  
+Dim CodConceC As Integer
     Dim Record As ReportRecord
+Dim EsConcepto As Boolean
+    
+
     'Adds a new Record to the ReportControl's collection of records, this record will
     'automatically be attached to a row and displayed with the Populate method
     Set Record = wndReportControl.Records.Add()
@@ -543,16 +548,31 @@ Dim EsFactura As Boolean
     'DEstino
     Aux = DBLet(miRsAux!codmacta, "T")
     Msg = " "
+    CodConceC = -1
     If Aux <> "" Then
-        Msg = DevuelveDesdeBD("nommacta", "ariconta" & vParam.Numconta & ".cuentas", "codmacta", Aux, "T")
-        If Msg = "" Then Msg = "NO encontado"
+        If ClavePRimaria <> "XXXXX" Then
+            EsConcepto = False
+            If Not IsNull(miRsAux!CodConceC) Then
+                If miRsAux!CodConceC >= 0 Then EsConcepto = True
+            End If
+            If EsConcepto Then
+                'POr conceptos
+                Msg = miRsAux!nomconcec
+                CodConceC = miRsAux!CodConceC
+            Else
+            
+                Msg = DevuelveDesdeBD("nommacta", "ariconta" & vParam.Numconta & ".cuentas", "codmacta", Aux, "T")
+                If Msg = "" Then Msg = "NO encontado"
+            End If
+        End If
+    Else
+        If Origen = 4 Then Msg = miRsAux!anoexped
     End If
     Set Item = Record.AddItem(Msg)
     Item.Tag = Aux
      
-     
-    Record.AddItem DBLet(miRsAux!Ampliacion, "T")
-   
+    Set Item = Record.AddItem(DBLet(miRsAux!Ampliacion, "T"))
+    Item.Tag = CodConceC
     
     Set Item = Record.AddItem("")
     'Specifys the format that the price will be displayed
@@ -603,6 +623,12 @@ Dim GroupRow
             Exit Sub
         End If
         
+        If wndReportControl.SelectedRows(0).Record(5).Tag = vParam.CajaConceptoTarjetaCredito Then
+            MsgBox "No se puede editar el movimiento de caja. TARJETA DE CREDITO", vbExclamation
+            Exit Sub
+        End If
+        
+        
     End If
     
     Select Case indice
@@ -622,6 +648,8 @@ Dim GroupRow
         Msg = Msg & "|"
         'Codmacta|nommacta
         Msg = Msg & wndReportControl.SelectedRows(0).Record(4).Tag & "|" & Trim(wndReportControl.SelectedRows(0).Record(4).Value) & "|"
+        'Y el codconcec
+         Msg = Msg & wndReportControl.SelectedRows(0).Record(5).Tag & "|"
         frmMensajes.Parametros = Combo1.Text & "|" & Msg
         frmMensajes.Opcion = 4
         frmMensajes.Show vbModal
@@ -652,6 +680,7 @@ Dim GroupRow
         
         ImprimirProceso
     Case 9
+        If vUsu.Nivel > 1 Then Exit Sub
         If Combo1.ListIndex < 0 Then Exit Sub
         frmMensajes.Opcion = 10
         frmMensajes.Parametros = Me.Combo1.Text
@@ -825,7 +854,7 @@ Dim ImporteParaCaja As Currency
 Dim Serie As String
 Dim FechaFactura As String
 
-
+Dim CuentaApunteCaja As String
 
 On Error GoTo eHacerProcesoCierreCaja
     HacerProcesCierreCaja = False
@@ -859,9 +888,21 @@ On Error GoTo eHacerProcesoCierreCaja
         'Origen = 7  Pago
         'Origen = 4 Then Factura/expediente
         '6 manual Item.Icon = Origen
+        
         If wndReportControl.Rows(I).Record(0).Icon = 7 Then
-            'PAGO
-             Aux = vParam.CtaGastosCaja & "|C:" & Combo1.Text & "|2|" & wndReportControl.Rows(I).Record(4).Caption & "|"
+             'PAGO
+             
+             
+             If wndReportControl.Rows(I).Record(4).Tag <> "" Then
+                CuentaApunteCaja = wndReportControl.Rows(I).Record(4).Tag
+             Else
+                CuentaApunteCaja = vParam.CtaGastosCaja
+             End If
+             
+             Aux = wndReportControl.Rows(I).Record(5).Caption   'ampliacion
+             If Aux = "" Then Aux = wndReportControl.Rows(I).Record(4).Caption 'ampliacion
+             
+             Aux = CuentaApunteCaja & "|C:" & Combo1.Text & "|2|" & Aux & "|"
              Aux = Aux & Replace(wndReportControl.Rows(I).Record(6).Caption, "-", "") & "|" & "|" & CtaCaja & "|"
              
         ElseIf wndReportControl.Rows(I).Record(0).Icon = 4 Then
@@ -887,10 +928,11 @@ On Error GoTo eHacerProcesoCierreCaja
                 'Es una factura
                 Serie = Mid(wndReportControl.Rows(I).Record(3).Caption, 1, 3)
                 Aux = "numserie= '" & Serie & "' and numfactu= " & Mid(wndReportControl.Rows(I).Record(3).Caption, 4)
+                Aux = Aux & " AND year(fecfactu) = " & wndReportControl.Rows(I).Record(4).Caption
                 Aux = Aux & " AND 1"
                 FechaFactura = "fecfactu"
                 Aux = DevuelveDesdeBD("codclien", "factcli", Aux, "1", "N", FechaFactura)
-                
+                If Aux = "" Then Err.Raise 513, "Error obteniendo factura: " & wndReportControl.Rows(I).Record(3).Caption & " /" & wndReportControl.Rows(I).Record(3).Caption
                 aux2 = DevuelveCuentaContableCliente(Serie = "CUO", Val(Aux))
                 If aux2 = "" Then Err.Raise 513, "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
                 

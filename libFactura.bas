@@ -35,9 +35,9 @@ Option Explicit
 Public Function InsertarEnTesoreria(Es1Cuota As Boolean, ByRef rsFactura As ADODB.Recordset, CuentaPrev As String, vTextosCSB As String, MenError As String, ImporteEntregadoACuenta As Currency) As Boolean
 'Guarda datos de Tesoreria en tablas: ariges.svenci y en conta.scobros
 Dim B As Boolean
-Dim RS As ADODB.Recordset
+Dim Rs As ADODB.Recordset
 Dim rsVenci As ADODB.Recordset
-Dim Sql As String, Codmacta_ As String, textcsb33 As String
+Dim SQL As String, Codmacta_ As String, textcsb33 As String
 Dim CadValues As String, cadValuesAux As String 'para insertar en svenci
 Dim CadValues2 As String, CadValuesAuxConta As String 'para insertar en conta.scobro
 Dim CadValues3 As String
@@ -90,16 +90,16 @@ Dim Agente As Integer
     
     Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, rsFactura!CodClien)
     
-    Sql = "SELECT codmacta FROM ariconta" & vParam.Numconta & ".cuentas WHERE codmacta=" & DBSet(Codmacta_, "T")
-    rsVenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "SELECT codmacta FROM ariconta" & vParam.Numconta & ".cuentas WHERE codmacta=" & DBSet(Codmacta_, "T")
+    rsVenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     If rsVenci.EOF Then
-        Sql = "insert into ariconta" & vParam.Numconta & ".cuentas(codmacta,nommacta,apudirec,model347,razosoci,"
-        Sql = Sql & "dirdatos,codposta,despobla,desprovi,nifdatos,codpais) VALUES (" & DBSet(Codmacta_, "T") & "," & DBSet(rsFactura!NomClien, "T")
-        Sql = Sql & ",1,1," & DBSet(rsFactura!NomClien, "T") & "," & DBSet(rsFactura!DomClien, "T") & "," & DBSet(rsFactura!codposta, "T")
-        Sql = Sql & "," & DBSet(rsFactura!PobClien, "T") & "," & DBSet(rsFactura!ProClien, "T") & "," & DBSet(rsFactura!NIFClien, "T")
+        SQL = "insert into ariconta" & vParam.Numconta & ".cuentas(codmacta,nommacta,apudirec,model347,razosoci,"
+        SQL = SQL & "dirdatos,codposta,despobla,desprovi,nifdatos,codpais) VALUES (" & DBSet(Codmacta_, "T") & "," & DBSet(rsFactura!NomClien, "T")
+        SQL = SQL & ",1,1," & DBSet(rsFactura!NomClien, "T") & "," & DBSet(rsFactura!DomClien, "T") & "," & DBSet(rsFactura!codposta, "T")
+        SQL = SQL & "," & DBSet(rsFactura!PobClien, "T") & "," & DBSet(rsFactura!ProClien, "T") & "," & DBSet(rsFactura!NIFClien, "T")
         
-        Sql = Sql & "," & DBSet(rsFactura!codpais, "T") & ")"
-        Ejecuta Sql
+        SQL = SQL & "," & DBSet(rsFactura!codpais, "T") & ")"
+        Ejecuta SQL
     End If
     rsVenci.Close
     
@@ -112,7 +112,7 @@ Dim Agente As Integer
     TipForPago = DevuelveDesdeBDNew(1, "ariconta" & vParam.Numconta & ".formapago", "tipforpa", "codforpa", rsFactura!Codforpa, "N")
     
     'campo para insertar en conta.scobro de Tesoreria. pAra las de telefonia ya lo ha creado arriba
-    textcsb33 = "'FACTURA: " & rsFactura!numserie & "-" & Format(rsFactura!NumFactu, "0000000") & " de Fecha " & Format(rsFactura!Fecfactu, "dd mmm yyyy") & "'"
+    textcsb33 = "'FACTURA: " & rsFactura!numSerie & "-" & Format(rsFactura!NumFactu, "0000000") & " de Fecha " & Format(rsFactura!Fecfactu, "dd mmm yyyy") & "'"
 
 
     'Datos fiscales en scobro     Julio 2009
@@ -130,8 +130,8 @@ Dim Agente As Integer
     'Obtener el Nº de Vencimientos de la forma de pago
     
 
-    Sql = "SELECT numerove, primerve, restoven FROM ariconta" & vParam.Numconta & ".formapago WHERE codforpa=" & rsFactura!Codforpa
-    rsVenci.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "SELECT numerove, primerve, restoven FROM ariconta" & vParam.Numconta & ".formapago WHERE codforpa=" & rsFactura!Codforpa
+    rsVenci.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     
     If Not rsVenci.EOF Then
     
@@ -149,18 +149,18 @@ Dim Agente As Integer
             'Comporbamos si el importe es <>0
             'Obtener los dias de pago del cliente,de momento no esta, y
             'la codmacta viene de la matricula. Ya veremos como
-            Sql = " SELECT  0 diapago1, 0  diapago2,0 diapago3,0 mesnogir,0 diavtoat, codclien "
-            Sql = Sql & " FROM clientes "
-            Sql = Sql & " WHERE codclien=" & rsFactura!CodClien
-            Set RS = New ADODB.Recordset
-            RS.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+            SQL = " SELECT  0 diapago1, 0  diapago2,0 diapago3,0 mesnogir,0 diavtoat, codclien "
+            SQL = SQL & " FROM clientes "
+            SQL = SQL & " WHERE codclien=" & rsFactura!CodClien
+            Set Rs = New ADODB.Recordset
+            Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
             
-            Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, RS!CodClien)
+            Codmacta_ = DevuelveCuentaContableCliente(Es1Cuota, Rs!CodClien)
            
             
-            If Not RS.EOF Then
-                cadValuesAux = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
-                CadValuesAuxConta = "('" & rsFactura!numserie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
+            If Not Rs.EOF Then
+                cadValuesAux = "('" & rsFactura!numSerie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
+                CadValuesAuxConta = "('" & rsFactura!numSerie & "', " & rsFactura!NumFactu & ", '" & Format(rsFactura!Fecfactu, FormatoFecha) & "', "
                 '                    Añadire a la cadena fija esta los valores de textcsb41,txcs
                 CadValuesAuxConta = CadValuesAuxConta & vTextosCSB & ","
                 
@@ -171,14 +171,14 @@ Dim Agente As Integer
                 '===
                 'comprobar si tiene dias de pago y obtener la fecha del vencimiento correcta
                 If TipForPago <> 0 Then
-                    FecVenci = ComprobarFechaVenci(FecVenci, DBLet(RS!DiaPago1, "N"), DBLet(RS!DiaPago2, "N"), DBLet(RS!DiaPago3, "N"))
+                    FecVenci = ComprobarFechaVenci(FecVenci, DBLet(Rs!DiaPago1, "N"), DBLet(Rs!DiaPago2, "N"), DBLet(Rs!DiaPago3, "N"))
                 Else
                     FecVenci = ComprobarFechaVenci(FecVenci, 0, 0, 0)
                 End If
                 'Comprobar si cliente tiene mes a no girar
                 FecVenci1 = FecVenci
-                If CInt(DBLet(RS!mesnogir, "N")) <> 0 Then
-                    FecVenci1 = ComprobarMesNoGira(FecVenci1, DBLet(RS!mesnogir, "N"), DBLet(RS!DiaVtoAt, "N"), DBLet(RS!DiaPago1, "N"), DBLet(RS!DiaPago2, "N"), DBLet(RS!DiaPago3, "N"))
+                If CInt(DBLet(Rs!mesnogir, "N")) <> 0 Then
+                    FecVenci1 = ComprobarMesNoGira(FecVenci1, DBLet(Rs!mesnogir, "N"), DBLet(Rs!DiaVtoAt, "N"), DBLet(Rs!DiaPago1, "N"), DBLet(Rs!DiaPago2, "N"), DBLet(Rs!DiaPago3, "N"))
                 End If
                 
                 'Comprobar si cliente tiene dia de vencimiento atrasado
@@ -230,14 +230,14 @@ Dim Agente As Integer
                     '===
                     'comprobar si tiene dias de pago y obtener la fecha del vencimiento correcta
                     If TipForPago <> 0 Then
-                        FecVenci = ComprobarFechaVenci(FecVenci, DBLet(RS!DiaPago1, "N"), DBLet(RS!DiaPago2, "N"), DBLet(RS!DiaPago3, "N"))
+                        FecVenci = ComprobarFechaVenci(FecVenci, DBLet(Rs!DiaPago1, "N"), DBLet(Rs!DiaPago2, "N"), DBLet(Rs!DiaPago3, "N"))
                     Else
                         FecVenci = ComprobarFechaVenci(FecVenci, 0, 0, 0)
                     End If
                     'Comprobar si cliente tiene mes a no girar
                     FecVenci1 = FecVenci
-                    If DBLet(RS!mesnogir, "N") <> "0" Then
-                        FecVenci1 = ComprobarMesNoGira(FecVenci1, DBLet(RS!mesnogir, "N"), DBLet(RS!DiaVtoAt, "N"), DBLet(RS!DiaPago1, "N"), DBLet(RS!DiaPago2, "N"), DBLet(RS!DiaPago3, "N"))
+                    If DBLet(Rs!mesnogir, "N") <> "0" Then
+                        FecVenci1 = ComprobarMesNoGira(FecVenci1, DBLet(Rs!mesnogir, "N"), DBLet(Rs!DiaVtoAt, "N"), DBLet(Rs!DiaPago1, "N"), DBLet(Rs!DiaPago2, "N"), DBLet(Rs!DiaPago3, "N"))
                     End If
                     Knumerovenci = Knumerovenci + 1
                     CadValues = CadValues & ", " & cadValuesAux & Knumerovenci & ", '" & Format(FecVenci1, FormatoFecha) & "', "
@@ -342,7 +342,7 @@ Dim Agente As Integer
                 End If
                 
             End If
-            RS.Close
+            Rs.Close
             
             'Si habia un primer pago como aportacion entonces lo metemos aqui, con el numero venci=1
             'If ImporteAdelantado <> 0 Then
@@ -374,15 +374,15 @@ Dim Agente As Integer
             B = True
         End If
         
-        Set RS = Nothing
+        Set Rs = Nothing
     End If
     rsVenci.Close
     Set rsVenci = Nothing
     
     If CadValues <> "" Then
-        Sql = "INSERT INTO factcli_vtos (numserie,numfactu,fecfactu,numlinea,fecefect,impefect)"
-        Sql = Sql & " VALUES " & CadValues
-        Conn.Execute Sql
+        SQL = "INSERT INTO factcli_vtos (numserie,numfactu,fecfactu,numlinea,fecefect,impefect)"
+        SQL = SQL & " VALUES " & CadValues
+        Conn.Execute SQL
     End If
     
     
@@ -393,13 +393,13 @@ Dim Agente As Integer
         If CuentaPrev <> "" Then
             
         
-            Sql = "INSERT INTO ariconta" & vParam.Numconta & ".cobros (numserie, numfactu, fecfactu,text41csb, "
-            Sql = Sql & "numorden , Codmacta, codforpa, FecVenci, ImpVenci, ctabanc1, "
-            Sql = Sql & "iban,text33csb,agente,departamento,transfer "
-            Sql = Sql & ", nifclien,codusu,codpais"  'Junio 16
-            Sql = Sql & ",nomclien,domclien,pobclien, cpclien,proclien)"   '=Datos fiscales. para conta nueva meto el NIF mNIFClien
-            Sql = Sql & " VALUES " & CadValues2
-            Conn.Execute Sql
+            SQL = "INSERT INTO ariconta" & vParam.Numconta & ".cobros (numserie, numfactu, fecfactu,text41csb, "
+            SQL = SQL & "numorden , Codmacta, codforpa, FecVenci, ImpVenci, ctabanc1, "
+            SQL = SQL & "iban,text33csb,agente,departamento,transfer "
+            SQL = SQL & ", nifclien,codusu,codpais"  'Junio 16
+            SQL = SQL & ",nomclien,domclien,pobclien, cpclien,proclien)"   '=Datos fiscales. para conta nueva meto el NIF mNIFClien
+            SQL = SQL & " VALUES " & CadValues2
+            Conn.Execute SQL
 
         End If
     End If
@@ -553,7 +553,7 @@ End Function
 '
 '       Facturar Expediente
 '
-Public Function FacturarExpediente(tiporegi As String, numexped As Long, anoexped As Integer, Fecfactu As Date) As Boolean
+Public Function FacturarExpediente(TipoRegi As String, numexped As Long, anoexped As Integer, Fecfactu As Date) As Boolean
 Dim RN As ADODB.Recordset
 Dim Cad As String
 Dim CadTotales As String
@@ -572,7 +572,7 @@ Dim Lin As Integer
 
 
     'Primer paso, total e iva
-    Cad = "Select  serfactur  ,numfactu  FROM contadores where tiporegi= '" & tiporegi & "'"
+    Cad = "Select  serfactur  ,numfactu  FROM contadores where tiporegi= '" & TipoRegi & "'"
     RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Serie = RN!serfactur
     NumeroFactura = RN!NumFactu + 1
@@ -589,7 +589,7 @@ Dim Lin As Integer
     
     Cad = "select conceptos.codigiva, sum(importe) base,porceiva,porcerec from expedientes_lineas ,conceptos,"
     Cad = Cad & " ariconta" & vParam.Numconta & ".tiposiva iva where expedientes_lineas.codconce= conceptos.codconce AND "
-    Cad = Cad & " iva.codigiva=conceptos.codigiva AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & " iva.codigiva=conceptos.codigiva AND tiporegi = '" & TipoRegi & "' AND  numexped  = " & numexped
     Cad = Cad & "  AND  anoexped =" & anoexped & " group by 1"
     RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     CadTotales = ""
@@ -616,7 +616,7 @@ Dim Lin As Integer
     
     'Cabecera
     Cad = " SELECT expedientes.*,codforpa FROM expedientes,clientes WHERE expedientes.codclien=clientes.codclien"
-    Cad = Cad & "  AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & "  AND tiporegi = '" & TipoRegi & "' AND  numexped  = " & numexped
     Cad = Cad & "  AND  anoexped =" & anoexped & " group by 1"
     RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'No puiede ser eof
@@ -638,8 +638,8 @@ Dim Lin As Integer
     Cad = Cad & DBSet(Serie, "T") & "," & NumeroFactura & "," & DBSet(Fecfactu, "F") & ",numlinea,expedientes_lineas.codconce,"
     Cad = Cad & " expedientes_lineas.nomconce,ampliaci,1 cantidad,importe,importe,conceptos.codigiva,porceiva,porcerec,"
     Cad = Cad & "round((importe*porceiva)/100,2),round((importe*porcerec)/100,2),0 apliret"
-    Cad = Cad & " from expedientes_lineas ,conceptos,ariconta1.tiposiva iva WHERE expedientes_lineas.codconce= conceptos.codconce"
-    Cad = Cad & " AND iva.codigiva=conceptos.codigiva AND tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = Cad & " from expedientes_lineas ,conceptos,ariconta" & vParam.Numconta & ".tiposiva iva WHERE expedientes_lineas.codconce= conceptos.codconce"
+    Cad = Cad & " AND iva.codigiva=conceptos.codigiva AND tiporegi = '" & TipoRegi & "' AND  numexped  = " & numexped
     Cad = Cad & "  AND  anoexped =" & anoexped & " ORDER BY numlinea"
     Conn.Execute Cad
 
@@ -653,18 +653,18 @@ Dim Lin As Integer
     
     
     'Incrementamos contador
-    Cad = "UPDATE  contadores set numfactu =" & NumeroFactura & " WHERE tiporegi= '" & tiporegi & "'"
+    Cad = "UPDATE  contadores set numfactu =" & NumeroFactura & " WHERE tiporegi= '" & TipoRegi & "'"
     Conn.Execute Cad
     
     'Paso el expediente a facturado
-    Cad = " UPDATE expedientes set codsitua=3 WHERE tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = " UPDATE expedientes set codsitua=3 WHERE tiporegi = '" & TipoRegi & "' AND  numexped  = " & numexped
     Cad = Cad & "  AND  anoexped =" & anoexped
     Conn.Execute Cad
     
     espera 0.1
     
     'Veo si tiene cobros parciales
-    Cad = "SELECT sum(importe) a_cta FROM expedientes_acuenta WHERE tiporegi = '" & tiporegi & "' AND  numexped  = " & numexped
+    Cad = "SELECT sum(importe) a_cta FROM expedientes_acuenta WHERE tiporegi = '" & TipoRegi & "' AND  numexped  = " & numexped
     Cad = Cad & "  AND  anoexped =" & anoexped
     RN.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Impor = 0

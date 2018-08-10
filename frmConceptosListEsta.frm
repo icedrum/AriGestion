@@ -531,7 +531,7 @@ Private WithEvents frmF As frmCal
 Attribute frmF.VB_VarHelpID = -1
 
 
-Private Sql As String
+Private SQL As String
 Dim Cad As String
 Dim RC As String
 Dim I As Integer
@@ -620,19 +620,19 @@ Private Sub cmdAccion_Click(Index As Integer)
     I = 0
     Cad = Replace(cadselect, "@f", "fecexped")
     
-    Sql = "  expedientes.TipoRegi = expedientes_lineas.tiporegi And expedientes.numexped = expedientes_lineas.numexped "
-    Sql = Sql & " AND  expedientes.anoexped = expedientes_lineas.anoexped  " & Cad
-    Sql = Sql & " AND codconce IN (" & cadNomRPT & ") "
+    SQL = "  expedientes.TipoRegi = expedientes_lineas.tiporegi And expedientes.numexped = expedientes_lineas.numexped "
+    SQL = SQL & " AND  expedientes.anoexped = expedientes_lineas.anoexped  " & Cad
+    SQL = SQL & " AND codconce IN (" & cadNomRPT & ") "
     'Para la exportacion a CSV
     Msg = " AND expedientes_lineas.codconce IN (" & cadNomRPT & ") " & Cad & "|"
-    If HayRegParaInforme("expedientes,expedientes_lineas", Sql, True) Then I = 1
+    If HayRegParaInforme("expedientes,expedientes_lineas", SQL, True) Then I = 1
     cadParam = cadParam & "tieneExpedientes=" & I & "|"
     
     'en facturas
     Cad = Replace(cadselect, "@f", "fecfactu")
-    Sql = "codconce IN (" & cadNomRPT & ") " & Cad
+    SQL = "codconce IN (" & cadNomRPT & ") " & Cad
     Msg = Msg & " AND factcli_lineas.codconce IN (" & cadNomRPT & ") " & Cad & "|"
-    If HayRegParaInforme("factcli_lineas", Sql, True) Then I = 1
+    If HayRegParaInforme("factcli_lineas", SQL, True) Then I = 1
     cadParam = cadParam & "tieneFacturas=" & I & "|"
     numParam = numParam + 2
     If I = 0 Then
@@ -694,7 +694,7 @@ Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
     'Otras opciones
-    Me.Caption = "Listado de Log"
+    Me.Caption = "Listado por conceptos"
 
     
     PrimeraVez = True
@@ -794,26 +794,26 @@ Private Sub AccionesCSV()
 Dim Sql2 As String
 
     'Monto el SQL
-    Sql = "Select conceptos.codconce,conceptos.nomconce,1 EXPE ,expedientes_lineas.numserie,expedientes_lineas.numexped,fecexped,"
-    Sql = Sql & "expedientes.codclien,nomclien,importe"
-    Sql = Sql & " FROM expedientes,expedientes_lineas,conceptos,clientes WHERE"
-    Sql = Sql & " expedientes.TipoRegi = expedientes_lineas.TipoRegi And expedientes.numexped = expedientes_lineas.numexped"
-    Sql = Sql & " AND  expedientes.anoexped = expedientes_lineas.anoexped AND expedientes_lineas.codconce=conceptos.codconce"
-    Sql = Sql & " AND clientes.codclien=expedientes.codclien"
-    Sql = Sql & " " & RecuperaValor(Msg, 1)
-    Sql = Sql & " UNION "
+    SQL = "Select conceptos.codconce,conceptos.nomconce,1 EXPE ,expedientes_lineas.numserie,expedientes_lineas.numexped,fecexped,"
+    SQL = SQL & "expedientes.codclien,nomclien,importe"
+    SQL = SQL & " FROM expedientes,expedientes_lineas,conceptos,clientes WHERE"
+    SQL = SQL & " expedientes.TipoRegi = expedientes_lineas.TipoRegi And expedientes.numexped = expedientes_lineas.numexped"
+    SQL = SQL & " AND  expedientes.anoexped = expedientes_lineas.anoexped AND expedientes_lineas.codconce=conceptos.codconce"
+    SQL = SQL & " AND clientes.codclien=expedientes.codclien"
+    SQL = SQL & " " & RecuperaValor(Msg, 1)
+    SQL = SQL & " UNION "
     
     
-    Sql = Sql & " Select conceptos.codconce,conceptos.nomconce,0 as EXPE,factcli.numserie,"
-    Sql = Sql & " FACTCLI.NumFactu , factcli_lineas.Fecfactu, FACTCLI.CodClien, nomclien, Importe"
-    Sql = Sql & " FROM factcli,factcli_lineas,conceptos,CLIENTES WHERE factcli.numserie = factcli_lineas.numserie And"
-    Sql = Sql & " factcli.numfactu = factcli_lineas.numfactu AND  factcli.fecfactu = factcli_lineas.fecfactu AND"
-    Sql = Sql & " factcli_lineas.codconce = conceptos.codconce AND FACTCLI.CODCLIEN=clientes.codclien"
-    Sql = Sql & " " & RecuperaValor(Msg, 2)
+    SQL = SQL & " Select conceptos.codconce,conceptos.nomconce,0 as EXPE,factcli.numserie,"
+    SQL = SQL & " FACTCLI.NumFactu , factcli_lineas.Fecfactu, FACTCLI.CodClien, nomclien, Importe"
+    SQL = SQL & " FROM factcli,factcli_lineas,conceptos,CLIENTES WHERE factcli.numserie = factcli_lineas.numserie And"
+    SQL = SQL & " factcli.numfactu = factcli_lineas.numfactu AND  factcli.fecfactu = factcli_lineas.fecfactu AND"
+    SQL = SQL & " factcli_lineas.codconce = conceptos.codconce AND FACTCLI.CODCLIEN=clientes.codclien"
+    SQL = SQL & " " & RecuperaValor(Msg, 2)
     
-    Sql = Sql & " ORDER BY 1,3,6"
+    SQL = SQL & " ORDER BY 1,3,6"
     'LLamos a la funcion
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 
@@ -912,8 +912,8 @@ End Sub
 Private Sub CargaConceptos()
     lwConce.ListItems.Clear
     Set miRsAux = New ADODB.Recordset
-    Sql = "Select distinct codconce from expedientes_lineas "
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "Select distinct codconce from expedientes_lineas "
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Cad = ""
     While Not miRsAux.EOF
         Cad = Cad & ", " & miRsAux!codconce
@@ -922,27 +922,27 @@ Private Sub CargaConceptos()
     miRsAux.Close
     
     
-    Sql = ""
+    SQL = ""
     If Cad <> "" Then
-        Sql = Mid(Cad, 2)
-        Sql = " WHERE NOT codconce in (" & Sql & ")"
+        SQL = Mid(Cad, 2)
+        SQL = " WHERE NOT codconce in (" & SQL & ")"
     End If
-    Sql = "select distinct codconce from factcli_lineas " & Sql
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select distinct codconce from factcli_lineas " & SQL
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     While Not miRsAux.EOF
         Cad = Cad & ", " & miRsAux!codconce
         miRsAux.MoveNext
     Wend
     miRsAux.Close
     
-    Sql = ""
+    SQL = ""
     If Cad <> "" Then
-        Sql = Mid(Cad, 2)
-        Sql = " WHERE  codconce in (" & Sql & ")"
+        SQL = Mid(Cad, 2)
+        SQL = " WHERE  codconce in (" & SQL & ")"
     End If
-    Sql = "select  codconce,nomconce ,tipoconcepto from conceptos " & Sql
-    Sql = Sql & " ORDER BY 2"
-    miRsAux.Open Sql, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = "select  codconce,nomconce ,tipoconcepto from conceptos " & SQL
+    SQL = SQL & " ORDER BY 2"
+    miRsAux.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     I = 0
     While Not miRsAux.EOF
         I = I + 1

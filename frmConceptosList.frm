@@ -501,7 +501,7 @@ Private Sub Form_Load()
     Me.Icon = frmppal.Icon
         
     'Otras opciones
-    Me.Caption = "Listado de clientes"
+    Me.Caption = "Listado de conceptos"
 
     
     PrimeraVez = True
@@ -628,18 +628,18 @@ End Sub
 
 
 Private Sub AccionesCSV()
-Dim Sql As String
+Dim SQL As String
 
 '    'Monto el SQL
     
-    Sql = "select codcliecodconce nomconce periodicidad preciocon conceptos.codigiva conceptos.codmacta nommacta gestionadm  "
-    Sql = Sql & " licencia,matricula,telefono,telmovil,maiclien,clientes.iban,"
-    Sql = Sql & " from conceptos,ariconta" & vParam.Numconta & ".tiposiva,ariconta" & vParam.Numconta & ".cuentas where"
-    Sql = Sql & "  conceptos.codigiva=tiposiva.codigiva,conceptos.codmacta =cuentas.codmacta"
+    SQL = "select codcliecodconce nomconce periodicidad preciocon conceptos.codigiva conceptos.codmacta nommacta gestionadm  "
+    SQL = SQL & " licencia,matricula,telefono,telmovil,maiclien,clientes.iban,"
+    SQL = SQL & " from conceptos,ariconta" & vParam.Numconta & ".tiposiva,ariconta" & vParam.Numconta & ".cuentas where"
+    SQL = SQL & "  conceptos.codigiva=tiposiva.codigiva,conceptos.codmacta =cuentas.codmacta"
     If cadselect <> "" Then
-        Sql = Sql & " AND " & cadselect
+        SQL = SQL & " AND " & cadselect
     End If
-    GeneraFicheroCSV Sql, txtTipoSalida(1).Text
+    GeneraFicheroCSV SQL, txtTipoSalida(1).Text
     
 End Sub
 

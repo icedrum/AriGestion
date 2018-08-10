@@ -19,7 +19,7 @@ Private vImpRec(2) As Currency
 '
 '
 '   Creara un apunte a partir de un collection
-'   col: 'codmacta | docum | codconce | ampliaci | imported|importeH |ctacontrpar| numseri| numfaccl
+'   col: 'codmacta | docum | codconce | ampliaci | imported|importeH |ctacontrpar| numseri| numfaccl fecfac numorden forpa
 '   Despues de contrapartida llevara tambien numserie numfaccl  para poder actualizar el campo   'opcional
 '
 '
@@ -37,7 +37,7 @@ Dim k As Integer
     CrearApunteDesdeColeccion = False
 
     Set Mc = New ContadoresConta
-    Actual = (Fecha < DateAdd("yyyy", 1, vEmpresa.FechaInicioEjercicio))
+    Actual = (Fecha <= vEmpresa.FechaFinConta)
     CADENA = ""
     If Mc.ConseguirContador("0", Actual, True) = 1 Then Err.Raise 513, , "Error consiguiendo contador"
     
@@ -160,6 +160,10 @@ Dim Abononeg As Boolean
     If Sql = "" And ErrorContab = "tipoconce" Then Exit Function
     AmpliacionFacurasCli = AmpliacionFacurasCli & RN!conceacl & "|" & Sql & "|"
     
+    AmpliacionFacurasCli = AmpliacionFacurasCli
+    
+    
+    
     RN.Close
     
     Sql = ""
@@ -200,15 +204,23 @@ Dim Abononeg As Boolean
            
             If B Then
                 ErrorContab = IntegraLaFacturaCliente(RN!NumFactu, Year(RN!Fecfactu), RN!numSerie, AmpliacionFacurasCli, AmpliacionParametros, Abononeg)
-                'ErrorContab = vContaFra.IntegraLaFacturaCliente(vContaFra.NumeroFactura, vContaFra.Anofac, vContaFra.Serie)
-                'vContaFra.AnyadeElError ErrorContab
                 If ErrorContab <> "" Then
                     B = False
                     cadMen = cadMen & " " & ErrorContab & vbCrLf
+                Else
+                    'Si es CUO, borro la factura pq no entra solo genera apunte
+                    If RN!numSerie = "CUO" Then
+                        ErrorContab = EliminaFacturaCuotas(RN!NumFactu, RN!Fecfactu)
+                        If ErrorContab <> "" Then
+                            B = False
+                            cadMen = cadMen & " " & ErrorContab & vbCrLf
+                        End If
+                    
+                    End If
                 End If
             End If
         Else
-            cadMen = cadMen & ". " & Sql & vbCrLf
+            cadMen = cadMen & ". " & Msg & " " & Sql & vbCrLf
         End If
 
 
@@ -257,7 +269,7 @@ Dim I As Integer
 Dim Aux As String
 Dim BaseImp As Currency
 Dim TotalFac As Currency
-
+Dim EsCuota As Boolean
 
 'Nueva contabilidad
 Dim ImporAux As Currency
@@ -291,10 +303,23 @@ Dim Sql2 As String
     CadenaInsertFaclin2 = ""
     If Not Rs.EOF Then
         
-        TotalFac = Rs!totfaccl
-
-        
-        Sql = DevuelveCuentaContableCliente(Rs!numSerie = "CUO", Rs!CodClien)
+        If IsNull(Rs!totfaccl) Then
+            TotalFac = 0
+        Else
+            TotalFac = Rs!totfaccl
+        End If
+        EsCuota = False
+        If Rs!numSerie = "CUO" Or Rs!numSerie = "ASO" Then
+            EsCuota = True
+        Else
+            If Rs!numSerie = "FRT" Then
+                If Not IsNull(Rs!RectSer) Then
+                    If Rs!RectSer = "CUO" Or Rs!RectSer = "ASO" Then EsCuota = True
+                End If
+            End If
+        End If
+                
+        Sql = DevuelveCuentaContableCliente(EsCuota, Rs!CodClien)
         
         Sql = "'" & Rs!numSerie & "'," & Rs!NumFactu & "," & DBSet(Rs!Fecfactu, "F") & "," & DBSet(Sql, "T") & "," & Year(Rs!Fecfactu) & ","
         
@@ -315,7 +340,11 @@ Dim Sql2 As String
                     Sql = Sql & ValorNulo
                 Case 1
                     'Nº Factura
-                    Sql = Sql & "'" & DevNombreSQL("N/Fra " & Rs!NumFactu) & "'"
+                    If EsCuota Then
+                        Sql = Sql & "'" & DevNombreSQL("Cuota " & Rs!NumFactu) & "'"
+                    Else
+                        Sql = Sql & "'" & DevNombreSQL("N/Fra " & Rs!NumFactu) & "'"
+                    End If
                 Case 2
                     'Fecha integracion
                     Sql = Sql & "'" & Format(Now, FormatoFecha) & "'"
@@ -347,8 +376,8 @@ Dim Sql2 As String
         
             
         'fecliqcl,nommacta,dirdatos,codpobla,despobla,desprovi,nifdatos,codpais,dpto,codagente,codforpa,escorrecta,
-        Sql = Sql & DBSet(Rs!Fecfactu, "F") & "," & DBSet(Rs!NomClien, "T") & "," & DBSet(Rs!domclien, "T", "S") & ","
-        Sql = Sql & DBSet(Rs!codposta, "T", "S") & "," & DBSet(Rs!pobclien, "T", "S") & "," & DBSet(Rs!proclien, "T", "S") & ","
+        Sql = Sql & DBSet(Rs!Fecfactu, "F") & "," & DBSet(Rs!NomClien, "T") & "," & DBSet(Rs!DomClien, "T", "S") & ","
+        Sql = Sql & DBSet(Rs!codposta, "T", "S") & "," & DBSet(Rs!PobClien, "T", "S") & "," & DBSet(Rs!ProClien, "T", "S") & ","
         Sql = Sql & DBSet(Rs!NIFClien, "F", "S") & "," & DBSet(Rs!codpais, "T", "S") & ",NULL,"
         Sql = Sql & DBSet(Rs!codagent, "N", "S") & "," & Rs!Codforpa & ",1,"
         
@@ -456,7 +485,7 @@ Dim Sql2 As String
     
     'Las lineas
     Sql = " SELECT  numserie , NumFactu, Fecfactu, numlinea, factcli_lineas.codconce, Importe,"
-    Sql = Sql & " factcli_lineas.codigiva, porciva, porcrec, Impoiva, ImpoRec, aplicret,codmacta"
+    Sql = Sql & " factcli_lineas.codigiva, porciva, porcrec, Impoiva, ImpoRec, aplicret,codmacta,ctaabono"
     Sql = Sql & " FROM factcli_lineas INNER JOIN conceptos ON factcli_lineas.codconce=conceptos.codconce "
     Sql = Sql & " WHERE " & CadWhere
     
@@ -471,7 +500,14 @@ Dim Sql2 As String
         'porciva, porcrec, Impoiva, ImpoRec, aplicret, codccost
         I = I + 1
         Sql = "'" & Rs!numSerie & "'," & Rs!NumFactu & "," & DBSet(Rs!Fecfactu, "F") & "," & Year(Rs!Fecfactu) & "," & I & ","
-        Sql = Sql & DBSet(Rs!codmacta, "T") & "," & DBSet(Rs!Importe, "N") & "," & Rs!codigiva & "," & DBSet(Rs!porciva, "N") & ","
+        If DBLet(Rs!Importe, "N") < 0 Then
+            If DBLet(Rs!ctaabono, "T") = "" Then Err.Raise 513, , "Falta configurar cuenta abono en concepto: " & Rs!codconce
+            Sql = Sql & DBSet(Rs!ctaabono, "T")
+        Else
+            Sql = Sql & DBSet(Rs!codmacta, "T")
+        End If
+        
+        Sql = Sql & "," & DBSet(Rs!Importe, "N") & "," & Rs!codigiva & "," & DBSet(Rs!porciva, "N") & ","
         Sql = Sql & DBSet(Rs!porcrec, "N") & "," & DBSet(Rs!Impoiva, "N") & "," & DBSet(Rs!ImpoRec, "N")
         Sql = Sql & "," & Val(Rs!aplicret) & ",NULL"  'codccost
         CadenaInsertFaclin2 = CadenaInsertFaclin2 & ", (" & Sql & ")"
@@ -528,6 +564,7 @@ Dim Cliente As String
 Dim FechaAsi As Date
 Dim DiarioFacturas As Integer
 Dim NumAsiento As Long
+Dim Impor2 As Currency
 
     On Error GoTo EIntegraLaFactura
     'Sabemos que
@@ -585,7 +622,7 @@ Dim NumAsiento As Long
     '****************************************+
    
     Do
-        NumAsiento = ConseguirContador(FechaAsi <= vEmpresa.FechaFinEjercicio, A_Donde)
+        NumAsiento = ConseguirContador(FechaAsi <= vEmpresa.FechaFinConta, A_Donde)
         If NumAsiento = 0 Then
             'Ha habido algun tipo de error.
             
@@ -643,10 +680,15 @@ Dim NumAsiento As Long
     'Ampliacion segun parametros
     Select Case AmpliacionParametros
     Case 1
-        If RF!totfaccl < 0 Then
-            cad2 = RecuperaValor(AmpliacionFacurasCli2, 4)
+        If numSerie = "CUO" Then
+            cad2 = IIf(RF!totfaccl < 0, "ABONO ", "")
+            cad2 = cad2 & "CUOTA"
         Else
-            cad2 = RecuperaValor(AmpliacionFacurasCli2, 2)
+            If RF!totfaccl < 0 Then
+                cad2 = RecuperaValor(AmpliacionFacurasCli2, 4)
+            Else
+                cad2 = RecuperaValor(AmpliacionFacurasCli2, 2)
+            End If
         End If
         '28/02/2007.
         'Añado numerie
@@ -678,11 +720,14 @@ Dim NumAsiento As Long
     DocConcAmp = DocConcAmp & cad2 & "'"   'DocConcAmp Sirve para el IVA
     
     'Esta variable sirve para las demas
-    ImporteNegativo = (RF!totfaccl < 0)
+    
+    ImporteNegativo = (DBLet(RF!totfaccl, "N") < 0)
     
     'Importes, atencion importes negativos
     '  antes --> Cad2 = CadenaImporte(ImporteNegativo, True, RF!totfaccl)
-    cad2 = CadenaImporte(True, RF!totfaccl, Importe0, Abononeg)
+    Impor2 = 0
+    If Not IsNull(RF!totfaccl) Then Impor2 = RF!totfaccl
+    cad2 = CadenaImporte(True, Impor2, Importe0, Abononeg)
     Sql = Sql & "," & cad2 & ",NULL,"
     
     'Contrpartida. 28 Marzo 2006
@@ -691,7 +736,12 @@ Dim NumAsiento As Long
     Else
         Sql = Sql & "NULL"
     End If
-    Sql = Sql & ",'FRACLI',0)"
+    
+    If RF!numSerie = "CUO" Then
+        Sql = Sql & ",'CONTAB',0)"  'Pongo apunte directamente
+    Else
+        Sql = Sql & ",'FRACLI',0)"
+    End If
     
     
     Conn.Execute Cad & Sql
@@ -939,3 +989,18 @@ Dim CadImporte As String
 End Function
 
 
+Private Function EliminaFacturaCuotas(idCuota As Long, Fecfactu As Date) As String
+Dim C As String
+    On Error GoTo eElim
+    C = " WHERE numserie = 'CUO' AND numfactu=" & idCuota & " AND anofactu =" & Year(Fecfactu)
+    
+    Conn.Execute "DELETE FROM ariconta" & vParam.Numconta & ".factcli_totales " & C
+    Conn.Execute "DELETE FROM ariconta" & vParam.Numconta & ".factcli_lineas " & C
+    Conn.Execute "DELETE FROM ariconta" & vParam.Numconta & ".factcli " & C
+    
+
+
+    Exit Function
+eElim:
+    EliminaFacturaCuotas = Err.Description
+End Function

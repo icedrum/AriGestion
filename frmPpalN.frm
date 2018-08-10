@@ -120,15 +120,15 @@ Begin VB.Form frmppal
       BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
          NumListImages   =   3
          BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":0CCA
+            Picture         =   "frmPpalN.frx":17D6A
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":16DC
+            Picture         =   "frmPpalN.frx":1877C
             Key             =   ""
          EndProperty
          BeginProperty ListImage3 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frmPpalN.frx":1777
+            Picture         =   "frmPpalN.frx":18817
             Key             =   ""
          EndProperty
       EndProperty
@@ -175,7 +175,7 @@ Begin VB.Form frmppal
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":2189
+      Icons           =   "frmPpalN.frx":19229
    End
    Begin XtremeCommandBars.CommandBars CommandBars 
       Left            =   8520
@@ -202,7 +202,7 @@ Begin VB.Form frmppal
       _ExtentX        =   635
       _ExtentY        =   635
       _StockProps     =   0
-      Icons           =   "frmPpalN.frx":21A3
+      Icons           =   "frmPpalN.frx":19243
    End
 End
 Attribute VB_Name = "frmppal"
@@ -1075,7 +1075,7 @@ Private Sub LoadIcons()
     'Cad linea son 15
     T = Array(1, 1, ID_Empresa, 1, 1, ID_Parámetros, 1, 1, 1, 1, 1, ID_AccionesRealizadas, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, ID_Contadores, 1, 1, 1, 1, 1, 1, 1, 1, _
-        ID_Informes, 1, ID_Clientes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
+        ID_Informes, 1, ID_Clientes, 1, 1, 1, 1, 1, 1, 1, 1, ID_CajaConceptos, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, 1, ID_Usuarios, 1, 1, 1, 1, 1, 1, 1, _
         1, 1, 1, ID_ConceptosFacturas, ID_Expedientes, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _
@@ -1474,14 +1474,14 @@ Dim RN As ADODB.Recordset
                  End If
              End If
              
-      
+            
                 
             If Habilitado Then
                 
                 Select Case RN!Codigo
                 Case 1
                     '1   "CONFIGURACION"
-                    CargaMenuConfiguracion RN!Codigo
+                    If vUsu.Nivel < 2 Then CargaMenuConfiguracion RN!Codigo
                     
                     
                 ' ****  Iran todos juntos en un tab
@@ -1558,6 +1558,7 @@ Private Sub CargaMenuConfiguracion(IdMenu As Integer)
            
                     
                 Set Control = GroupNew.Add(xtpControlButton, RN2!Codigo, RN2!Descripcion)
+                ' caja If RN2!Codigo = 107 Then Habilitado = False
                 Control.Enabled = Habilitado
              
             End If
@@ -1852,7 +1853,8 @@ Private Sub AbrirFormularios(Accion As Long)
     Case ID_AccionesRealizadas
         frmLog.Show vbModal
     
-    
+    Case ID_CajaConceptos
+        frmCajaConceptos.Show vbModal
     Case ID_Clientes
         'Load frmcolClientes
         'frmcolClientes.SetColor Id
@@ -1873,8 +1875,12 @@ Private Sub AbrirFormularios(Accion As Long)
         frmPrevisionFacturacion.Show vbModal
         
     Case ID_IntegraciónContable
+        If vUsu.Nivel > 1 Then Exit Sub
         frmMensajes.Opcion = 8
         frmMensajes.Show vbModal
+        
+    Case ID_EstadisticaClientes
+        frmEstadisticaCli.Show vbModal
         
     Case ID_EstadisticaConceptos
        frmConceptosListEsta.Show vbModal

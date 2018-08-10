@@ -29,22 +29,150 @@ Begin VB.Form frmCliente
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin XtremeReportControl.ReportControl wndReportControl 
-      Height          =   4095
+      Height          =   3495
       Left            =   8520
       TabIndex        =   69
       Top             =   5880
       Width           =   10575
       _Version        =   1114114
       _ExtentX        =   18653
-      _ExtentY        =   7223
+      _ExtentY        =   6165
       _StockProps     =   64
       FreezeColumnsAbs=   0   'False
    End
+   Begin VB.Frame FrameAcciones 
+      Height          =   615
+      Left            =   8520
+      TabIndex        =   87
+      Top             =   9360
+      Width           =   10575
+      Begin VB.CommandButton cmdCobros 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   2
+         Left            =   4200
+         Picture         =   "frmCliente.frx":000C
+         Style           =   1  'Graphical
+         TabIndex        =   97
+         ToolTipText     =   "Cambiar forma pago"
+         Top             =   180
+         Visible         =   0   'False
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdFactura 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   1
+         Left            =   3720
+         Picture         =   "frmCliente.frx":0316
+         Style           =   1  'Graphical
+         TabIndex        =   94
+         ToolTipText     =   "ABONO"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdFactura 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   0
+         Left            =   3240
+         Picture         =   "frmCliente.frx":0D18
+         Style           =   1  'Graphical
+         TabIndex        =   93
+         ToolTipText     =   "Nueva factura"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdNuevo 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Left            =   3240
+         Picture         =   "frmCliente.frx":171A
+         Style           =   1  'Graphical
+         TabIndex        =   92
+         ToolTipText     =   "Nuevo CRM"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.TextBox txtTotal 
+         Alignment       =   1  'Right Justify
+         BeginProperty Font 
+            Name            =   "Verdana"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   315
+         Left            =   8400
+         Locked          =   -1  'True
+         TabIndex        =   91
+         Text            =   "Text3"
+         Top             =   240
+         Width           =   1815
+      End
+      Begin XtremeSuiteControls.DateTimePicker DateTimePicker1 
+         Height          =   310
+         Left            =   1080
+         TabIndex        =   88
+         Top             =   240
+         Width           =   1815
+         _Version        =   1114114
+         _ExtentX        =   3201
+         _ExtentY        =   547
+         _StockProps     =   68
+         Format          =   1
+      End
+      Begin VB.CommandButton cmdCobros 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   0
+         Left            =   3240
+         Picture         =   "frmCliente.frx":1CA4
+         Style           =   1  'Graphical
+         TabIndex        =   95
+         ToolTipText     =   "Compensar abonos-cobros"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdCobros 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   1
+         Left            =   3720
+         Picture         =   "frmCliente.frx":84F6
+         Style           =   1  'Graphical
+         TabIndex        =   96
+         ToolTipText     =   "Quitar gastos"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.Label lblTotal 
+         Alignment       =   1  'Right Justify
+         Caption         =   "Total"
+         Height          =   255
+         Left            =   7320
+         TabIndex        =   90
+         Top             =   240
+         Width           =   975
+      End
+      Begin VB.Label Nombre 
+         Caption         =   "Filtro"
+         Height          =   255
+         Index           =   2
+         Left            =   120
+         TabIndex        =   89
+         Top             =   240
+         Width           =   2025
+      End
+   End
    Begin VB.ComboBox Combo1 
       Height          =   360
-      ItemData        =   "frmCliente.frx":000C
+      ItemData        =   "frmCliente.frx":8A80
       Left            =   11040
-      List            =   "frmCliente.frx":0019
+      List            =   "frmCliente.frx":8A8D
       Style           =   2  'Dropdown List
       TabIndex        =   19
       Tag             =   "Situacion|N|N|||clientes|situclien|||"
@@ -54,7 +182,7 @@ Begin VB.Form frmCliente
    Begin MSComctlLib.ListView lwlaboral 
       Height          =   1455
       Left            =   1200
-      TabIndex        =   82
+      TabIndex        =   81
       Tag             =   "cuota|clientes_cuotas|"
       Top             =   6840
       Width           =   6975
@@ -95,7 +223,7 @@ Begin VB.Form frmCliente
    Begin MSComctlLib.ListView lwFiscal 
       Height          =   1455
       Left            =   1200
-      TabIndex        =   83
+      TabIndex        =   82
       Tag             =   "cuota|clientes_cuotas|"
       Top             =   8520
       Width           =   6975
@@ -150,7 +278,7 @@ Begin VB.Form frmCliente
       Index           =   2
       Left            =   6990
       Locked          =   -1  'True
-      TabIndex        =   79
+      TabIndex        =   78
       Text            =   "Text2"
       Top             =   2040
       Width           =   3795
@@ -194,10 +322,19 @@ Begin VB.Form frmCliente
       Top             =   5040
       Width           =   10575
       Begin VB.OptionButton Option1 
+         Caption         =   "Cuotas"
+         Height          =   255
+         Index           =   5
+         Left            =   5520
+         TabIndex        =   86
+         Top             =   300
+         Width           =   1215
+      End
+      Begin VB.OptionButton Option1 
          Caption         =   "Cobros"
          Height          =   255
          Index           =   4
-         Left            =   6840
+         Left            =   7080
          TabIndex        =   74
          Top             =   300
          Width           =   1215
@@ -211,50 +348,33 @@ Begin VB.Form frmCliente
          Top             =   300
          Width           =   1815
       End
-      Begin VB.CommandButton cmdNuevo 
-         Height          =   375
-         Left            =   120
-         Picture         =   "frmCliente.frx":0036
-         Style           =   1  'Graphical
-         TabIndex        =   76
-         Top             =   240
-         Width           =   375
-      End
       Begin VB.OptionButton Option1 
          Caption         =   "Facturas"
          Height          =   255
          Index           =   2
-         Left            =   4920
+         Left            =   3720
          TabIndex        =   73
          Top             =   300
+         Value           =   -1  'True
          Width           =   1575
       End
       Begin VB.OptionButton Option1 
          Caption         =   "Expedientes"
          Height          =   255
          Index           =   1
-         Left            =   2520
+         Left            =   1560
          TabIndex        =   72
          Top             =   300
-         Value           =   -1  'True
          Width           =   1815
       End
       Begin VB.OptionButton Option1 
          Caption         =   "CRM"
          Height          =   255
          Index           =   0
-         Left            =   840
+         Left            =   360
          TabIndex        =   71
          Top             =   300
          Width           =   1095
-      End
-      Begin VB.Line Line1 
-         BorderColor     =   &H00C0C0C0&
-         BorderWidth     =   3
-         X1              =   600
-         X2              =   600
-         Y1              =   240
-         Y2              =   600
       End
    End
    Begin VB.Frame FramelFiscal 
@@ -402,7 +522,7 @@ Begin VB.Form frmCliente
       ScrollBars      =   2  'Vertical
       TabIndex        =   27
       Tag             =   "Licencia|T|S|||clientes|observac|||"
-      Text            =   "frmCliente.frx":0138
+      Text            =   "frmCliente.frx":8AAA
       Top             =   1290
       Width           =   5805
    End
@@ -971,7 +1091,7 @@ Begin VB.Form frmCliente
       ForeColor       =   &H00FFFFFF&
       Height          =   345
       Left            =   8520
-      TabIndex        =   86
+      TabIndex        =   85
       Top             =   10200
       Visible         =   0   'False
       Width           =   2760
@@ -990,7 +1110,7 @@ Begin VB.Form frmCliente
       ForeColor       =   &H00000080&
       Height          =   345
       Left            =   4680
-      TabIndex        =   85
+      TabIndex        =   84
       Top             =   10200
       Visible         =   0   'False
       Width           =   3000
@@ -1000,7 +1120,7 @@ Begin VB.Form frmCliente
       Height          =   225
       Index           =   20
       Left            =   11040
-      TabIndex        =   84
+      TabIndex        =   83
       Top             =   3360
       Width           =   1095
    End
@@ -1029,7 +1149,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   19
       Left            =   120
-      TabIndex        =   81
+      TabIndex        =   80
       Top             =   4185
       Width           =   495
    End
@@ -1038,7 +1158,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   7
       Left            =   11040
-      TabIndex        =   80
+      TabIndex        =   79
       Top             =   1740
       Width           =   1830
    End
@@ -1048,7 +1168,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   18
       Left            =   7800
-      TabIndex        =   78
+      TabIndex        =   77
       Top             =   2520
       Width           =   495
    End
@@ -1058,7 +1178,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   17
       Left            =   5760
-      TabIndex        =   77
+      TabIndex        =   76
       Top             =   2580
       Width           =   855
    End
@@ -1104,7 +1224,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   0
       Left            =   8880
-      Picture         =   "frmCliente.frx":013C
+      Picture         =   "frmCliente.frx":8AAE
       ToolTipText     =   "Fecha alta actividad"
       Top             =   3360
       Width           =   240
@@ -1113,7 +1233,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   1
       Left            =   10560
-      Picture         =   "frmCliente.frx":01C7
+      Picture         =   "frmCliente.frx":8B39
       Top             =   3360
       Width           =   240
    End
@@ -1139,7 +1259,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   2
       Left            =   7200
-      Picture         =   "frmCliente.frx":0252
+      Picture         =   "frmCliente.frx":8BC4
       ToolTipText     =   "Fecha alta asociado"
       Top             =   3360
       Width           =   240
@@ -1361,6 +1481,9 @@ Private DevfrmCCtas As String
 
 Private BuscaChekc As String
 Dim iconArray(0 To 9) As Long
+Dim Total As Currency  'para el total
+
+
 
 Private Sub chkBanco_Click(Index As Integer)
     If Modo = 1 Then
@@ -1610,6 +1733,169 @@ End Sub
 
 
 
+
+Private Function BloqCliente() As Boolean
+    If BloqueoManual("clientes", Text1(4).Text, True) Then
+        BloqCliente = True
+    Else
+        MsgBox "Cliente bloqueado por otro usuario", vbExclamation
+        BloqCliente = False
+    End If
+End Function
+
+
+
+Private Sub cmdCobros_Click(Index As Integer)
+Dim A_Efectivo As Boolean
+    
+    If Index = 0 Then
+        If Not Me.Option1(4).Value Then Exit Sub
+        
+        CadB = ""
+        For I = 0 To Me.wndReportControl.Rows.Count - 1
+            If ImporteFormateado(wndReportControl.Rows(I).Record(6).Caption) < 0 Then
+                CadB = CadB & "N"
+            Else
+                CadB = CadB & "P"
+            End If
+        Next I
+        
+        If Len(CadB) <= 1 Then
+            MsgBox "Necesita mas de un vencimiento / abono para compensar", vbExclamation
+            Exit Sub
+        End If
+        
+        Msg = ""
+        If InStr(1, CadB, "N") = 0 Then Msg = "abono"
+        If InStr(1, CadB, "P") = 0 Then Msg = "cobro"
+        
+        If Msg <> "" Then
+            MsgBox "Necesita al menos un " & Msg & " para poder compensar", vbExclamation
+            Exit Sub
+        End If
+        
+        If BloqCliente Then
+        
+            frmMensajes.Opcion = 30
+            frmMensajes.Parametros = Text1(4).Text & "|" & Text1(1).Text & "|"
+            frmMensajes.Show vbModal
+            
+            DesBloqueoManual "clientes"
+        End If
+        
+    Else
+     
+        'QUITAR GASTOS   y cambiar forma de pago
+        If vUsu.Nivel > 1 Then Exit Sub
+        
+        If wndReportControl.Rows.Count = 0 Then Exit Sub
+        
+        If wndReportControl.SelectedRows.Count <> 1 Then
+            MsgBox "Seleccione un unico vencimiento ", vbExclamation
+            Exit Sub
+        End If
+         
+         
+        CadB = ""
+        If Index = 1 Then
+            If wndReportControl.SelectedRows(0).Record(0).Icon <> 10 Then
+                CadB = "No tiene gastos para quitar"
+            Else
+                If CCur(wndReportControl.SelectedRows(0).Record.Item(6).Tag) = 0 Then CadB = "Error obteniendo gastos"
+            End If
+        Else
+            
+                
+        End If
+        If CadB <> "" Then
+            MsgBox CadB, vbExclamation
+            CadB = ""
+            Exit Sub
+        End If
+        
+            
+        If Index = 1 Then
+                
+                Total = CCur(wndReportControl.SelectedRows(0).Record.Item(6).Caption)
+                Total = Total - CCur(wndReportControl.SelectedRows(0).Record.Item(6).Tag)
+                CadB = wndReportControl.SelectedRows(0).Record.Item(2).Caption & vbCrLf
+                CadB = CadB & "Vencimiento: " & Total & "€      Gastos: "
+                CadB = CadB & CCur(wndReportControl.SelectedRows(0).Record.Item(6).Tag) & "€       TOTAL: " & wndReportControl.SelectedRows(0).Record.Item(6).Caption
+                Msg = CadB
+                CadB = CadB & vbCrLf & vbCrLf & "Quitar los gastos al vecimiento seleccionado?"
+                
+                
+        Else
+                If wndReportControl.SelectedRows(0).Record.Item(5).Value = 4 Then
+                    A_Efectivo = True
+                    CadB = "recibo cobrador"
+                Else
+                    CadB = "recibo DOMICILIADO"
+                    A_Efectivo = False
+                End If
+                CadB = "Va a cambiar la forma de pago a " & CadB & "." & vbCrLf & "¿Continuar?"
+                
+        End If
+        If MsgBox(CadB, vbQuestion + vbYesNoCancel) <> vbYes Then CadB = ""
+        If CadB = "" Then Exit Sub
+        
+        If Index = 1 Then
+             QuitarGastosVto
+        Else
+            CambiarFormaDePago A_Efectivo
+        End If
+        
+    End If
+    CargaDatos
+End Sub
+
+Private Sub cmdFactura_Click(Index As Integer)
+    
+    
+    
+    If Index = 0 Then
+        'NUEVO
+        If Not BloqCliente Then Exit Sub
+        cmdNuevo_Click
+        
+        
+    Else
+        'ABONO
+        If Modo <> 2 Then Exit Sub
+        If vUsu.Nivel > 1 Then Exit Sub
+        
+        If Me.wndReportControl.Rows.Count = 0 Then Exit Sub
+        
+        If wndReportControl.SelectedRows.Count = 0 Then Exit Sub
+        
+        If wndReportControl.SelectedRows.Count > 1 Then
+            MsgBox "Seleccione una unica factura/cuota para realizar el abono", vbExclamation
+            Exit Sub
+        End If
+        'No permitimos recticiar rectificativas
+        If RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 1) = "FRT" Then
+            MsgBox "No se permite realizar abonos sobre rectificativas", vbExclamation
+            Exit Sub
+        End If
+    
+        'wndReportControl.SelectedRows.Row (0)
+        If Not BloqCliente Then Exit Sub
+        
+        CadenaDesdeOtroForm = Text1(4).Text & "|" & Text1(1).Text & "|"
+        frmMensajes.Parametros = wndReportControl.SelectedRows(0).Record(6).Caption
+        frmMensajes.Opcion = 29
+        frmMensajes.Show vbModal
+        If CadenaDesdeOtroForm <> "" Then CargaDatos
+        
+        
+        
+    End If
+    
+    
+debloqClie:
+    DesBloqueoManual "clientes"
+End Sub
+
 Private Sub cmdNuevo_Click()
     If Modo <> 2 Then Exit Sub
     
@@ -1621,9 +1907,14 @@ Private Sub cmdNuevo_Click()
         frmClienDoc.Show vbModal
         CargaDatos
     Else
+        If vUsu.Nivel > 1 Then Exit Sub
         CadB = "-1|" & Text1(4).Text & "|" & Text1(1).Text & "|"
+       
         
         AccionReportControl CStr(CadB)
+        
+        
+        
     End If
 End Sub
 
@@ -1658,6 +1949,16 @@ End Sub
 
 Private Sub ComboBoxMarkup_KeyPress(KeyAscii As Integer)
     KEYpress KeyAscii
+End Sub
+
+Private Sub DateTimePicker1_Change()
+Dim F
+    
+    F = CDate(Me.DateTimePicker1.Day & "/" & DateTimePicker1.Month & "/" & DateTimePicker1.Year)
+    If F <> CDate(DateTimePicker1.Tag) Then
+        DateTimePicker1.Tag = F
+        CargaDatos
+    End If
 End Sub
 
 Private Sub Form_Activate()
@@ -1697,11 +1998,17 @@ End Sub
 
 Private Sub Form_Load()
 Dim I As Integer
-
+Dim F As Date
     Me.Tag = 1
     Me.Icon = frmppal.Icon
     wndReportControl.Icons = ReportControlGlobalSettings.Icons
     wndReportControl.PaintManager.NoItemsText = "Ningún registro "
+    F = DateAdd("m", -12, Now)
+    DateTimePicker1.Day = Day(F)
+    DateTimePicker1.Month = Month(F)
+    DateTimePicker1.Year = Year(F)
+    DateTimePicker1.Tag = Format(F, "dd/mm/yyyy")
+    DateTimePicker1.MinDate = "01/01/2016"
     ' Botonera Principal
     With Me.Toolbar1
         .HotImageList = frmppal.imgListComun_OM
@@ -1956,12 +2263,22 @@ End Sub
 Private Sub Option1_Click(Index As Integer)
     Screen.MousePointer = vbHourglass
        
-    For I = 0 To 4
+    For I = 0 To 5
         Me.Option1(I).FontBold = I = Index
     Next I
     
     
-    Me.cmdNuevo.Visible = Index <> 4
+    Me.cmdNuevo.Visible = Index = 3 Or Index = 0
+    cmdCobros(0).Visible = Index = 4
+    cmdCobros(1).Visible = Index = 4
+    cmdCobros(2).Visible = Index = 4
+    Me.cmdFactura(0).Visible = Index = 1 Or Index = 2
+    Me.cmdFactura(1).Visible = Index = 2 Or Index = 5
+    
+    Me.lblTotal.Visible = Index <> 0 And Index <> 3
+    Me.txtTotal.Visible = Me.lblTotal.Visible
+    
+    
     CreateReportControl
     CargaDatos
     
@@ -2371,7 +2688,15 @@ Private Sub PonerModo(Kmodo As Integer)
     Me.imgCC.Enabled = Not B
     
     
+    B = Modo = 2 And vUsu.Nivel <= 1
+    Me.cmdCobros(0).Enabled = B
+    Me.cmdCobros(1).Enabled = B
+    Me.cmdFactura(0).Enabled = B
+    Me.cmdFactura(1).Enabled = B
+   
     
+    
+    Me.DateTimePicker1.Enabled = B
     
     PonerModoUsuarioGnral Modo, "arigestion"
 
@@ -2779,7 +3104,7 @@ Private Sub CreateReportControl()
         CreateReportControlCRM
     ElseIf Me.Option1(1).Value Then
         CreateReportControlExpediente
-    ElseIf Me.Option1(2).Value Then
+    ElseIf Me.Option1(2).Value Or Me.Option1(5).Value Then
         CreateReportFacturas
     ElseIf Me.Option1(3).Value Then
         CreateReportControlDocumentos
@@ -2957,11 +3282,15 @@ End Sub
 Public Sub CargaDatos()
 Dim Cad As String
 
+
     wndReportControl.ShowItemsInGroups = False
     wndReportControl.Records.DeleteAll
     
     
     Set miRsAux = New ADODB.Recordset
+    Total = 0
+    Me.txtTotal.Text = ""
+    txtTotal.Refresh
     
     If Me.Option1(0).Value Then
         
@@ -2971,6 +3300,7 @@ Dim Cad As String
         Cad = Cad & ", if(  importancia=2  , 5"
         Cad = Cad & " , 0))) ) importancia, id , CodClien, fechahora, Usuario,  tipoaccion, Observaciones"
         Cad = Cad & " from clientes_historial where codclien=" & Data1.Recordset!CodClien
+        
         Cad = Cad & " ORDER BY fechahora desc"
     
         k = 5 'para las pruebas de icono. Borrar si eso
@@ -2980,13 +3310,16 @@ Dim Cad As String
         Cad = Cad & " from expedientes e inner join tipositexped on e.codsitua=tipositexped.codsitua"
         Cad = Cad & " left join expedientes_lineas l on e.tiporegi =l.tiporegi AND  e.numexped  =l.numexped and   e.anoexped=l.anoexped"
         Cad = Cad & " WHERE e.codclien=" & Data1.Recordset!CodClien
+        Cad = Cad & " AND fecexped >=" & DBSet(DateTimePicker1.Tag, "F")
         Cad = Cad & " group by 1,2 order by fecexped desc"
-    ElseIf Option1(2).Value Then
+    ElseIf Option1(2).Value Or Option1(5).Value Then
         'Facturas
         
         Cad = "select  numserie,nomregis,factcli.numfactu,fecfactu,totfaccl,0 importancia"
         Cad = Cad & " FROM factcli, contadores"
         Cad = Cad & " WHERE factcli.numserie = contadores.serfactur AND codclien =" & Data1.Recordset!CodClien
+        Cad = Cad & " AND factcli.numserie " & IIf(Me.Option1(5).Value, "=", "<>") & " 'CUO'"
+        Cad = Cad & " AND factcli.fecfactu  >=" & DBSet(DateTimePicker1.Tag, "F")
         Cad = Cad & " ORDER BY 1,3"
     ElseIf Option1(3).Value Then
         'Documentos
@@ -2996,16 +3329,18 @@ Dim Cad As String
         'Cobros
         '--------------------------------
         
-        Cad = "select if(now()>fecvenci,0,1) importancia,concat(numserie,'-',right(concat('00000000',numfactu),8)) quefactura,"
+        Cad = "select if(now()>fecvenci,2,0) "
+        
+        Cad = Cad & " vencido,concat(numserie,'-',right(concat('00000000',numfactu),8)) quefactura,"
         Cad = Cad & " numorden,fecfactu,fecvenci,ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0) as pendiente ,nomforpa,"
-        Cad = Cad & "numserie,numfactu,tipoformapago,cobros.codforpa "
+        Cad = Cad & "numserie,numfactu,tipoformapago,cobros.codforpa, if(coalesce(gastos,0)>0,2,0) importancia,gastos"
         
         Cad = Cad & " from ariconta" & vParam.Numconta & ".cobros,ariconta" & vParam.Numconta & ".formapago "
         Cad = Cad & " ,ariconta" & vParam.Numconta & ".tipofpago "
         Cad = Cad & " where codmacta IN ('" & DevuelveCuentaContableCliente(True, CStr(Data1.Recordset!CodClien))
         Cad = Cad & " ','" & DevuelveCuentaContableCliente(False, CStr(Data1.Recordset!CodClien)) & "')"
         Cad = Cad & " AND cobros.codforpa=formapago.codforpa and tipofpago.tipoformapago = formapago.tipforpa AND "
-        Cad = Cad & " ImpVenci - coalesce(gastos, 0) - coalesce(impcobro, 0) <> 0"
+        Cad = Cad & " ImpVenci + coalesce(gastos, 0) - coalesce(impcobro, 0) <> 0"
         Cad = Cad & " ORDER BY fecvenci desc"
     End If
     miRsAux.Open Cad, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
@@ -3014,12 +3349,13 @@ Dim Cad As String
     Else
         While Not miRsAux.EOF
             AddRecord2
+            
             miRsAux.MoveNext
         Wend
     End If
     miRsAux.Close
         
-    
+    If Total <> 0 Then txtTotal.Text = Format(Total, FormatoImporte)
         
 End Sub
 
@@ -3033,6 +3369,7 @@ Dim Socio As Boolean
 Dim OtroIcono As Boolean
 Dim Icono As Integer
 Dim C As String
+Dim Prioridad As Byte
 
     'Adds a new Record to the ReportControl's collection of records, this record will
     'automatically be attached to a row and displayed with the Populate method
@@ -3062,52 +3399,75 @@ Dim C As String
             'Item.Icon = K
             'K = K + 1
         Else
+        
+      
             'RESTO
-            If miRsAux!importancia = 0 Then
-                Importance = IMPORTANCE_HIGH
-            ElseIf miRsAux!importancia = 2 Then
-                Importance = IMPORTANCE_LOW
-            Else
+                If miRsAux!importancia = 1 Then
+                    Importance = IMPORTANCE_HIGH
+                ElseIf miRsAux!importancia = 2 Then
+                    Importance = IMPORTANCE_LOW
+                Else
+                    
+                    Importance = IMPORTANCE_NORMAL
+                End If
                 
-                Importance = IMPORTANCE_NORMAL
-            End If
-            
-            If (Importance = IMPORTANCE_HIGH) Then
-                Item.Icon = RECORD_IMPORTANCE_HIGH_ICON
-                Item.SortPriority = IMPORTANCE_HIGH
-            End If
-            If (Importance = IMPORTANCE_LOW) Then
-                Item.Icon = RECORD_IMPORTANCE_LOW_ICON
-                Item.SortPriority = IMPORTANCE_LOW
-            End If
-            If (Importance = IMPORTANCE_NORMAL) Then
+                If (Importance = IMPORTANCE_HIGH) Then
+                    Item.Icon = RECORD_IMPORTANCE_HIGH_ICON
+                    Item.SortPriority = IMPORTANCE_HIGH
                 
-                Item.SortPriority = IMPORTANCE_NORMAL
-            End If
+                End If
+                If (Importance = IMPORTANCE_LOW) Then
+                    Item.Icon = RECORD_IMPORTANCE_LOW_ICON
+                    Item.SortPriority = IMPORTANCE_LOW
+                
+                    If Me.Option1(4).Value Then Item.ToolTip = "Gastos"
+                End If
+                If (Importance = IMPORTANCE_NORMAL) Then
+                    
+                    Item.SortPriority = IMPORTANCE_NORMAL
+                End If
         End If
+        
     End If
       
     If Not Me.Option1(3).Value Then
-      'Para los documentos NO necesto esta columna
-      Set Item = Record.AddItem("")
-      
-      
-      Icono = 0
-      
-      If Me.Option1(4).Value Then
-        If miRsAux!tipoformapago = 4 Then Socio = True
-        Icono = IIf(Socio, RECORD_UNREAD_MAIL_ICON, RECORD_READ_MAIL_ICON)
-      Else
-        If Me.Option1(0).Value Then
-            'URGENTE
-            If 7 = miRsAux!importancia Then Icono = 7
-        End If
-      End If
-    
+        'Para los documentos NO necesto esta columna
+        Set Item = Record.AddItem("")
         
-      Item.SortPriority = 0
-      Item.Icon = Icono
-           
+        Icono = 0
+        Prioridad = 0
+        If Me.Option1(4).Value Then
+            If miRsAux!tipoformapago = 4 Then Socio = True
+            Icono = IIf(Socio, RECORD_UNREAD_MAIL_ICON, RECORD_READ_MAIL_ICON)
+            Prioridad = IIf(Socio, RECORD_UNREAD_MAIL_ICON, RECORD_READ_MAIL_ICON)
+            Item.ToolTip = IIf(Socio, "Domiciliado", "Recibo cobrador")
+        ElseIf Me.Option1(0).Value Then
+              'URGENTE
+              If 7 = miRsAux!importancia Then
+                  Icono = 7
+                  Prioridad = 1
+              End If
+          
+        ElseIf Me.Option1(2).Value Then
+              
+              
+              If miRsAux!numSerie = "FEX" Then
+                  Icono = RECORD_IMPORTANCE_LOW_ICON
+                  Prioridad = 2
+                  
+              ElseIf miRsAux!numSerie = "FDI" Then
+                  Icono = RECORD_READ_MAIL_ICON
+                  Prioridad = 4
+              ElseIf miRsAux!numSerie = "FRT" Then
+                  Icono = RECORD_UNREAD_MAIL_ICON
+                  Prioridad = 5
+              End If
+              Item.ToolTip = miRsAux!numSerie
+        End If
+        
+        Item.SortPriority = Prioridad
+        Item.Icon = Icono
+             
     End If
            
            
@@ -3150,10 +3510,11 @@ Dim C As String
 
         Record.AddItem CStr(miRsAux!nomsitua)
         Record.AddItem Format(miRsAux!Importe, FormatoImporte)
+        Total = Total + miRsAux!Importe
         Record.AddItem miRsAux!TipoRegi & "|" & miRsAux!numexped & "|" & miRsAux!anoexped & "|"
     
     
-    ElseIf Me.Option1(2).Value Then
+    ElseIf Me.Option1(2).Value Or Me.Option1(5).Value Then
         Record.AddItem ""
         'numserie,nomregis,factcli.numfactu,fecfactu,totfaccl
         Record.AddItem miRsAux!numSerie & Format(miRsAux!NumFactu, "0000000")
@@ -3162,7 +3523,7 @@ Dim C As String
         
 
         Record.AddItem Format(miRsAux!totfaccl, FormatoImporte)
-
+        Total = Total + DBLet(miRsAux!totfaccl, "N")
         Record.AddItem CStr(miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|")
     
             
@@ -3181,7 +3542,7 @@ Dim C As String
         'Cobros
         Set Item = Record.AddItem("")
         Item.Caption = DBLet(miRsAux!quefactura, "T")
-        Item.Value = CStr(miRsAux!numSerie & ":" & miRsAux!NumFactu & ":" & miRsAux!Numorden & ":")
+        Item.Value = CStr(miRsAux!numSerie & ":" & miRsAux!NumFactu & ":" & miRsAux!numorden & ":")
         
         
         Set Item = Record.AddItem("")
@@ -3191,7 +3552,7 @@ Dim C As String
         Set Item = Record.AddItem("")
         Item.Caption = Format(miRsAux!FecVenci, "dd/mm/yyyy")
         Item.Value = CDate(miRsAux!FecVenci)
-        
+        If miRsAux!FecVenci > Now Then Item.ForeColor = vbBlue: Item.Bold = True
         
         'Mostraremos la descripcion, pero tambien nos guardaremos el tipo: si es efectivo...
         Set Item = Record.AddItem(CInt(miRsAux!tipoformapago))
@@ -3202,11 +3563,11 @@ Dim C As String
         Set Item = Record.AddItem("")
         Item.Caption = Format(miRsAux!pendiente, FormatoImporte)
         Item.Value = CDate(miRsAux!pendiente)
-
+        Total = Total + miRsAux!pendiente
         
+        Item.Tag = DBLet(miRsAux!Gastos, "N")
         
-        
-        Record.AddItem CStr(miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!Numorden)
+        Record.AddItem CStr(miRsAux!numSerie & "|" & miRsAux!NumFactu & "|" & miRsAux!Fecfactu & "|" & miRsAux!numorden & "|")
     End If
     'Adds the PreviewText to the Record.  PreviewText is the text displayed for the ReportRecord while in PreviewMode
     Record.PreviewText = "ID: " & Data1.Recordset!CodClien
@@ -3323,23 +3684,9 @@ Dim Auxi As String
         'Cobro factura por caja
         If Row.Record(5).Value <> 0 Then
             CadB = "Sólo se permiten cobros sobre efectivo." & vbCrLf & vbCrLf & "¿Desea cambiar la forma de pago?"
-            If MsgBox(CadB, vbQuestion + vbYesNoCancel) <> vbYes Then Exit Sub
-                        
-            CadB = Replace(CStr(Row.Record(2).Value), ":", "|")
-            Auxi = "numserie= " & DBSet(RecuperaValor(CadB, 1), "T")
-            Auxi = Auxi & " AND numfactu = " & RecuperaValor(CadB, 2)
-            Auxi = Auxi & " AND numorden = " & RecuperaValor(CadB, 3)
-            Auxi = Auxi & " AND fecfactu = " & DBSet(Row.Record(3).Caption, "F")
-            CadB = DevuelveDesdeBD("codrem", "ariconta" & vParam.Numconta & ".cobros", Auxi & " AND 1", "1")
-            If CadB <> "" Then
-                MsgBox "Pertenece a una remesa: " & CadB, vbExclamation
-                Exit Sub
-            End If
+            If MsgBox(CadB, vbQuestion + vbYesNo) <> vbYes Then Exit Sub
             
-            CadB = "UPDATE ariconta" & vParam.Numconta & ".cobros set codforpa = 1 " & " WHERE " & Auxi
-            If Not Ejecuta(CadB) Then Exit Sub
-            
-            
+            If Not CambiarFormaDePago(True) Then Exit Sub
             
         End If
         
@@ -3360,7 +3707,7 @@ End Sub
 
 Private Sub AccionReportControl(Parametros As String)
     
-    
+         
     If Val(Data1.Recordset!situclien) > 0 Then
         
         CadB = "baja"
@@ -3369,7 +3716,11 @@ Private Sub AccionReportControl(Parametros As String)
         MsgBox CadB, vbExclamation
         Exit Sub
     End If
-    If Me.Option1(1).Value Or Me.Option1(2).Value Then
+    
+     
+    
+    
+    If Me.Option1(1).Value Or Me.Option1(2).Value Or Me.Option1(5).Value Then
         'Si tiene cobros pendientes , avisar
         If TieneCobrosPendientes(Text1(4).Text, CadB) Then
             CadB = "Tiene vencimientos pendientes de cobro. Total:  " & CadB & vbCrLf & vbCrLf & "¿Continuar?"
@@ -3388,7 +3739,7 @@ Private Sub AccionReportControl(Parametros As String)
     ElseIf Me.Option1(1).Value Then
         frmExpediente.numExpediente = Parametros
         frmExpediente.Show vbModal
-    ElseIf Me.Option1(2).Value Then
+    ElseIf Me.Option1(2).Value Or Me.Option1(5).Value Then
         frmFacturasCli.FACTURA = Parametros
         frmFacturasCli.Show vbModal
     ElseIf Me.Option1(3).Value Then
@@ -3455,3 +3806,68 @@ Dim Cad As String
     Cad = Cad & " AND numlinea =" & Mid(Lw.SelectedItem.Key, 2)
     If Ejecuta(Cad) Then CargarCutoasLaborFiscal CByte(I), Lw
 End Sub
+
+
+Private Sub QuitarGastosVto()
+Dim Codigo As String
+
+
+    With Me.wndReportControl.SelectedRows(0)
+     
+        Codigo = "UPDATE ariconta" & vParam.Numconta & ".cobros SET "
+        Codigo = Codigo & " gastos = NULL"
+        Codigo = Codigo & " WHERE numserie =" & DBSet(RecuperaValor(.Record(7).Caption, 1), "T")
+        Codigo = Codigo & " AND numfactu =" & DBSet(RecuperaValor(.Record(7).Caption, 2), "N")
+        Codigo = Codigo & " AND fecfactu =" & DBSet(RecuperaValor(.Record(7).Caption, 3), "F")
+        Codigo = Codigo & " AND numorden =" & DBSet(RecuperaValor(.Record(7).Caption, 4), "N")
+        If Ejecuta(Codigo) Then
+        
+        
+            Codigo = "Cliente: " & Text1(4).Text & " " & Text1(1).Text & vbCrLf
+            Codigo = Codigo & .Record(2).Caption & " de " & .Record(3).Caption
+            Codigo = Codigo & "Gastos : " & .Record(6).Tag
+            Codigo = Codigo & "A cobrar: " & .Record(6).Caption
+            vLog.Insertar 11, vUsu, Codigo
+        
+        End If
+
+
+    End With
+
+End Sub
+
+
+
+Private Function CambiarFormaDePago(PonerEfectivo As Boolean) As Boolean
+Dim Auxi As String
+    
+           CambiarFormaDePago = False
+            CadB = Replace(CStr(wndReportControl.SelectedRows(0).Record(2).Value), ":", "|")
+            Auxi = "numserie= " & DBSet(RecuperaValor(CadB, 1), "T")
+            Auxi = Auxi & " AND numfactu = " & RecuperaValor(CadB, 2)
+            Auxi = Auxi & " AND numorden = " & RecuperaValor(CadB, 3)
+            Auxi = Auxi & " AND fecfactu = " & DBSet(wndReportControl.SelectedRows(0).Record(3).Caption, "F")
+            CadB = DevuelveDesdeBD("codrem", "ariconta" & vParam.Numconta & ".cobros", Auxi & " AND 1", "1")
+            If CadB <> "" Then
+                MsgBox "Pertenece a una remesa: " & CadB, vbExclamation
+                Exit Function
+            End If
+
+            'Habria que parametrizarlo
+            CadB = IIf(PonerEfectivo, 1, 2)
+
+            CadB = "UPDATE ariconta" & vParam.Numconta & ".cobros set codforpa = " & CadB & " WHERE " & Auxi
+            If Not Ejecuta(CadB) Then Exit Function
+            
+            
+            CadB = "Cliente: " & Text1(4).Text & " " & Text1(1).Text & vbCrLf
+            CadB = CadB & wndReportControl.SelectedRows(0).Record(2).Caption & " de " & wndReportControl.SelectedRows(0).Record(3).Value & vbCrLf
+            CadB = CadB & "Forma de pago establecida: " & IIf(PonerEfectivo, "efectivo", "Recibo cobrador")
+            vLog.Insertar 14, vUsu, CadB
+            
+            
+            CambiarFormaDePago = True
+   
+            
+End Function
+

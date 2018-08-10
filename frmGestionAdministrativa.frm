@@ -298,11 +298,11 @@ Public Sub CreateReportControlDesglosado()
     'I.e. The icon at index=1 in the collection will be displayed in the column header.  The index of the icon depends on the
     'order it is added to the collection.  (Icons are added after the records near the bottom of the Form_Load)
     Column.Icon = COLUMN_IMPORTANCE_ICON
-    Set Column = wndReportControl.Columns.Add(1, "ID", 10, True)
+    Set Column = wndReportControl.Columns.Add(1, "ID", 15, True)
     Set Column = wndReportControl.Columns.Add(2, "Licencia", 30, True)
     Set Column = wndReportControl.Columns.Add(3, "Nombre", 140, True)
     Set Column = wndReportControl.Columns.Add(4, "Conce.", 25, True)
-    Set Column = wndReportControl.Columns.Add(5, "Descripción", 125, True)
+    Set Column = wndReportControl.Columns.Add(5, "Descripción", 115, True)
     Set Column = wndReportControl.Columns.Add(6, "Expediente", 35, True)
     Set Column = wndReportControl.Columns.Add(7, "F.Exp", 35, True)
     Set Column = wndReportControl.Columns.Add(8, "Importe", 40, True)
@@ -504,7 +504,7 @@ Dim Aux As String
       
 
     Set Item = Record.AddItem("")
-    Item.Value = CStr(miRsAux!pagado)
+    Item.Value = Format(miRsAux!pagado, "000")
     Item.Caption = ""
     
     Record.AddItem (CStr(miRsAux!licencia))
@@ -592,7 +592,7 @@ Dim Aux As String
     
     Record.AddItem CStr(miRsAux!Usuario)
     
-    Record.AddItem CStr(IIf(DBLet(miRsAux!pagoPorBanco, "N") = 1, "SI", " "))
+    Record.AddItem CStr(IIf(DBLet(miRsAux!pagoporbanco, "N") = 1, "SI", " "))
     
     
     
@@ -719,7 +719,7 @@ Dim id As String
 Dim F As Date
 Dim GroupRow
 Dim B As Boolean
-
+Dim PorBanco As Byte
     'Es un agrupado
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
     If wndReportControl.SelectedRows.Count = 0 Then Exit Sub
@@ -738,7 +738,7 @@ Dim B As Boolean
     End If
 
     Set miRsAux = New ADODB.Recordset
-    Msg = "Select fechafinalizacion,contabilizada from gestadministrativa where id =" & id
+    Msg = "Select fechafinalizacion,contabilizada,pagoPorBanco,quebanco from gestadministrativa where id =" & id
     miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Msg = ""
     If Val(miRsAux!contabilizada) = 1 Then
@@ -750,6 +750,11 @@ Dim B As Boolean
         Else
             If Button.Index = 1 Then Msg = "Ya esta cerrado el proceso"
         End If
+    End If
+    If miRsAux!pagoporbanco = 0 Then
+        PorBanco = 101
+    Else
+        PorBanco = miRsAux!QueBanco
     End If
     miRsAux.Close
     Set miRsAux = Nothing
@@ -767,11 +772,28 @@ Dim B As Boolean
     Else
         'Lanzamos el frm para pedir fecha
         ' Sin cancelar es que no quiere continuar
-        
+        If PorBanco < 100 Then
+            CadenaDesdeOtroForm = PorBanco
+        Else
+            CadenaDesdeOtroForm = "NO"
+        End If
         frmMensajes.Opcion = 9
         frmMensajes.Show vbModal
         If CadenaDesdeOtroForm = "" Then Exit Sub
-        F = CDate(CadenaDesdeOtroForm)
+        F = CDate(RecuperaValor(CadenaDesdeOtroForm, 1))
+        CadenaDesdeOtroForm = RecuperaValor(CadenaDesdeOtroForm, 2)
+        If PorBanco = 1 Then
+            If CadenaDesdeOtroForm = "2" Then
+                CadenaDesdeOtroForm = vParam.CtaBanco2
+            Else
+                CadenaDesdeOtroForm = vParam.CtaBanco
+            End If
+            
+                
+                
+        Else
+            CadenaDesdeOtroForm = ""
+        End If
         
     End If
     
@@ -781,7 +803,7 @@ Dim B As Boolean
         'Se cierra en el fomulario
         'B = CerrarProceso(id)
         Conn.BeginTrans
-        B = HacerProcesContabilizacionGestion(CLng(id), F)
+        B = HacerProcesContabilizacionGestion(CLng(id), F, CadenaDesdeOtroForm)
     
         If B Then
             Conn.CommitTrans
@@ -820,7 +842,7 @@ End Function
 
 
 
-Private Function HacerProcesContabilizacionGestion(id As Long, Fecha As Date) As Boolean
+Private Function HacerProcesContabilizacionGestion(id As Long, Fecha As Date, QueBanco As String) As Boolean
 Dim ColApu As Collection
 Dim Aux As String
 Dim aux2 As String
@@ -829,6 +851,7 @@ Dim ImporteParaCajaBanco As Currency
 Dim EsACaja As Boolean
 Dim usuario2 As String
 Dim Creacion As Date
+Dim SegundoAux As String
 On Error GoTo eHacerProcesContabilizacionGestion
     HacerProcesContabilizacionGestion = False
     
@@ -843,7 +866,7 @@ On Error GoTo eHacerProcesContabilizacionGestion
     Aux = "Select usuario,llevados,importe,fechafinalizacion,pagoPorBanco,fechacreacion from gestadministrativa where id =" & id
     miRsAux.Open Aux, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     'no puede ser eof
-    EsACaja = miRsAux!pagoPorBanco = 0
+    EsACaja = miRsAux!pagoporbanco = 0
     usuario2 = miRsAux!Usuario
     Creacion = miRsAux!fechacreacion
     miRsAux.Close
@@ -892,24 +915,44 @@ On Error GoTo eHacerProcesContabilizacionGestion
             
         Else
             'Va a banco,. directamente a contabilidad
-            ImporteParaCajaBanco = ImporteParaCajaBanco + miRsAux!Importe
+            'ImporteParaCajaBanco = ImporteParaCajaBanco + miRsAux!Importe
             
             
             '   col: 'codmacta | docum | codconce | ampliaci | imported|importeH |ctacontrpar|
+        
+            'aux2 = DevuelveCuentaContableCliente(False, CStr(miRsAux!CodClien))
+            'Nov 2017
+            aux2 = miRsAux!codmacta
             
-            aux2 = DevuelveCuentaContableCliente(False, CStr(miRsAux!CodClien))
+            
             Aux = miRsAux!numSerie & Format(miRsAux!numexped, "0000") & "/" & miRsAux!anoexped - 2000
             
             '   col: 'codmacta | docum | codconce |
+            SegundoAux = QueBanco & "|" & Aux & "|1|"
             Aux = aux2 & "|" & Aux & "|1|"
+            
+            
             aux2 = DevuelveDesdeBD("nomclien", "clientes", "codclien", miRsAux!CodClien)
+            
+            'Para el contra apunte
+            SegundoAux = SegundoAux & aux2 & "||" & miRsAux!Importe & "|" & miRsAux!codmacta & "|"
+            
+            'Acabo de montar el apunte de la cuota
             '   ampliaci
             Aux = Aux & aux2 & "|"
             ' imported|importeH |ctacontrpar|
-            Aux = Aux & miRsAux!Importe & "|" & "|" & vParam.CtaBanco & "|"
+            Aux = Aux & miRsAux!Importe & "|" & "|" & QueBanco & "|"
+    
+            
+            
     
         End If
         ColApu.Add Aux
+        
+        'Contra apunte banco
+        If Not EsACaja Then ColApu.Add SegundoAux   'el contrapunte banco
+    
+        
         
         
         miRsAux.MoveNext
@@ -923,7 +966,7 @@ On Error GoTo eHacerProcesContabilizacionGestion
     
     If EsACaja Then
         'Directamente metemos el pago desde la caja
-
+        Stop  'no deberia
         Aux = ""
         For I = 1 To ColApu.Count
             Aux = Aux & ", " & ColApu(I)
@@ -934,13 +977,13 @@ On Error GoTo eHacerProcesContabilizacionGestion
         
     Else
     
-        
-        aux2 = "Gestion administrativa " & Format(id, "0000") & "  F" & Format(Creacion, "dd/mm/yyyy hh:nn")
-        Aux = "GA: " & id & "-" & Format(ColApu.Count, "00")
-        Aux = vParam.CtaBanco & "|" & Aux & "|1|" & aux2 & "||"
-        ' imported|importeH |ctacontrpar|
-        Aux = Aux & Format(ImporteParaCajaBanco, FormatoImporte) & "|" & "|"
-        ColApu.Add Aux
+        'Apunte linea-banco, linea -banco
+        'aux2 = "Gestion administrativa " & Format(id, "0000") & "  F" & Format(Creacion, "dd/mm/yyyy hh:nn")
+        'Aux = "GA: " & id & "-" & Format(ColApu.Count, "00")
+        'Aux = QueBanco & "|" & Aux & "|1|" & aux2 & "||"
+        '' imported|importeH |ctacontrpar|
+        'Aux = Aux & Format(ImporteParaCajaBanco, FormatoImporte) & "|" & "|"
+        'ColApu.Add Aux
         
         Aux = "Gestion administrativa " & Format(id, "0000") & "  Fecha " & Format(Creacion, "dd/mm/yyyy hh:nn") & vbCrLf
         Aux = Aux & "Usuario gestion:" & usuario2 & "   Tasas: " & Format(ColApu.Count, "00") & vbCrLf
@@ -953,7 +996,13 @@ On Error GoTo eHacerProcesContabilizacionGestion
     Aux = "UPDATE expedientes_lineas SET codsitua = 3 WHERE pagado=" & id
     Conn.Execute Aux
     
-    Aux = "UPDATE gestadministrativa SET contabilizada = 1 WHERE id=" & id
+    Aux = "UPDATE gestadministrativa SET contabilizada = 1 "
+    If QueBanco <> "" Then
+        If QueBanco = vParam.CtaBanco Then Aux = Aux & " , quebanco=1"
+        If QueBanco = vParam.CtaBanco2 Then Aux = Aux & " , quebanco=2"
+    End If
+    
+    Aux = Aux & " Where id = " & id
     Conn.Execute Aux
     
     

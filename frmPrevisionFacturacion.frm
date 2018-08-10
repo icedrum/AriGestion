@@ -696,6 +696,8 @@ Dim ParaElLog As String
 
 
     'Algunas comprobaciones
+    If vUsu.Nivel > 1 Then Exit Sub
+    
     If Text1(1).Text = "" Then Exit Sub
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
         

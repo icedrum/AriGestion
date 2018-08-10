@@ -25,11 +25,13 @@ Private mvarFechaInicioEjercicio As Date
 Private mvarFechaFinEjercicio As Date
 Private mvarUltimoDiaPeriodoLiquidado As Date   'ultima fecha IVA liquidado
 Private mvarFechaActivaConta As Date
+Private mvarFechaIncioConta As Date
+Private mvarFechaFinConta As Date
 
 
 Private SQL As String  'Para la sentencia
 Private Mens As String    'Para los mensajes
-Private RS As ADODB.Recordset
+Private Rs As ADODB.Recordset
 Private RC As Byte
 
 
@@ -116,6 +118,14 @@ Public Property Get UltimoDiaPeriodoLiquidado() As Date
 End Property
 
 
+Public Property Get FechaIncioConta() As Date
+     FechaIncioConta = mvarFechaIncioConta
+End Property
+Public Property Get FechaFinConta() As Date
+     FechaFinConta = mvarFechaFinConta
+End Property
+
+    
 
 
 
@@ -132,27 +142,27 @@ End Property
 Public Function Leer2() As Byte
     On Error GoTo Err3
     SQL = "SELECT codigo ,nomempre,CifEmpre FROM  Empresas "
-    Set RS = New ADODB.Recordset
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
+    Set Rs = New ADODB.Recordset
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockOptimistic, adCmdText
     Mens = ""
-    If RS.EOF Then
+    If Rs.EOF Then
         Leer2 = 1
         
         'ELSE
         Else
             Mens = "Datos basicos"
-            mvarcodempre = RS!Codigo
-            mvarnomempre = RS!nomempre
-            mvarCifEmpre = RS!CifEmpre
+            mvarcodempre = Rs!Codigo
+            mvarnomempre = Rs!nomempre
+            mvarCifEmpre = Rs!CifEmpre
             
             
            
           
             Leer2 = 0
     End If
-    RS.Close
+    Rs.Close
     
-    Set RS = Nothing
+    Set Rs = Nothing
     Exit Function
 
 Err3:
@@ -160,7 +170,7 @@ Err3:
     Mens = Mens & "Número: " & Err.Number & vbCrLf
     Mens = Mens & "Descripción: " & Err.Description
     MsgBox Mens, vbExclamation
-    Set RS = Nothing
+    Set Rs = Nothing
     Leer2 = 1
 End Function
 
@@ -173,36 +183,45 @@ Public Function FijarDatosAriconta() As Boolean
  
     On Error GoTo eFijarDatosAriconta
     FijarDatosAriconta = False
-    Set RS = New ADODB.Recordset
+    Set Rs = New ADODB.Recordset
     SQL = "SELECT  numnivel,numdigi1,numdigi2,numdigi3,numdigi4,numdigi5,numdigi6,numdigi7,numdigi8,numdigi9,numdigi10"
     SQL = SQL & " FROM ariconta" & vParam.Numconta & ".empresa "
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    SQL = RS!numnivel
-    mvarDigitosUltimoNivel = RS.Fields(CInt(SQL))
-    RS.Close
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    SQL = Rs!numnivel
+    mvarDigitosUltimoNivel = Rs.Fields(CInt(SQL))
+    Rs.Close
     
-    SQL = "Select periodos,perfactu,anofactu , fechaini,FechaActiva  "
+    SQL = "Select periodos,perfactu,anofactu , fechaini,FechaActiva,fechafin  "
     SQL = SQL & " FROM ariconta" & vParam.Numconta & ".parametros "
-    RS.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
-    If RS!periodos = 0 Then
+    Rs.Open SQL, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
+    If Rs!periodos = 0 Then
         'Trimestral
-        Mes = RS!perfactu * 3
+        Mes = Rs!perfactu * 3
     Else
-        Mes = RS!perfactu
+        Mes = Rs!perfactu
     End If
-    Dias = DiasMes(CByte(Mes), RS!anofactu)
-    mvarUltimoDiaPeriodoLiquidado = CDate(Dias & "/" & Format(Mes, "00") & "/" & RS!anofactu)
-    mvarFechaInicioEjercicio = RS!fechaini
+    Dias = DiasMes(CByte(Mes), Rs!anofactu)
+    mvarUltimoDiaPeriodoLiquidado = CDate(Dias & "/" & Format(Mes, "00") & "/" & Rs!anofactu)
+    
+    'A MANO,    FALTA#####
+    
+    'mvarFechaInicioEjercicio = Rs!fechaini   'deberiamos crear un parametro
+    mvarFechaInicioEjercicio = "01/01/2018"
     mvarFechaFinEjercicio = DateAdd("yyyy", 1, mvarFechaInicioEjercicio)
     mvarFechaFinEjercicio = DateAdd("d", -1, mvarFechaFinEjercicio)
     mvarFechaActivaConta = mvarFechaInicioEjercicio
-    If Not IsNull(RS!FechaActiva) Then mvarFechaActivaConta = RS!FechaActiva
-    RS.Close
+    If Not IsNull(Rs!FechaActiva) Then mvarFechaActivaConta = Rs!FechaActiva
+    
+    mvarFechaIncioConta = Rs!fechaini
+    mvarFechaFinConta = Rs!fechafin
+    
+    
+    Rs.Close
     FijarDatosAriconta = True
     
 eFijarDatosAriconta:
     If Err.Number <> 0 Then MuestraError Err.Number, SQL
-    Set RS = Nothing
+    Set Rs = Nothing
 End Function
 
 

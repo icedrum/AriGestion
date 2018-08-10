@@ -368,10 +368,10 @@ End Sub
 Private Sub UpdateEndTimeCombo()
     On Error GoTo Error
     
-    Dim i As Long
-    For i = 1 To cmbEndTime.ListCount - 1
+    Dim I As Long
+    For I = 1 To cmbEndTime.ListCount - 1
         cmbEndTime.RemoveItem 0
-    Next i
+    Next I
     
     Dim BeginTime As Date
     BeginTime = TimeValue(cmbStartTime.Text)
@@ -380,9 +380,9 @@ Private Sub UpdateEndTimeCombo()
     cmbEndTime.AddItem TimeValue(BeginTime + 1 / 24 / 2) & " (30 minutes)"
     cmbEndTime.AddItem TimeValue(BeginTime + 1 / 24) & " (1 hour)"
     
-    For i = 3 To 47
-        cmbEndTime.AddItem TimeValue(BeginTime + i / 24 / 2) & " (" & i / 2 & " hours)"
-    Next i
+    For I = 3 To 47
+        cmbEndTime.AddItem TimeValue(BeginTime + I / 24 / 2) & " (" & I / 2 & " hours)"
+    Next I
     
     Call SendMessage(cmbEndTime.hwnd, CB_SETDROPPEDWIDTH, 200, 0)
     
@@ -393,6 +393,10 @@ End Sub
 
 Private Sub Form_Load()
 
+
+    Me.Icon = frmppal.Icon
+    Me.Caption = "Nuevo"
+    
     '===============================
     Dim pLabel As CalendarEventLabel
     
@@ -509,10 +513,10 @@ Public Sub UpdateControlsFromEvent()
     
     chkAllDayEvent = IIf(m_pEditingEvent.AllDayEvent, 1, 0)
     
-    Dim i As Long
-    For i = 0 To cmbLabel.ListCount - 1
-        If cmbLabel.ItemData(i) = m_pEditingEvent.Label Then
-            cmbLabel.ListIndex = i
+    Dim I As Long
+    For I = 0 To cmbLabel.ListCount - 1
+        If cmbLabel.ItemData(I) = m_pEditingEvent.Label Then
+            cmbLabel.ListIndex = I
             Exit For
         End If
     Next
