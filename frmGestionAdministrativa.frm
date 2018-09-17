@@ -10,7 +10,7 @@ Begin VB.Form frmGestionAdministrativa
    LinkTopic       =   "Form1"
    ScaleHeight     =   9120
    ScaleWidth      =   16080
-   StartUpPosition =   3  'Windows Default
+   StartUpPosition =   2  'CenterScreen
    Begin XtremeReportControl.ReportControl wndReportControl 
       Height          =   9615
       Left            =   120
@@ -34,14 +34,14 @@ Begin VB.Form frmGestionAdministrativa
          Left            =   3120
          TabIndex        =   6
          Top             =   120
-         Width           =   1575
+         Width           =   2055
          Begin MSComctlLib.Toolbar Toolbar2 
             Height          =   330
             Left            =   120
             TabIndex        =   7
             Top             =   150
-            Width           =   1305
-            _ExtentX        =   2302
+            Width           =   1785
+            _ExtentX        =   3149
             _ExtentY        =   582
             ButtonWidth     =   609
             ButtonHeight    =   582
@@ -57,7 +57,7 @@ Begin VB.Form frmGestionAdministrativa
                   Object.ToolTipText     =   "Contabilizar"
                EndProperty
                BeginProperty Button3 {66833FEA-8583-11D1-B16A-00C0F0283628} 
-                  Object.ToolTipText     =   "Errores NºFactura"
+                  Object.ToolTipText     =   "Entrega documentacion"
                EndProperty
             EndProperty
          End
@@ -74,10 +74,10 @@ Begin VB.Form frmGestionAdministrativa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   315
-         Left            =   5160
+         Left            =   6240
          TabIndex        =   5
          Top             =   360
-         Width           =   1935
+         Width           =   2415
       End
       Begin VB.Frame FrameBotonGnral 
          Height          =   705
@@ -169,6 +169,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim PrimVez As Boolean
 Dim QueID As Long
+Dim Situacion As Byte
 
 Private Sub Check1_Click()
     If PrimVez Then Exit Sub
@@ -221,8 +222,9 @@ Dim TextFont
         .Buttons(1).Image = 27
         .Buttons(2).Image = 25
         
-        '.Buttons(3).Image = 42
-        .Buttons(3).Visible = False
+        .Buttons(3).Image = 42
+        .Buttons(3).Visible = True
+        If LCase(vUsu.Login) <> "root" And LCase(vUsu.Login) <> "antonio" Then .Buttons(3).Visible = False
     End With
     
     
@@ -299,13 +301,15 @@ Public Sub CreateReportControlDesglosado()
     'order it is added to the collection.  (Icons are added after the records near the bottom of the Form_Load)
     Column.Icon = COLUMN_IMPORTANCE_ICON
     Set Column = wndReportControl.Columns.Add(1, "ID", 15, True)
-    Set Column = wndReportControl.Columns.Add(2, "Licencia", 30, True)
-    Set Column = wndReportControl.Columns.Add(3, "Nombre", 140, True)
-    Set Column = wndReportControl.Columns.Add(4, "Conce.", 25, True)
-    Set Column = wndReportControl.Columns.Add(5, "Descripción", 115, True)
-    Set Column = wndReportControl.Columns.Add(6, "Expediente", 35, True)
-    Set Column = wndReportControl.Columns.Add(7, "F.Exp", 35, True)
-    Set Column = wndReportControl.Columns.Add(8, "Importe", 40, True)
+    Set Column = wndReportControl.Columns.Add(2, "Entr.", 15, True)
+    Column.ToolTip = "Documentacion entregada"
+    Set Column = wndReportControl.Columns.Add(3, "Licencia", 30, True)
+    Set Column = wndReportControl.Columns.Add(4, "Nombre", 140, True)
+    Set Column = wndReportControl.Columns.Add(5, "Conce.", 25, True)
+    Set Column = wndReportControl.Columns.Add(6, "Descripción", 115, True)
+    Set Column = wndReportControl.Columns.Add(7, "Expediente", 35, True)
+    Set Column = wndReportControl.Columns.Add(8, "F.Exp", 35, True)
+    Set Column = wndReportControl.Columns.Add(9, "Importe", 40, True)
     Column.Alignment = xtpAlignmentRight
 
 
@@ -350,7 +354,7 @@ Private Sub MostrarDatos()
 Dim Importe As Currency
 Dim Total As Currency
 Dim GroupRow As XtremeReportControl.ReportGroupRow
-
+Dim DocumeTacionEntragada As Boolean
     
 
     Label1.Caption = "Leyendo BD"
@@ -382,12 +386,14 @@ Dim GroupRow As XtremeReportControl.ReportGroupRow
               Set GroupRow = wndReportControl.Rows(I)
               Msg = Mid(GroupRow.GroupCaption, InStr(1, GroupRow.GroupCaption, ":") + 1)
               Msg = DevuelveDesdeBD("If(pagoporbanco=1,'Banco','Caja')", "gestadministrativa", "id", Msg)
-              GroupRow.GroupCaption = GroupRow.GroupCaption & "    " & Msg & "    " & Format(Importe, FormatoImporte) & "€"
+              Msg = "    " & Msg & "    " & Format(Importe, FormatoImporte) & "€" & IIf(DocumeTacionEntragada, "   ENTREGADA", "")
+              GroupRow.GroupCaption = GroupRow.GroupCaption & Msg
               Importe = 0
+              DocumeTacionEntragada = True
           Else
               'Debug.Print wndReportControl.Rows(I).Record.Item(7).Value
-              Importe = Importe + wndReportControl.Rows(I).Record.Item(8).Value
-              
+              Importe = Importe + wndReportControl.Rows(I).Record.Item(9).Value
+              If wndReportControl.Rows(I).Record.Item(2).Value = "" Then DocumeTacionEntragada = False
           End If
       Next I
       
@@ -406,9 +412,10 @@ Dim F As Date
 
 
     wndReportControl.Records.DeleteAll
+    wndReportControl.Populate
     If Me.Check1.Value = 1 Then
         C = "select l.numexped,l.anoexped,fecexped,licencia,nomclien ,pagado ,nomconce,e.codclien,l.importe"
-        C = C & " ,l.codconce ,l.tiporegi,l.numlinea , l.codsitua"
+        C = C & " ,l.codconce ,l.tiporegi,l.numlinea , l.codsitua,l.docuentregada"
         C = C & " from expedientes e,expedientes_lineas l,clientes"
         C = C & " Where pagado>0 and e.tiporegi = L.tiporegi And e.numexped = L.numexped And e.anoexped = L.anoexped And e.CodClien = Clientes.CodClien"
         C = C & " ORDER BY pagado desc"
@@ -435,7 +442,7 @@ Dim F As Date
 End Sub
 
 Private Sub AddRecordDes()
-Dim Situacion As Byte
+
 Dim Aux As String
 
 
@@ -448,8 +455,9 @@ Dim Aux As String
     Dim Item As ReportRecordItem
     
     
-    Situacion = 1  'abierta
+    
     If QueID <> miRsAux!pagado Then
+        Situacion = 1  'abierta
         Aux = DevuelveDesdeBD("concat(if(fechafinalizacion  is null,'0','1'),'|',contabilizada,'|')", "gestadministrativa", "ID", miRsAux!pagado)
         If Aux <> "" Then
             If RecuperaValor(Aux, 1) = "1" Then
@@ -487,10 +495,11 @@ Dim Aux As String
     Else
         Item.Icon = Situacion
         Item.GroupCaption = "Contabilizada"
+        
         Item.GroupPriority = IMPORTANCE_HIGH
         Item.SortPriority = IMPORTANCE_HIGH
     End If
-
+    Item.ToolTip = Item.GroupCaption
 
 
 
@@ -501,11 +510,17 @@ Dim Aux As String
 '        Item.SortPriority = IMPORTANCE_NORMAL
 '    End If
       
-      
 
     Set Item = Record.AddItem("")
     Item.Value = Format(miRsAux!pagado, "000")
     Item.Caption = ""
+    
+    Set Item = Record.AddItem("")
+    Item.Value = IIf(miRsAux!docuEntregada = 1, "Si", "")
+    Item.Caption = IIf(miRsAux!docuEntregada = 1, "Si", "-")
+    Item.ToolTip = IIf(miRsAux!docuEntregada = 1, "Entregada", "Pendiente de entregar")
+    'If miRsAux!docuentregada = 1 Then Stop
+    
     
     Record.AddItem (CStr(miRsAux!licencia))
     Record.AddItem CStr(miRsAux!NomClien) & " (" & miRsAux!CodClien & ")"
@@ -515,7 +530,7 @@ Dim Aux As String
 
    
     Set Item = Record.AddItem(Year(miRsAux!fecexped) & Format(miRsAux!numexped, "0000000"))
-    Item.Caption = Format(miRsAux!numexped, "00000") & "/" & Year(miRsAux!fecexped)
+    Item.Caption = Format(miRsAux!numexped, "00000") & "/" & Year(miRsAux!fecexped) - 2000
     
     Set Item = Record.AddItem(Format(miRsAux!fecexped, FormatoFecha))
     Item.Caption = Format(miRsAux!fecexped, "dd/mm/yyyy")
@@ -720,6 +735,8 @@ Dim F As Date
 Dim GroupRow
 Dim B As Boolean
 Dim PorBanco As Byte
+Dim PuedoEntregarDocumentos As Boolean
+
     'Es un agrupado
     If Me.wndReportControl.Records.Count = 0 Then Exit Sub
     If wndReportControl.SelectedRows.Count = 0 Then Exit Sub
@@ -737,18 +754,26 @@ Dim PorBanco As Byte
         id = wndReportControl.SelectedRows(0).Record(2).Caption
     End If
 
+
+    
+
+
     Set miRsAux = New ADODB.Recordset
     Msg = "Select fechafinalizacion,contabilizada,pagoPorBanco,quebanco from gestadministrativa where id =" & id
     miRsAux.Open Msg, Conn, adOpenForwardOnly, adLockPessimistic, adCmdText
     Msg = ""
+    PuedoEntregarDocumentos = False
     If Val(miRsAux!contabilizada) = 1 Then
         Msg = "Ya esta contabilizada"
+        If Button.Index = 3 Then PuedoEntregarDocumentos = True
+        
     Else
         If IsNull(miRsAux!fechafinalizacion) Then
             'No esta cerrada, todavia
             If Button.Index = 2 Then Msg = "Falta cerrar proceso"
         Else
             If Button.Index = 1 Then Msg = "Ya esta cerrado el proceso"
+            If Button.Index = 3 Then PuedoEntregarDocumentos = True
         End If
     End If
     If miRsAux!pagoporbanco = 0 Then
@@ -759,6 +784,24 @@ Dim PorBanco As Byte
     miRsAux.Close
     Set miRsAux = Nothing
     
+    If Button.Index = 3 Then
+        If Not PuedoEntregarDocumentos Then
+            MsgBox "Debe estar cerrada la gestion administrativa", vbExclamation
+            Exit Sub
+        End If
+        If LCase(vUsu.Login) <> "root" And LCase(vUsu.Login) <> "antonio" Then
+            MsgBox "NO puede realizar la entrega de documentos desde aqui." & vbCrLf & vbCrLf & "Vaya al mantenimiento de clientes/socios", vbExclamation
+            Exit Sub
+        End If
+        'Entrega masiva documentos
+        
+        frmGestionAdmCierre.QueTasa_ = CLng(id)
+        frmGestionAdmCierre.EntregaDocumentos2 = 1
+        frmGestionAdmCierre.Show vbModal
+        MostrarDatos
+        Exit Sub
+    End If
+    
     If Msg <> "" Then
         MsgBox Msg, vbExclamation
         Exit Sub
@@ -766,7 +809,8 @@ Dim PorBanco As Byte
     
     CadenaDesdeOtroForm = ""
     If Button.Index = 1 Then
-        frmGestionAdmCierre.QueTasa = CLng(id)
+        frmGestionAdmCierre.QueTasa_ = CLng(id)
+        frmGestionAdmCierre.EntregaDocumentos2 = 0
         frmGestionAdmCierre.Show vbModal
         If CadenaDesdeOtroForm = "" Then Exit Sub
     Else

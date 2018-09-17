@@ -882,6 +882,7 @@ On Error GoTo eHacerProcesoCierreCaja
         '' Llevara
         '       codmacta | docum | codconce | ampliaci | imported|importeH |
     For I = 0 To Me.wndReportControl.Rows.Count - 2 'El ultimo no se procesa
+        If I > 47 Then Stop
         ImporteParaCaja = ImporteParaCaja + ImporteFormateado(wndReportControl.Rows(I).Record(6).Caption)
 
         
@@ -916,7 +917,7 @@ On Error GoTo eHacerProcesoCierreCaja
                 Aux = Aux & " AND 1"
                 Aux = DevuelveDesdeBD("codclien", "expedientes", Aux, "1")
                 aux2 = DevuelveCuentaContableCliente(False, Aux)
-                If aux2 = "" Then Err.Raise 513, "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
+                If aux2 = "" Then Err.Raise 513, , "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
                 '       codmacta | docum | codconce | ampliaci | imported|importeH |
                 Aux = Replace(wndReportControl.Rows(I).Record(3).Caption, "XP ", "")
                 Aux = aux2 & "|" & Aux & "|1|EXP pago a cuenta " & Mid(wndReportControl.Rows(I).Record(2).Caption, 1, 10) & " "
@@ -932,9 +933,9 @@ On Error GoTo eHacerProcesoCierreCaja
                 Aux = Aux & " AND 1"
                 FechaFactura = "fecfactu"
                 Aux = DevuelveDesdeBD("codclien", "factcli", Aux, "1", "N", FechaFactura)
-                If Aux = "" Then Err.Raise 513, "Error obteniendo factura: " & wndReportControl.Rows(I).Record(3).Caption & " /" & wndReportControl.Rows(I).Record(3).Caption
+                If Aux = "" Then Err.Raise 513, , "Error obteniendo factura: " & wndReportControl.Rows(I).Record(3).Caption & " /" & wndReportControl.Rows(I).Record(3).Caption
                 aux2 = DevuelveCuentaContableCliente(Serie = "CUO", Val(Aux))
-                If aux2 = "" Then Err.Raise 513, "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
+                If aux2 = "" Then Err.Raise 513, , "Error obteniendo cuenta contable: " & wndReportControl.Rows(I).Record(3).Caption
                 
                 Aux = wndReportControl.Rows(I).Record(3).Caption
                 Aux = aux2 & "|" & Aux & "|1|Factura " & wndReportControl.Rows(I).Record(3).Caption & "|"
@@ -1035,7 +1036,7 @@ On Error GoTo eHacerProcesoCierreCaja
     End If
   
 eHacerProcesoCierreCaja:
-    If Err.Number <> 0 Then MuestraError Err.Number, Err.Description
+    If Err.Number <> 0 Then MuestraError Err.Number, , Err.Description
     Set miRsAux = Nothing
     Set ColApu = Nothing
 End Function

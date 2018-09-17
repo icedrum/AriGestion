@@ -46,12 +46,24 @@ Begin VB.Form frmCliente
       TabIndex        =   87
       Top             =   9360
       Width           =   10575
-      Begin VB.CommandButton cmdCobros 
+      Begin VB.CommandButton cmdFactura 
          Appearance      =   0  'Flat
          Height          =   375
          Index           =   2
          Left            =   4200
          Picture         =   "frmCliente.frx":000C
+         Style           =   1  'Graphical
+         TabIndex        =   98
+         ToolTipText     =   "Entrega documentos"
+         Top             =   180
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdCobros 
+         Appearance      =   0  'Flat
+         Height          =   375
+         Index           =   2
+         Left            =   4200
+         Picture         =   "frmCliente.frx":0A0E
          Style           =   1  'Graphical
          TabIndex        =   97
          ToolTipText     =   "Cambiar forma pago"
@@ -64,7 +76,7 @@ Begin VB.Form frmCliente
          Height          =   375
          Index           =   1
          Left            =   3720
-         Picture         =   "frmCliente.frx":0316
+         Picture         =   "frmCliente.frx":0D18
          Style           =   1  'Graphical
          TabIndex        =   94
          ToolTipText     =   "ABONO"
@@ -76,7 +88,7 @@ Begin VB.Form frmCliente
          Height          =   375
          Index           =   0
          Left            =   3240
-         Picture         =   "frmCliente.frx":0D18
+         Picture         =   "frmCliente.frx":171A
          Style           =   1  'Graphical
          TabIndex        =   93
          ToolTipText     =   "Nueva factura"
@@ -87,7 +99,7 @@ Begin VB.Form frmCliente
          Appearance      =   0  'Flat
          Height          =   375
          Left            =   3240
-         Picture         =   "frmCliente.frx":171A
+         Picture         =   "frmCliente.frx":211C
          Style           =   1  'Graphical
          TabIndex        =   92
          ToolTipText     =   "Nuevo CRM"
@@ -130,7 +142,7 @@ Begin VB.Form frmCliente
          Height          =   375
          Index           =   0
          Left            =   3240
-         Picture         =   "frmCliente.frx":1CA4
+         Picture         =   "frmCliente.frx":26A6
          Style           =   1  'Graphical
          TabIndex        =   95
          ToolTipText     =   "Compensar abonos-cobros"
@@ -142,7 +154,7 @@ Begin VB.Form frmCliente
          Height          =   375
          Index           =   1
          Left            =   3720
-         Picture         =   "frmCliente.frx":84F6
+         Picture         =   "frmCliente.frx":8EF8
          Style           =   1  'Graphical
          TabIndex        =   96
          ToolTipText     =   "Quitar gastos"
@@ -170,9 +182,9 @@ Begin VB.Form frmCliente
    End
    Begin VB.ComboBox Combo1 
       Height          =   360
-      ItemData        =   "frmCliente.frx":8A80
+      ItemData        =   "frmCliente.frx":9482
       Left            =   11040
-      List            =   "frmCliente.frx":8A8D
+      List            =   "frmCliente.frx":948F
       Style           =   2  'Dropdown List
       TabIndex        =   19
       Tag             =   "Situacion|N|N|||clientes|situclien|||"
@@ -522,7 +534,7 @@ Begin VB.Form frmCliente
       ScrollBars      =   2  'Vertical
       TabIndex        =   27
       Tag             =   "Licencia|T|S|||clientes|observac|||"
-      Text            =   "frmCliente.frx":8AAA
+      Text            =   "frmCliente.frx":94AC
       Top             =   1290
       Width           =   5805
    End
@@ -1224,7 +1236,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   0
       Left            =   8880
-      Picture         =   "frmCliente.frx":8AAE
+      Picture         =   "frmCliente.frx":94B0
       ToolTipText     =   "Fecha alta actividad"
       Top             =   3360
       Width           =   240
@@ -1233,7 +1245,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   1
       Left            =   10560
-      Picture         =   "frmCliente.frx":8B39
+      Picture         =   "frmCliente.frx":953B
       Top             =   3360
       Width           =   240
    End
@@ -1259,7 +1271,7 @@ Begin VB.Form frmCliente
       Height          =   240
       Index           =   2
       Left            =   7200
-      Picture         =   "frmCliente.frx":8BC4
+      Picture         =   "frmCliente.frx":95C6
       ToolTipText     =   "Fecha alta asociado"
       Top             =   3360
       Width           =   240
@@ -1872,19 +1884,88 @@ Private Sub cmdFactura_Click(Index As Integer)
             MsgBox "Seleccione una unica factura/cuota para realizar el abono", vbExclamation
             Exit Sub
         End If
-        'No permitimos recticiar rectificativas
-        If RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 1) = "FRT" Then
-            MsgBox "No se permite realizar abonos sobre rectificativas", vbExclamation
-            Exit Sub
+        
+        If Index = 1 Then
+            'No permitimos recticiar rectificativas
+            If RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 1) = "FRT" Then
+                MsgBox "No se permite realizar abonos sobre rectificativas", vbExclamation
+                Exit Sub
+            End If
+            
+            
+            
+        Else
+            If Index = 2 Then
+                'No permitimos recticiar rectificativas
+                Msg = "N"
+                CadenaDesdeOtroForm = ""
+                If Me.Option1(2).Value Then
+                    If RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 1) = "FEX" Then
+                        Msg = ""
+                        CadenaDesdeOtroForm = "fecfactu =" & DBSet(RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 3), "F")
+                        CadenaDesdeOtroForm = CadenaDesdeOtroForm & " AND numserie = 'FEX' AND numfactu"
+                        CadenaDesdeOtroForm = DevuelveDesdeBD("concat(numexped,'|',fecexped,'|')", "factcli", CadenaDesdeOtroForm, RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 2))
+                        If CadenaDesdeOtroForm = "" Then
+                            MsgBox "No existe expediente para la factura: " & wndReportControl.SelectedRows(0).Record(6).Caption, vbExclamation
+                            Exit Sub
+                        End If
+                    End If
+                Else
+                    If Me.Option1(1).Value Then
+                        Msg = ""
+                        J = InStr(1, wndReportControl.SelectedRows(0).Record(3).Value, " ")
+                        If J <> 0 Then
+                            Msg = Mid(wndReportControl.SelectedRows(0).Record(3).Value, J)
+                            J = InStr(5, Msg, " ")
+                            If J = 0 Then
+                                Msg = ""
+                            Else
+                                Msg = Trim(Mid(Msg, 1, J))
+                                Msg = Format(Msg, FormatoFecha)
+                            End If
+                        End If
+                        If Msg = "" Then
+                            MsgBox "Imposible obtener fecha expediente", vbExclamation
+                            Exit Sub
+                        Else
+                            CadenaDesdeOtroForm = RecuperaValor(wndReportControl.SelectedRows(0).Record(6).Caption, 2) & "|"
+                            CadenaDesdeOtroForm = CadenaDesdeOtroForm & Msg & "|"
+                    
+                            
+                        
+                    
+                        End If
+                        Msg = ""
+                    
+                    End If
+                End If
+                If Msg <> "" Then
+                    MsgBox "Entrega de documentos  administrativos debe ser expediente", vbExclamation
+                    Exit Sub
+                End If
+                
+                
+            End If
         End If
-    
-        'wndReportControl.SelectedRows.Row (0)
+        
+            'wndReportControl.SelectedRows.Row (0)
         If Not BloqCliente Then Exit Sub
         
-        CadenaDesdeOtroForm = Text1(4).Text & "|" & Text1(1).Text & "|"
-        frmMensajes.Parametros = wndReportControl.SelectedRows(0).Record(6).Caption
-        frmMensajes.Opcion = 29
-        frmMensajes.Show vbModal
+        
+        
+        If Index = 1 Then
+            CadenaDesdeOtroForm = Text1(4).Text & "|" & Text1(1).Text & "|"
+            frmMensajes.Parametros = wndReportControl.SelectedRows(0).Record(6).Caption
+            frmMensajes.Opcion = 29
+            frmMensajes.Show vbModal
+            
+        Else
+            'Entrega documentos
+            
+            frmGestionAdmCierre.QueTasa_ = 1
+            frmGestionAdmCierre.EntregaDocumentos2 = 2
+            frmGestionAdmCierre.Show vbModal
+        End If
         If CadenaDesdeOtroForm <> "" Then CargaDatos
         
         
@@ -2274,6 +2355,7 @@ Private Sub Option1_Click(Index As Integer)
     cmdCobros(2).Visible = Index = 4
     Me.cmdFactura(0).Visible = Index = 1 Or Index = 2
     Me.cmdFactura(1).Visible = Index = 2 Or Index = 5
+    Me.cmdFactura(2).Visible = Index = 1 Or Index = 2
     
     Me.lblTotal.Visible = Index <> 0 And Index <> 3
     Me.txtTotal.Visible = Me.lblTotal.Visible
@@ -2693,7 +2775,9 @@ Private Sub PonerModo(Kmodo As Integer)
     Me.cmdCobros(1).Enabled = B
     Me.cmdFactura(0).Enabled = B
     Me.cmdFactura(1).Enabled = B
+    Me.cmdFactura(2).Enabled = B
    
+    
     
     
     Me.DateTimePicker1.Enabled = B
@@ -3159,7 +3243,7 @@ Private Sub CreateReportControlExpediente()
     'I.e. The icon at index=1 in the collection will be displayed in the column header.  The index of the icon depends on the
     'order it is added to the collection.  (Icons are added after the records near the bottom of the Form_Load)
     Column.Icon = COLUMN_IMPORTANCE_ICON
-    Set Column = wndReportControl.Columns.Add(COLUMN_ICON, "QUITAR", 18, False)
+    Set Column = wndReportControl.Columns.Add(COLUMN_ICON, "Pdte entregar doc", 18, False)
     Column.Icon = COLUMN_MAIL_ICON
     Set Column = wndReportControl.Columns.Add(2, "Expediente", 20, True)
     Set Column = wndReportControl.Columns.Add(3, "Fecha", 30, True)
@@ -3306,7 +3390,7 @@ Dim Cad As String
         k = 5 'para las pruebas de icono. Borrar si eso
     ElseIf Option1(1).Value Then
         Cad = "select e.numexped,e.anoexped,fecexped,nomsitua,sum(coalesce(importe,0)) importe"
-        Cad = Cad & " ,0 importancia,e.tiporegi"
+        Cad = Cad & " ,0 importancia,e.tiporegi ,documentacionEntregada"
         Cad = Cad & " from expedientes e inner join tipositexped on e.codsitua=tipositexped.codsitua"
         Cad = Cad & " left join expedientes_lineas l on e.tiporegi =l.tiporegi AND  e.numexped  =l.numexped and   e.anoexped=l.anoexped"
         Cad = Cad & " WHERE e.codclien=" & Data1.Recordset!CodClien
@@ -3315,7 +3399,7 @@ Dim Cad As String
     ElseIf Option1(2).Value Or Option1(5).Value Then
         'Facturas
         
-        Cad = "select  numserie,nomregis,factcli.numfactu,fecfactu,totfaccl,0 importancia"
+        Cad = "select  numserie,nomregis,factcli.numfactu,fecfactu,totfaccl,0 importancia, numexped ,fecexped"
         Cad = Cad & " FROM factcli, contadores"
         Cad = Cad & " WHERE factcli.numserie = contadores.serfactur AND codclien =" & Data1.Recordset!CodClien
         Cad = Cad & " AND factcli.numserie " & IIf(Me.Option1(5).Value, "=", "<>") & " 'CUO'"
@@ -3370,6 +3454,8 @@ Dim OtroIcono As Boolean
 Dim Icono As Integer
 Dim C As String
 Dim Prioridad As Byte
+Dim Aux As String
+Dim ParaExped As String
 
     'Adds a new Record to the ReportControl's collection of records, this record will
     'automatically be attached to a row and displayed with the Populate method
@@ -3430,6 +3516,8 @@ Dim Prioridad As Byte
         
     End If
       
+      
+    ParaExped = ""
     If Not Me.Option1(3).Value Then
         'Para los documentos NO necesto esta columna
         Set Item = Record.AddItem("")
@@ -3454,6 +3542,19 @@ Dim Prioridad As Byte
               If miRsAux!numSerie = "FEX" Then
                   Icono = RECORD_IMPORTANCE_LOW_ICON
                   Prioridad = 2
+                  'Vemos si el expediente vinculado esta con documentacion pendeiente entrega
+                  If DBLet(miRsAux!numexped, "N") > 0 Then
+                        Aux = "fecexped = " & DBSet(miRsAux!fecexped, "F") & " AND numexped "
+                        Aux = DevuelveDesdeBD("documentacionEntregada", "expedientes", Aux, miRsAux!numexped)
+                        If Val(Aux) > 0 Then
+                            If Aux = "1" Then
+                                Icono = IMPORTANCE_HIGH
+                                Prioridad = 2
+                                ParaExped = "EXP: " & Format(miRsAux!numexped, "00000") & "   Pdte entrega documentacion"
+                                Item.ToolTip = ParaExped
+                            End If
+                        End If
+                  End If
                   
               ElseIf miRsAux!numSerie = "FDI" Then
                   Icono = RECORD_READ_MAIL_ICON
@@ -3462,7 +3563,21 @@ Dim Prioridad As Byte
                   Icono = RECORD_UNREAD_MAIL_ICON
                   Prioridad = 5
               End If
-              Item.ToolTip = miRsAux!numSerie
+              If ParaExped = "" Then Item.ToolTip = miRsAux!numSerie
+        
+        
+        Else
+            If Me.Option1(1).Value Then
+                If DBLet(miRsAux!documentacionEntregada, "N") = 1 Then
+                    Icono = IMPORTANCE_HIGH
+                    Prioridad = 5
+                    Item.ToolTip = "Pendiente entregar documentacion"
+                    Record.Item(0).Caption = "P"
+                    Record.Item(0).BackColor = vbRed
+                End If
+            
+            End If
+        
         End If
         
         Item.SortPriority = Prioridad
@@ -3506,8 +3621,9 @@ Dim Prioridad As Byte
         ' '  codclien,nomclien,nifclien,matricula,licencia,essocio "
         Record.AddItem Format(miRsAux!numexped, "00000") & "/" & miRsAux!anoexped
         Set Item = Record.AddItem("")
-        GetDate Item, DatePart("w", miRsAux!fecexped), DatePart("d", miRsAux!fecexped), DatePart("m", miRsAux!fecexped), DatePart("yyyy", miRsAux!fecexped), DatePart("h", miRsAux!fecexped), DatePart("n", miRsAux!fecexped)
-
+        GetDate Item, DatePart("w", miRsAux!fecexped), DatePart("d", miRsAux!fecexped), DatePart("m", miRsAux!fecexped), DatePart("yyyy", miRsAux!fecexped), DatePart("h", Now), DatePart("n", Now)
+        'Item.Value = miRsAux!fecexped
+        
         Record.AddItem CStr(miRsAux!nomsitua)
         Record.AddItem Format(miRsAux!Importe, FormatoImporte)
         Total = Total + miRsAux!Importe
@@ -3515,7 +3631,9 @@ Dim Prioridad As Byte
     
     
     ElseIf Me.Option1(2).Value Or Me.Option1(5).Value Then
-        Record.AddItem ""
+        Set Item = Record.AddItem(IIf(ParaExped <> "", "Pdte entrega documentos", ""))
+        If ParaExped <> "" Then Item.BackColor = vbRed
+            
         'numserie,nomregis,factcli.numfactu,fecfactu,totfaccl
         Record.AddItem miRsAux!numSerie & Format(miRsAux!NumFactu, "0000000")
         Set Item = Record.AddItem("")

@@ -392,6 +392,7 @@ Dim IT
         Else
             IT.Tag = 1
             IT.ForeColor = vbRed
+            IT.ToolTipText = "Tasas pendientes: " & Val(miRsAux!nosepuede)
         End If
         
         miRsAux.MoveNext
